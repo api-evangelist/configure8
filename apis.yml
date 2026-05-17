@@ -18,7 +18,7 @@ url: >-
 created: '2026-03-16'
 modified: '2026-04-28'
 specificationVersion: '0.19'
-x-type: company
+kind: company
 tags:
   - Catalog
   - Cloud Cost
