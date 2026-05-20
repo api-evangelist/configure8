@@ -72,6 +72,10 @@ apis:
       - Surface cloud spend per service and per team
       - Replace internal wikis with a living developer portal
 common:
+  - type: GitHubOrganization
+    url: https://github.com/Configure8inc
+  - type: LinkedIn
+    url: https://www.linkedin.com/company/configure8
   - type: Website
     url: https://www.configure8.io/
   - type: Documentation
