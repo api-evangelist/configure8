@@ -12,7 +12,7 @@ description: >-
 type: Index
 position: Consumer
 access: 3rd-Party
-image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
 url: >-
   https://raw.githubusercontent.com/api-evangelist/configure8/refs/heads/main/apis.yml
 created: '2026-03-16'
@@ -43,7 +43,7 @@ apis:
       audit logging.
     humanURL: https://www.configure8.io/
     baseURL: https://app.configure8.io/api
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
     tags:
       - Catalog
       - REST
