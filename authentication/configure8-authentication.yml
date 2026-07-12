@@ -1,0 +1,16 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/configure8-openapi.yml
+summary:
+  types:
+  - apiKey
+  api_key_in:
+  - header
+schemes:
+- name: apiKey
+  type: apiKey
+  in: header
+  parameter: Authorization
+  description: Bearer/API token issued from the Configure8 UI; passed in the Authorization header
+  sources:
+  - openapi/configure8-openapi.yml

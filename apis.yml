@@ -72,6 +72,12 @@ apis:
       - Surface cloud spend per service and per team
       - Replace internal wikis with a living developer portal
 common:
+  - type: VulnerabilityDisclosure
+    url: security/configure8-vulnerability-disclosure.yml
+  - type: DomainSecurity
+    url: security/configure8-domain-security.yml
+  - type: Authentication
+    url: authentication/configure8-authentication.yml
   - type: GitHubOrganization
     url: https://github.com/Configure8inc
   - type: LinkedIn
