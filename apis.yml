@@ -72,6 +72,8 @@ apis:
       - Surface cloud spend per service and per team
       - Replace internal wikis with a living developer portal
 common:
+  - type: AgenticAccess
+    url: agentic-access/configure8-agentic-access.yml
   - type: VulnerabilityDisclosure
     url: security/configure8-vulnerability-disclosure.yml
   - type: DomainSecurity
