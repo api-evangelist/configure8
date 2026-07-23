@@ -1,0 +1,57 @@
+openapi: 3.1.0
+info:
+  title: Configure8 Public REST Catalog Entities Deployments API
+  version: v1
+  description: Best-effort OpenAPI 3.1 description of the Configure8 public REST API, derived from the published API reference at https://docs.configure8.io/ and https://configure8.readme.io/reference. Covers catalog entities, catalog relations, scorecards, users, and related Internal Developer Portal operations. Endpoint paths and request shapes follow Configure8's documented `/public/v1` surface.
+  contact:
+    name: Configure8 Documentation
+    url: https://docs.configure8.io/
+servers:
+- url: https://{tenant}.configure8.io/public/v1
+  description: Configure8 SaaS tenant
+  variables:
+    tenant:
+      default: app
+      description: Configure8 tenant subdomain
+security:
+- apiKey: []
+tags:
+- name: Deployments
+paths:
+  /deployments:
+    post:
+      tags:
+      - Deployments
+      summary: Record a deployment
+      operationId: recordDeployment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Deployment'
+      responses:
+        '201':
+          description: Deployment recorded
+components:
+  schemas:
+    Deployment:
+      type: object
+      properties:
+        serviceId:
+          type: string
+        environmentId:
+          type: string
+        version:
+          type: string
+        status:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: Bearer/API token issued from the Configure8 UI; passed in the Authorization header

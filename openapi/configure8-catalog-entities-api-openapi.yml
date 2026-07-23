@@ -1,0 +1,231 @@
+openapi: 3.1.0
+info:
+  title: Configure8 Public REST Catalog Entities API
+  version: v1
+  description: Best-effort OpenAPI 3.1 description of the Configure8 public REST API, derived from the published API reference at https://docs.configure8.io/ and https://configure8.readme.io/reference. Covers catalog entities, catalog relations, scorecards, users, and related Internal Developer Portal operations. Endpoint paths and request shapes follow Configure8's documented `/public/v1` surface.
+  contact:
+    name: Configure8 Documentation
+    url: https://docs.configure8.io/
+servers:
+- url: https://{tenant}.configure8.io/public/v1
+  description: Configure8 SaaS tenant
+  variables:
+    tenant:
+      default: app
+      description: Configure8 tenant subdomain
+security:
+- apiKey: []
+tags:
+- name: Catalog Entities
+paths:
+  /catalog/entities:
+    post:
+      tags:
+      - Catalog Entities
+      summary: Get catalog entities filtered by query
+      operationId: queryCatalogEntities
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EntityQuery'
+      responses:
+        '200':
+          description: Filtered list of catalog entities
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntityList'
+  /catalog/entities/{id}:
+    parameters:
+    - $ref: '#/components/parameters/EntityId'
+    get:
+      tags:
+      - Catalog Entities
+      summary: Get a catalog entity by ID
+      operationId: getCatalogEntity
+      responses:
+        '200':
+          description: Catalog entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Entity'
+    patch:
+      tags:
+      - Catalog Entities
+      summary: Update a catalog entity
+      operationId: updateCatalogEntity
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Entity'
+      responses:
+        '200':
+          description: Updated entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Entity'
+    delete:
+      tags:
+      - Catalog Entities
+      summary: Delete a catalog entity
+      operationId: deleteCatalogEntity
+      responses:
+        '204':
+          description: Deleted
+  /catalog/entities/service:
+    post:
+      tags:
+      - Catalog Entities
+      summary: Create a service entity
+      operationId: createServiceEntity
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Entity'
+      responses:
+        '201':
+          description: Service entity created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Entity'
+  /catalog/entities/resource:
+    post:
+      tags:
+      - Catalog Entities
+      summary: Create a resource entity
+      operationId: createResourceEntity
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Entity'
+      responses:
+        '201':
+          description: Resource entity created
+  /catalog/entities/person:
+    post:
+      tags:
+      - Catalog Entities
+      summary: Create a person entity
+      operationId: createPersonEntity
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Entity'
+      responses:
+        '201':
+          description: Person entity created
+  /catalog/entities/system:
+    post:
+      tags:
+      - Catalog Entities
+      summary: Create a system entity
+      operationId: createSystemEntity
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Entity'
+      responses:
+        '201':
+          description: System entity created
+  /catalog/entities/environment:
+    post:
+      tags:
+      - Catalog Entities
+      summary: Create an environment entity
+      operationId: createEnvironmentEntity
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Entity'
+      responses:
+        '201':
+          description: Environment entity created
+components:
+  schemas:
+    EntityQuery:
+      type: object
+      properties:
+        kind:
+          type: string
+        owner:
+          type: string
+        tag:
+          type: string
+        search:
+          type: string
+        limit:
+          type: integer
+        offset:
+          type: integer
+    Entity:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        slug:
+          type: string
+        kind:
+          type: string
+          enum:
+          - service
+          - resource
+          - person
+          - library
+          - repository
+          - environment
+          - system
+          - application
+          - manifest
+          - base
+        description:
+          type: string
+        owner:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+        metadata:
+          type: object
+          additionalProperties: true
+    EntityList:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Entity'
+        total:
+          type: integer
+  parameters:
+    EntityId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: Bearer/API token issued from the Configure8 UI; passed in the Authorization header

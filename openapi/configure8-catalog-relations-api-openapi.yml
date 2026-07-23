@@ -1,0 +1,92 @@
+openapi: 3.1.0
+info:
+  title: Configure8 Public REST Catalog Entities Catalog Relations API
+  version: v1
+  description: Best-effort OpenAPI 3.1 description of the Configure8 public REST API, derived from the published API reference at https://docs.configure8.io/ and https://configure8.readme.io/reference. Covers catalog entities, catalog relations, scorecards, users, and related Internal Developer Portal operations. Endpoint paths and request shapes follow Configure8's documented `/public/v1` surface.
+  contact:
+    name: Configure8 Documentation
+    url: https://docs.configure8.io/
+servers:
+- url: https://{tenant}.configure8.io/public/v1
+  description: Configure8 SaaS tenant
+  variables:
+    tenant:
+      default: app
+      description: Configure8 tenant subdomain
+security:
+- apiKey: []
+tags:
+- name: Catalog Relations
+paths:
+  /catalog/relations:
+    get:
+      tags:
+      - Catalog Relations
+      summary: List catalog relations
+      operationId: listCatalogRelations
+      parameters:
+      - name: sourceId
+        in: query
+        schema:
+          type: string
+      - name: targetId
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Relation list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Relation'
+    post:
+      tags:
+      - Catalog Relations
+      summary: Create a relation between entities
+      operationId: createCatalogRelation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Relation'
+      responses:
+        '201':
+          description: Relation created
+  /catalog/relations/{id}:
+    parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
+    delete:
+      tags:
+      - Catalog Relations
+      summary: Delete a catalog relation
+      operationId: deleteCatalogRelation
+      responses:
+        '204':
+          description: Deleted
+components:
+  schemas:
+    Relation:
+      type: object
+      properties:
+        id:
+          type: string
+        sourceId:
+          type: string
+        targetId:
+          type: string
+        type:
+          type: string
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: Bearer/API token issued from the Configure8 UI; passed in the Authorization header

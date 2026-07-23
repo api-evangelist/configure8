@@ -1,0 +1,82 @@
+openapi: 3.1.0
+info:
+  title: Configure8 Public REST Catalog Entities Scorecards API
+  version: v1
+  description: Best-effort OpenAPI 3.1 description of the Configure8 public REST API, derived from the published API reference at https://docs.configure8.io/ and https://configure8.readme.io/reference. Covers catalog entities, catalog relations, scorecards, users, and related Internal Developer Portal operations. Endpoint paths and request shapes follow Configure8's documented `/public/v1` surface.
+  contact:
+    name: Configure8 Documentation
+    url: https://docs.configure8.io/
+servers:
+- url: https://{tenant}.configure8.io/public/v1
+  description: Configure8 SaaS tenant
+  variables:
+    tenant:
+      default: app
+      description: Configure8 tenant subdomain
+security:
+- apiKey: []
+tags:
+- name: Scorecards
+paths:
+  /scorecards:
+    get:
+      tags:
+      - Scorecards
+      summary: List scorecards
+      operationId: listScorecards
+      responses:
+        '200':
+          description: Scorecard list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Scorecard'
+  /scorecards/{id}:
+    parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      tags:
+      - Scorecards
+      summary: Get a scorecard
+      operationId: getScorecard
+      responses:
+        '200':
+          description: Scorecard
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Scorecard'
+components:
+  schemas:
+    Scorecard:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        rules:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+              description:
+                type: string
+              weight:
+                type: number
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: Bearer/API token issued from the Configure8 UI; passed in the Authorization header
