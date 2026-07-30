@@ -10,9 +10,22 @@ description: >-
   self-hosted deployments and ships with enterprise features such as RBAC,
   SCIM, SSO, audit logging, and a public REST API.
 type: Index
+accessModel:
+  pricing: freemium
+  onboarding: self-serve
+  trial: false
+  try_now: true
+  public: false
+  label: Freemium · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
 position: Consumer
 access: 3rd-Party
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/configure8.png
 url: >-
   https://raw.githubusercontent.com/api-evangelist/configure8/refs/heads/main/apis.yml
 created: '2026-03-16'
@@ -31,46 +44,94 @@ tags:
   - Service Catalog
   - SRE
 apis:
-  - aid: configure8:idp-rest-api
-    name: Configure8 REST API
-    description: >-
-      The Configure8 REST API gives platform teams programmatic access to the
-      service catalog, scorecards, self-service actions, environments, and
-      cost data. It is used to ingest services and resources from external
-      systems, drive scorecards in CI, trigger self-service actions, and
-      synchronize the portal with source-of-truth systems. The API is part of
-      the Configure8 enterprise feature set alongside RBAC, SSO/SCIM, and
-      audit logging.
-    humanURL: https://www.configure8.io/
-    baseURL: https://app.configure8.io/api
-    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-    tags:
-      - Catalog
-      - REST
-      - Scorecards
-      - Self-Service
-    properties:
-      - type: Documentation
-        url: https://docs.configure8.io/
-      - type: Website
-        url: https://www.configure8.io/
-    x-features:
-      - Service Catalog
-      - Resource Catalog
-      - Dependency Mapping
-      - Scorecards
-      - Self-Service Actions
-      - No-Code Workflow Builder
-      - Cloud Cost Visibility
-      - RBAC and SSO
-      - SCIM Provisioning
-      - Self-Hosted or SaaS
-    x-use-cases:
-      - Catalog every service, environment, and resource in one place
-      - Score services against production-readiness standards
-      - Let developers self-serve infrastructure via the portal
-      - Surface cloud spend per service and per team
-      - Replace internal wikis with a living developer portal
+- aid: configure8:idp-rest-api
+  name: Configure8 REST API
+  description: >-
+    The Configure8 REST API gives platform teams programmatic access to the service catalog, scorecards,
+    self-service actions, environments, and cost data. It is used to ingest services and resources from
+    external systems, drive scorecards in CI, trigger self-service actions, and synchronize the portal
+    with source-of-truth systems. The API is part of the Configure8 enterprise feature set alongside RBAC,
+    SSO/SCIM, and audit logging.
+  humanURL: https://www.configure8.io/
+  baseURL: https://app.configure8.io/api
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  tags:
+  - Catalog
+  - REST
+  - Scorecards
+  - Self-Service
+  properties:
+  - type: Documentation
+    url: https://docs.configure8.io/
+  - type: Website
+    url: https://www.configure8.io/
+  x-features:
+  - Service Catalog
+  - Resource Catalog
+  - Dependency Mapping
+  - Scorecards
+  - Self-Service Actions
+  - No-Code Workflow Builder
+  - Cloud Cost Visibility
+  - RBAC and SSO
+  - SCIM Provisioning
+  - Self-Hosted or SaaS
+  x-use-cases:
+  - Catalog every service, environment, and resource in one place
+  - Score services against production-readiness standards
+  - Let developers self-serve infrastructure via the portal
+  - Surface cloud spend per service and per team
+  - Replace internal wikis with a living developer portal
+- aid: configure8:configure8-catalog-entities-api
+  name: Configure8 Catalog Entities API
+  description: The Catalog Entities API from Configure8 — 7 operation(s) for catalog entities.
+  humanURL: https://www.configure8.io/
+  baseURL: https://app.configure8.io/api
+  tags:
+  - Catalog Entities
+  properties:
+  - type: OpenAPI
+    url: openapi/configure8-catalog-entities-api-openapi.yml
+- aid: configure8:configure8-catalog-relations-api
+  name: Configure8 Catalog Relations API
+  description: The Catalog Relations API from Configure8 — 2 operation(s) for catalog relations.
+  humanURL: https://www.configure8.io/
+  baseURL: https://app.configure8.io/api
+  tags:
+  - Catalog Relations
+  properties:
+  - type: OpenAPI
+    url: openapi/configure8-catalog-relations-api-openapi.yml
+- aid: configure8:configure8-deployments-api
+  name: Configure8 Deployments API
+  description: The Deployments API from Configure8 — 1 operation(s) for deployments.
+  humanURL: https://www.configure8.io/
+  baseURL: https://app.configure8.io/api
+  tags:
+  - Deployments
+  properties:
+  - type: OpenAPI
+    url: openapi/configure8-deployments-api-openapi.yml
+- aid: configure8:configure8-scorecards-api
+  name: Configure8 Scorecards API
+  description: The Scorecards API from Configure8 — 2 operation(s) for scorecards.
+  humanURL: https://www.configure8.io/
+  baseURL: https://app.configure8.io/api
+  tags:
+  - Scorecards
+  properties:
+  - type: OpenAPI
+    url: openapi/configure8-scorecards-api-openapi.yml
+- aid: configure8:configure8-users-api
+  name: Configure8 Users API
+  description: The Users API from Configure8 — 2 operation(s) for users.
+  humanURL: https://www.configure8.io/
+  baseURL: https://app.configure8.io/api
+  tags:
+  - Users
+  properties:
+  - type: OpenAPI
+    url: openapi/configure8-users-api-openapi.yml
 common:
   - type: AgenticAccess
     url: agentic-access/configure8-agentic-access.yml
