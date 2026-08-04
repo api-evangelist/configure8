@@ -1,0 +1,22 @@
+{
+  "provider": "configure8",
+  "sources": [
+    "configure8-catalog-entities-api-openapi.yml",
+    "configure8-catalog-relations-api-openapi.yml",
+    "configure8-deployments-api-openapi.yml",
+    "configure8-scorecards-api-openapi.yml",
+    "configure8-users-api-openapi.yml"
+  ],
+  "outputs": [
+    "configure8-catalog-entities-api-openapi.yml",
+    "configure8-catalog-relations-api-openapi.yml",
+    "configure8-deployments-api-openapi.yml",
+    "configure8-scorecards-api-openapi.yml",
+    "configure8-users-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

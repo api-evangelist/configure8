@@ -1,0 +1,429 @@
+openapi: 3.1.0
+info:
+  title: Configure8 Public REST API
+  version: v1
+  description: >-
+    Best-effort OpenAPI 3.1 description of the Configure8 public REST API,
+    derived from the published API reference at
+    https://docs.configure8.io/ and https://configure8.readme.io/reference.
+    Covers catalog entities, catalog relations, scorecards, users, and
+    related Internal Developer Portal operations. Endpoint paths and request
+    shapes follow Configure8's documented `/public/v1` surface.
+  contact:
+    name: Configure8 Documentation
+    url: https://docs.configure8.io/
+servers:
+  - url: https://{tenant}.configure8.io/public/v1
+    description: Configure8 SaaS tenant
+    variables:
+      tenant:
+        default: app
+        description: Configure8 tenant subdomain
+security:
+  - apiKey: []
+tags:
+  - name: Catalog Entities
+  - name: Catalog Relations
+  - name: Users
+  - name: Scorecards
+  - name: Deployments
+paths:
+  /catalog/entities:
+    post:
+      tags: [Catalog Entities]
+      summary: Get catalog entities filtered by query
+      operationId: queryCatalogEntities
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EntityQuery'
+      responses:
+        '200':
+          description: Filtered list of catalog entities
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntityList'
+  /catalog/entities/{id}:
+    parameters:
+      - $ref: '#/components/parameters/EntityId'
+    get:
+      tags: [Catalog Entities]
+      summary: Get a catalog entity by ID
+      operationId: getCatalogEntity
+      responses:
+        '200':
+          description: Catalog entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Entity'
+    patch:
+      tags: [Catalog Entities]
+      summary: Update a catalog entity
+      operationId: updateCatalogEntity
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Entity'
+      responses:
+        '200':
+          description: Updated entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Entity'
+    delete:
+      tags: [Catalog Entities]
+      summary: Delete a catalog entity
+      operationId: deleteCatalogEntity
+      responses:
+        '204':
+          description: Deleted
+  /catalog/entities/service:
+    post:
+      tags: [Catalog Entities]
+      summary: Create a service entity
+      operationId: createServiceEntity
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Entity'
+      responses:
+        '201':
+          description: Service entity created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Entity'
+  /catalog/entities/resource:
+    post:
+      tags: [Catalog Entities]
+      summary: Create a resource entity
+      operationId: createResourceEntity
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Entity'
+      responses:
+        '201':
+          description: Resource entity created
+  /catalog/entities/person:
+    post:
+      tags: [Catalog Entities]
+      summary: Create a person entity
+      operationId: createPersonEntity
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Entity'
+      responses:
+        '201':
+          description: Person entity created
+  /catalog/entities/system:
+    post:
+      tags: [Catalog Entities]
+      summary: Create a system entity
+      operationId: createSystemEntity
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Entity'
+      responses:
+        '201':
+          description: System entity created
+  /catalog/entities/environment:
+    post:
+      tags: [Catalog Entities]
+      summary: Create an environment entity
+      operationId: createEnvironmentEntity
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Entity'
+      responses:
+        '201':
+          description: Environment entity created
+  /catalog/relations:
+    get:
+      tags: [Catalog Relations]
+      summary: List catalog relations
+      operationId: listCatalogRelations
+      parameters:
+        - name: sourceId
+          in: query
+          schema:
+            type: string
+        - name: targetId
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Relation list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Relation'
+    post:
+      tags: [Catalog Relations]
+      summary: Create a relation between entities
+      operationId: createCatalogRelation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Relation'
+      responses:
+        '201':
+          description: Relation created
+  /catalog/relations/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    delete:
+      tags: [Catalog Relations]
+      summary: Delete a catalog relation
+      operationId: deleteCatalogRelation
+      responses:
+        '204':
+          description: Deleted
+  /users:
+    get:
+      tags: [Users]
+      summary: Retrieve users
+      operationId: listUsers
+      parameters:
+        - name: email
+          in: query
+          schema:
+            type: string
+        - name: role
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: User list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+  /users/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    patch:
+      tags: [Users]
+      summary: Modify a user
+      operationId: updateUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          description: Updated user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+    delete:
+      tags: [Users]
+      summary: Remove a user
+      operationId: deleteUser
+      responses:
+        '204':
+          description: Deleted
+  /scorecards:
+    get:
+      tags: [Scorecards]
+      summary: List scorecards
+      operationId: listScorecards
+      responses:
+        '200':
+          description: Scorecard list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Scorecard'
+  /scorecards/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      tags: [Scorecards]
+      summary: Get a scorecard
+      operationId: getScorecard
+      responses:
+        '200':
+          description: Scorecard
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Scorecard'
+  /deployments:
+    post:
+      tags: [Deployments]
+      summary: Record a deployment
+      operationId: recordDeployment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Deployment'
+      responses:
+        '201':
+          description: Deployment recorded
+components:
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: Bearer/API token issued from the Configure8 UI; passed in the Authorization header
+  parameters:
+    EntityId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+  schemas:
+    Entity:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        slug:
+          type: string
+        kind:
+          type: string
+          enum: [service, resource, person, library, repository, environment, system, application, manifest, base]
+        description:
+          type: string
+        owner:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+        metadata:
+          type: object
+          additionalProperties: true
+    EntityList:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Entity'
+        total:
+          type: integer
+    EntityQuery:
+      type: object
+      properties:
+        kind:
+          type: string
+        owner:
+          type: string
+        tag:
+          type: string
+        search:
+          type: string
+        limit:
+          type: integer
+        offset:
+          type: integer
+    Relation:
+      type: object
+      properties:
+        id:
+          type: string
+        sourceId:
+          type: string
+        targetId:
+          type: string
+        type:
+          type: string
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        email:
+          type: string
+          format: email
+        name:
+          type: string
+        role:
+          type: string
+    Scorecard:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        rules:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+              description:
+                type: string
+              weight:
+                type: number
+    Deployment:
+      type: object
+      properties:
+        serviceId:
+          type: string
+        environmentId:
+          type: string
+        version:
+          type: string
+        status:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
