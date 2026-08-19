@@ -30,7 +30,7 @@ url: >-
   https://raw.githubusercontent.com/api-evangelist/configure8/refs/heads/main/apis.yml
 created: '2026-03-16'
 modified: '2026-04-28'
-specificationVersion: '0.19'
+specificationVersion: '0.23'
 kind: company
 tags:
   - Catalog
