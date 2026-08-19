@@ -1,0 +1,82 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Configure8 Public REST Catalog Entities Catalog Relations API",
+    "version": "v1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Catalog Relations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List catalog relations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{tenant}.configure8.io/public/v1/catalog/relations",
+            "params": [
+              {
+                "name": "sourceId",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "targetId",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "List catalog relations"
+        },
+        {
+          "info": {
+            "name": "Create a relation between entities",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{tenant}.configure8.io/public/v1/catalog/relations",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a relation between entities"
+        },
+        {
+          "info": {
+            "name": "Delete a catalog relation",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{tenant}.configure8.io/public/v1/catalog/relations/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete a catalog relation"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

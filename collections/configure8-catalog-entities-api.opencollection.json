@@ -1,0 +1,174 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Configure8 Public REST Catalog Entities API",
+    "version": "v1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Catalog Entities",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get catalog entities filtered by query",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{tenant}.configure8.io/public/v1/catalog/entities",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Get catalog entities filtered by query"
+        },
+        {
+          "info": {
+            "name": "Get a catalog entity by ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{tenant}.configure8.io/public/v1/catalog/entities/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a catalog entity by ID"
+        },
+        {
+          "info": {
+            "name": "Update a catalog entity",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://{tenant}.configure8.io/public/v1/catalog/entities/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a catalog entity"
+        },
+        {
+          "info": {
+            "name": "Delete a catalog entity",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{tenant}.configure8.io/public/v1/catalog/entities/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete a catalog entity"
+        },
+        {
+          "info": {
+            "name": "Create a service entity",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{tenant}.configure8.io/public/v1/catalog/entities/service",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a service entity"
+        },
+        {
+          "info": {
+            "name": "Create a resource entity",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{tenant}.configure8.io/public/v1/catalog/entities/resource",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a resource entity"
+        },
+        {
+          "info": {
+            "name": "Create a person entity",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{tenant}.configure8.io/public/v1/catalog/entities/person",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a person entity"
+        },
+        {
+          "info": {
+            "name": "Create a system entity",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{tenant}.configure8.io/public/v1/catalog/entities/system",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a system entity"
+        },
+        {
+          "info": {
+            "name": "Create an environment entity",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{tenant}.configure8.io/public/v1/catalog/entities/environment",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create an environment entity"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

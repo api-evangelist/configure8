@@ -1,0 +1,160 @@
+{
+  "item": [
+    {
+      "id": "436a61c9-d752-430a-861a-263073458564",
+      "name": "Deployments",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "deddde83-2fd3-4109-bf09-be6a659f0a96",
+          "name": "Record a deployment",
+          "request": {
+            "name": "Record a deployment",
+            "description": {},
+            "url": {
+              "path": [
+                "deployments"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": "Configure8 tenant subdomain",
+                  "type": "any",
+                  "value": "{{tenant}}",
+                  "key": "tenant"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"serviceId\": \"<string>\",\n  \"environmentId\": \"<string>\",\n  \"version\": \"<string>\",\n  \"status\": \"<string>\",\n  \"timestamp\": \"<dateTime>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "030ccc71-e5fb-49e3-a017-aa34f618c2ad",
+              "name": "Deployment recorded",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "deployments"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "Configure8 tenant subdomain",
+                      "type": "any",
+                      "value": "{{tenant}}",
+                      "key": "tenant"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"serviceId\": \"<string>\",\n  \"environmentId\": \"<string>\",\n  \"version\": \"<string>\",\n  \"status\": \"<string>\",\n  \"timestamp\": \"<dateTime>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "Configure8 tenant subdomain",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "app",
+      "key": "tenant"
+    },
+    {
+      "type": "string",
+      "value": "https://{{tenant}}.configure8.io/public/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "943810f7-3ab9-4b03-b74d-1eab6dc4f568",
+    "name": "Configure8 Public REST Catalog Entities Deployments API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Best-effort OpenAPI 3.1 description of the Configure8 public REST API, derived from the published API reference at https://docs.configure8.io/ and https://configure8.readme.io/reference. Covers catalog entities, catalog relations, scorecards, users, and related Internal Developer Portal operations. Endpoint paths and request shapes follow Configure8's documented `/public/v1` surface.\n\nContact Support:\n Name: Configure8 Documentation",
+      "type": "text/plain"
+    }
+  }
+}

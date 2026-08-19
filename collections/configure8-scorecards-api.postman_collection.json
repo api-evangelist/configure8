@@ -1,0 +1,252 @@
+{
+  "item": [
+    {
+      "id": "409f4d70-776c-44e3-8b1c-7ae34684c946",
+      "name": "Scorecards",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "f150ce41-e611-4823-94e3-bc64f3c8c7c5",
+          "name": "List scorecards",
+          "request": {
+            "name": "List scorecards",
+            "description": {},
+            "url": {
+              "path": [
+                "scorecards"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": "Configure8 tenant subdomain",
+                  "type": "any",
+                  "value": "{{tenant}}",
+                  "key": "tenant"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "7c4fc471-e5bd-456e-919e-db1986b97a13",
+              "name": "Scorecard list",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "scorecards"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "Configure8 tenant subdomain",
+                      "type": "any",
+                      "value": "{{tenant}}",
+                      "key": "tenant"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": \"string\",\n    \"name\": \"string\",\n    \"description\": \"string\",\n    \"rules\": [\n      {\n        \"id\": \"string\",\n        \"description\": \"string\",\n        \"weight\": 6366.448411360005\n      },\n      {\n        \"id\": \"string\",\n        \"description\": \"string\",\n        \"weight\": 633.5288797520855\n      }\n    ]\n  },\n  {\n    \"id\": \"string\",\n    \"name\": \"string\",\n    \"description\": \"string\",\n    \"rules\": [\n      {\n        \"id\": \"string\",\n        \"description\": \"string\",\n        \"weight\": 173.35839046690893\n      },\n      {\n        \"id\": \"string\",\n        \"description\": \"string\",\n        \"weight\": 5549.984534749124\n      }\n    ]\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "01941c36-5d52-4a58-ad58-b5dd3d3a2f19",
+          "name": "Get a scorecard",
+          "request": {
+            "name": "Get a scorecard",
+            "description": {},
+            "url": {
+              "path": [
+                "scorecards",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) "
+                },
+                {
+                  "description": "Configure8 tenant subdomain",
+                  "type": "any",
+                  "value": "{{tenant}}",
+                  "key": "tenant"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "f4332b50-bce9-4534-8c72-3c4bc7f56c20",
+              "name": "Scorecard",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "scorecards",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) "
+                    },
+                    {
+                      "description": "Configure8 tenant subdomain",
+                      "type": "any",
+                      "value": "{{tenant}}",
+                      "key": "tenant"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"name\": \"string\",\n  \"description\": \"string\",\n  \"rules\": [\n    {\n      \"id\": \"string\",\n      \"description\": \"string\",\n      \"weight\": 8793.973645280532\n    },\n    {\n      \"id\": \"string\",\n      \"description\": \"string\",\n      \"weight\": 8296.913934406295\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "Configure8 tenant subdomain",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "app",
+      "key": "tenant"
+    },
+    {
+      "type": "string",
+      "value": "https://{{tenant}}.configure8.io/public/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "139903b6-e8cf-45ea-a4e0-49666d258474",
+    "name": "Configure8 Public REST Catalog Entities Scorecards API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Best-effort OpenAPI 3.1 description of the Configure8 public REST API, derived from the published API reference at https://docs.configure8.io/ and https://configure8.readme.io/reference. Covers catalog entities, catalog relations, scorecards, users, and related Internal Developer Portal operations. Endpoint paths and request shapes follow Configure8's documented `/public/v1` surface.\n\nContact Support:\n Name: Configure8 Documentation",
+      "type": "text/plain"
+    }
+  }
+}
