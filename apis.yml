@@ -108,6 +108,8 @@ apis:
   humanURL: https://www.configure8.io/
   baseURL: https://app.configure8.io/api
   tags:
+  - Deployment
+  tags_raw:
   - Deployments
   properties:
   - type: OpenAPI
@@ -128,6 +130,8 @@ apis:
   humanURL: https://www.configure8.io/
   baseURL: https://app.configure8.io/api
   tags:
+  - User
+  tags_raw:
   - Users
   properties:
   - type: OpenAPI
