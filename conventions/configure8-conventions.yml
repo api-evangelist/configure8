@@ -1,0 +1,180 @@
+generated: '2026-09-05'
+method: searched
+source: >-
+  https://configure8.io/docs-sub/configure8-product-docs/reference/api-documentation;
+  https://configure8.io/docs-sub/configure8-product-docs/fundamentals/settings/api-key-management;
+  https://configure8.io/docs-sub/configure8-product-docs/fundamentals/role-based-access-control;
+  derived from openapi/configure8-c8-public-api-openapi.json
+description: >-
+  Cross-cutting runtime semantics for the configure8 Public API — what an agent needs to
+  know that is not expressed operation-by-operation in the contract.
+auth:
+  style: static API key in a request header
+  header: Api-Key
+  key_prefix: c8ak
+  secret_scanning: >-
+    Documented as registered with GitHub secret scanning, so a leaked key is detectable
+    from the prefix
+  transport: HTTPS required — "All API calls must be authenticated and made over HTTPS"
+  scopes: [read (default), write]
+  roles: [Admin, User]
+  inheritance: >-
+    A key carries the permissions of the user who created it; only Admins may create
+    Admin-role keys. RBAC ownership (Owner / Viewer, per catalog item, scorecard,
+    credential and self-service action) then constrains what that key can touch.
+  expiry: keys are created with an expiration period and can be revoked; expired and active
+    keys are both listed in Settings
+  retrieval: shown once at creation and irretrievable afterwards
+  gating: API access is an Enterprise-plan feature; the Free plan lists "API Access — No"
+  secondary_scheme: >-
+    A bearer JWT securityScheme is declared and is the only scheme attached to the 19 SCIM
+    operations in the contract
+  artifact: authentication/configure8-authentication.yml
+idempotency:
+  supported: false
+  coverage: none
+  mechanism: none
+  evidence: >-
+    No Idempotency-Key header, no idempotency parameter and no idempotency section in the
+    documentation. All 40 mutating operations (POST/PUT/PATCH/DELETE) in the harvested
+    contract are unprotected against replay. The practical consequence is documented in
+    errors/configure8-problem-types.yml: a retried create surfaces as 409 Conflict on a
+    duplicate name rather than replaying the original result, and a retry after a 500 may
+    duplicate the write.
+  partial_substitutes:
+  - >-
+    PUT /public/v1/catalog/metadata/{id} and PUT /public/v1/scorecards/{id} are natural
+    replace-semantics writes and are idempotent by shape, not by an idempotency mechanism.
+  - >-
+    POST /public/v1/sync/services/diff computes a diff before POST /public/v1/sync/services
+    applies it — a check-then-apply pair, not replay protection.
+pagination:
+  style: page-number
+  params:
+    page: pageNumber
+    size: pageSize
+    sort: sort
+  defaults:
+    pageNumber: 0
+    pageSize: 20
+  offset_rule: pageNumber * pageSize
+  sort_shape: '{ property: <field>, order: "ASC" | "DESC" }'
+  default_sort: name ascending
+  applies_to: endpoints that return multiple items, e.g. POST /public/v1/catalog/entities
+  cursor: false
+filtering:
+  style: >-
+    Bespoke query-builder DTOs in the request body rather than query-string filters. The
+    contract declares CatalogSimplePropertyFilter (filterType SIMPLE, with name constrained
+    to id, name, description, type, provider, providerResourceKey, providerResourceType,
+    providerAccountId) alongside composite filter shapes.
+  docs: https://configure8.io/docs-sub/configure8-product-docs/reference/api-documentation/public-api-query-builder
+  note: >-
+    Because the query builder lives in the body, the primary list operation is
+    POST /public/v1/catalog/entities rather than a GET — a POST that reads.
+field_expansion:
+  supported: false
+metadata:
+  supported: true
+  mechanism: >-
+    Catalog entities carry free-form metadata addressed through
+    GET/PUT /public/v1/catalog/metadata/{id}, plus metadata tags on entity PATCH. Release
+    2.159.0 added `replaceMetadataTags` to PATCH /:type/:id so a caller can override all
+    tags rather than merge them.
+request_id:
+  supported: false
+  evidence: No request-id or correlation-id header is documented or declared in the contract.
+versioning:
+  style: URI path (/public/v1, /public/v2 for SCIM, /api/v1 for private SCIM config)
+  artifact: lifecycle/configure8-lifecycle.yml
+errors:
+  envelope: plain JSON; status-code contract rather than a typed problem registry
+  rfc9457: false
+  documented_codes: [400, 401, 403, 404, 409, 422, 500]
+  scim_envelope: urn:ietf:params:scim:api:messages:2.0:Error
+  artifact: errors/configure8-problem-types.yml
+rate_limits:
+  published: false
+  headers: none documented
+  artifact: rate-limits/configure8-rate-limits.yml
+batching:
+  supported: true
+  operations:
+  - POST /public/v1/catalog/batch/entities/resource (create resources in bulk)
+  - DELETE /public/v1/catalog/batch/entities (delete entities in bulk)
+  - POST /public/v1/costs/batch (batch create or replace costs)
+  - DELETE /public/v1/costs/batch (batch delete costs)
+  limit: maximum batch size is 1000 elements (documented on the Costs reference page)
+  partial_failure: >-
+    Batch responses report success and failed counts alongside the created items, so a
+    batch can partially succeed — the caller must read the counts, not just the status code.
+dry_run_mode:
+  supported: partial
+  evidence: >-
+    POST /public/v1/sync/services/diff returns the diff that POST /public/v1/sync/services
+    would apply, which is a genuine rehearse-then-commit pair for the service-sync surface.
+    No other write surface offers a dry run, and there is no global dry-run flag.
+reversibility:
+  grade: none
+  applies: true
+  evidence: >-
+    The API has 40 mutating operations, including 8 DELETEs and a bulk delete. No reversal
+    operation exists anywhere in the contract or the documentation — no undo, restore,
+    cancel, void, rollback or trash/recycle-bin endpoint, and no soft-delete flag. Nothing
+    states a retention window during which a deleted catalog entity, relation, deployment,
+    credential or scorecard could be recovered, so no window is asserted here.
+  write_surfaces:
+  - surface: catalog entities
+    destructive_ops: [CatalogEntityController_deleteCatalogEntityById,
+      CatalogEntityBatchController_deleteCatalogEntitiesBulk]
+    reversal: none documented
+    window: none documented
+    note: >-
+      The bulk delete removes many entities in one call and the release notes record a
+      cache-flush defect on that path (fixed in 2.158.0). Discovery-created resources are
+      re-populated by the integrations that produced them, but that is re-ingestion by a
+      connector, not a reversal of the delete, and it is not documented as one.
+  - surface: catalog relations
+    destructive_ops: [CatalogRelationController_deleteCatalogRelationById]
+    reversal: none documented
+    window: none documented
+    note: >-
+      A relation can be recreated with POST /public/v1/catalog/relations from the same
+      sourceEntityId/targetEntityId, but the docs state Resource-to-Resource relations are
+      only available for non-discovery-created resources — so recreation is not guaranteed
+      to be available for what was deleted.
+  - surface: users
+    destructive_ops: [UserController_deleteUserById, SCIMController_deleteUser,
+      SCIMController_deleteGroup]
+    reversal: none documented
+    window: none documented
+    note: >-
+      SCIM PATCH is documented as the way to deactivate a user ("Updates a SCIM user
+      status"), which is the reversible alternative to DELETE — but the docs do not present
+      it as such and state no window.
+  - surface: credentials
+    destructive_ops: [CredentialController_deleteCredential]
+    reversal: none documented
+    window: none documented
+    note: >-
+      Credentials hold the secrets that drive discovery; deleting one is not recoverable
+      from the API and the secret itself would have to be re-entered.
+  - surface: deployments
+    destructive_ops: [DeploymentController_delete]
+    reversal: none documented
+    window: none documented
+  - surface: SCIM config
+    destructive_ops: [ScimController_deleteScimConfig]
+    reversal: none documented
+    window: none documented
+  agent_guidance: >-
+    Every destructive call on this API should be treated as final. Combined with
+    idempotency.coverage = none, an agent has neither replay protection going in nor an
+    undo coming out; read the entity first and keep the response if the state may need to be
+    reconstructed by hand.
+cross_links:
+  errors: errors/configure8-problem-types.yml
+  lifecycle: lifecycle/configure8-lifecycle.yml
+  authentication: authentication/configure8-authentication.yml
+  rate_limits: rate-limits/configure8-rate-limits.yml
+  data_model: data-model/configure8-data-model.yml

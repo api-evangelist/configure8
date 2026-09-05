@@ -1,0 +1,99 @@
+generated: '2026-09-05'
+method: searched
+source: >-
+  https://configure8.io/docs-sub/configure8-product-docs/reference/api-documentation;
+  https://configure8.io/docs-sub/configure8-product-docs/extras/release-notes;
+  https://configure8.io/pricing; live DNS/HTTP probes 2026-09-05
+versioning:
+  style: URI path
+  versions:
+  - path_prefix: /public/v1
+    surface: catalog entities, relations, metadata, templates, users, scorecards, module
+      settings, sync, deployments, credentials, costs, self-service actions
+    status: current
+  - path_prefix: /public/v2
+    surface: SCIM 2.0 (Users, Groups, ServiceProviderConfig, ResourceTypes, Schemas)
+    status: current
+    note: v2 here is the SCIM protocol version, not a second generation of the whole API
+  - path_prefix: /api/v1
+    surface: SCIM configuration (tagged "Private SCIM" in the contract)
+    status: current
+    note: tagged Private in the provider's own contract; not part of the documented public
+      surface
+  policy_published: false
+  policy_note: >-
+    No versioning policy, no support window and no statement about what constitutes a
+    breaking change is published anywhere in the documentation.
+deprecation:
+  policy_published: false
+  sunset_header: false
+  deprecation_header: false
+  rfc8594: false
+  deprecated_operations_in_contract: 0
+  evidence: >-
+    No `deprecated: true` flag on any of the 71 operations in the harvested contract, no
+    Sunset or Deprecation response header anywhere, and no deprecation policy page. The
+    release notes show removal happening WITHOUT any of that: release 2.157.0 (2024-12-06)
+    lists "Remove Person Catalog endpoints from Public API" as a bug-fix line item. A
+    consumer of those endpoints had no advance signal, and the published OpenAPI still
+    describes them.
+sla:
+  published: false
+  evidence: >-
+    The pricing page differentiates support modality (Free = Community; Enterprise =
+    "White Glove Support + Success") but publishes no uptime commitment, no response-time
+    target and no service credits. The Terms of Service are distributed as a PDF
+    (https://configure8.io/tos.pdf) rather than as a linkable SLA.
+status_page:
+  published: false
+  evidence: >-
+    Probed 2026-09-05. https://status.configure8.io/ does not resolve (NXDOMAIN).
+    https://configure8.statuspage.io/ returns HTTP 200 but the body is Atlassian's own
+    Statuspage marketing page (title "Real-Time Incident Communication with Statuspage |
+    Atlassian", canonical https://www.atlassian.com/software/statuspage) — an unclaimed
+    subdomain, not a configure8 status page. Its /api/v2/summary.json returns the same
+    marketing HTML. Recorded as absent; no StatusPage pointer is emitted.
+changelog:
+  published: true
+  url: https://configure8.io/docs-sub/configure8-product-docs/extras/release-notes
+  artifact: changelog/configure8-changelog.yml
+  latest: 2.159.0 (2024-12-18)
+reachability:
+  checked: '2026-09-05'
+  findings:
+  - host: app.configure8.io
+    result: NXDOMAIN
+    resolvers: [1.1.1.1, 8.8.8.8]
+    significance: >-
+      This is the documented API base host — the docs' own curl example is
+      `curl https://app.configure8.io/public/v1/catalog/entities --header "Api-Key: my_api_key"` —
+      and it is also the single host named as the scope of the responsible-disclosure
+      program. It has no A or AAAA record. No call to the documented base URL can be made
+      from the public internet today.
+  - host: docs.configure8.io
+    result: NXDOMAIN
+    resolvers: [1.1.1.1, 8.8.8.8]
+    significance: >-
+      The documentation host the catalog previously pointed at. The same GitBook space is
+      still reachable through the marketing site's reverse proxy at
+      https://configure8.io/docs-sub/configure8-product-docs, which is what this repo now
+      points at.
+  - host: configure8.io / www.configure8.io
+    result: HTTP 200, TLS 1.3, cert valid to 2026-11-06
+    significance: marketing site and the proxied product documentation are live
+  - host: configure8.readme.io
+    result: HTTP 200
+    significance: >-
+      API reference, the downloadable OpenAPI, an llms.txt and a /.well-known/api-catalog
+      are all live and served here
+  - surface: https://github.com/Configure8inc
+    result: HTTP 200, 2 public repositories, BOTH archived 2025-03-31
+    repos: [configure8examples, c8-public-cloudformation-templates]
+    significance: >-
+      configure8examples is the repository the API documentation tells developers to clone
+      for its six public-API examples; it is archived and therefore read-only.
+  summary: >-
+    Documentation, the API reference and the machine-readable contract are all still
+    published and reachable. The application host that serves the API, and the docs host,
+    are not resolvable, and the provider's public example code was archived in March 2025.
+    Recorded as measurement; no conclusion is drawn here about the company's status.

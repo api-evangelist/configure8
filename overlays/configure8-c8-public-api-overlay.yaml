@@ -1,0 +1,90 @@
+# generated: '2026-09-05'
+# method: generated
+# source: openapi/configure8-c8-public-api-openapi.json (harvested verbatim, never mutated)
+#         + https://configure8.io/docs-sub/configure8-product-docs/reference/api-documentation
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for the configure8 C8 Public API
+  version: 1.0.0
+extends: ../openapi/configure8-c8-public-api-openapi.json
+x-provenance:
+  generated: '2026-09-05'
+  method: generated
+  source: >-
+    Every action below restates something configure8 states in its own documentation at
+    https://configure8.io/docs-sub/configure8-product-docs/reference/api-documentation .
+    Nothing here is invented. The harvested spec is left byte-identical to the download at
+    https://configure8.readme.io/openapi/6579c0db5a5ca10ec19fd2f4 .
+actions:
+- target: $
+  description: >-
+    The published spec ships an EMPTY servers[] array, so a client reading it alone has no
+    host to call. The API documentation states the base URL verbatim in its curl example:
+    `curl https://app.configure8.io/public/v1/catalog/entities --header "Api-Key: my_api_key"`.
+    NOTE (probed 2026-09-05): app.configure8.io returned NXDOMAIN from both 1.1.1.1 and
+    8.8.8.8 — the documented host does not currently resolve. The server is recorded because
+    it is what the provider documents; see lifecycle/configure8-lifecycle.yml for the
+    reachability finding.
+  update:
+    servers:
+    - url: https://app.configure8.io
+      description: >-
+        configure8 SaaS. Documented base host; paths in this spec already carry their
+        /public/v1, /public/v2 and /api/v1 prefixes. Did not resolve when probed 2026-09-05.
+- target: $
+  description: >-
+    The spec declares api-key and bearer securitySchemes but sets no document-level
+    security, leaving 52 of 71 operations with no stated requirement. The docs are explicit:
+    "All API calls must be authenticated and made over HTTPS" and "Authentication is
+    performed via Api-Key Header."
+  update:
+    security:
+    - api-key: []
+- target: $.components.securitySchemes['api-key']
+  description: >-
+    Record the documented key prefix. configure8 API keys start with `c8ak`, which is
+    registered for GitHub secret scanning.
+  update:
+    description: >-
+      configure8 API key, passed in the Api-Key request header. Keys start with the prefix
+      `c8ak` and are registered with GitHub secret scanning. Keys are created in
+      Settings > API Key Management with a name, an expiration period, a scope (read is the
+      default; write can be added) and a role (only admins may create Admin-role keys). A
+      key inherits the permissions of the user who created it. Keys are shown once and are
+      irretrievable afterwards. API access is an Enterprise-plan feature; the Free plan
+      lists "API Access: No".
+    x-key-prefix: c8ak
+    x-scopes:
+    - read
+    - write
+    x-roles:
+    - Admin
+    - User
+- target: $.info
+  description: >-
+    The published info block carries no contact and no licence. configure8 publishes a
+    security contact and a responsible-disclosure policy; record the policy URL rather than
+    inventing an address.
+  update:
+    x-documentation: https://configure8.io/docs-sub/configure8-product-docs/reference/api-documentation
+    x-api-reference: https://configure8.readme.io/reference
+    x-responsible-disclosure: https://configure8.io/responsible-disclosure
+    x-terms-of-service: https://configure8.io/tos.pdf
+    x-privacy-policy: https://configure8.io/privacy/policy
+- target: $
+  description: >-
+    Record the documented collection pagination contract, which the spec does not express as
+    parameters. Endpoints returning multiple items accept pageNumber (default 0), pageSize
+    (default 20) and sort ({property, order: ASC|DESC}); offset is pageNumber * pageSize.
+  update:
+    x-pagination:
+      style: page-number
+      params:
+        page: pageNumber
+        size: pageSize
+        sort: sort
+      defaults:
+        pageNumber: 0
+        pageSize: 20
+      sort_shape: '{ property: <field>, order: ASC | DESC }'
+      source: https://configure8.io/docs-sub/configure8-product-docs/reference/api-documentation

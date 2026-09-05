@@ -1,0 +1,76 @@
+generated: '2026-09-05'
+method: derived
+source: >-
+  openapi/configure8-c8-public-api-openapi.json (harvested) + the live probe of
+  https://configure8.readme.io/mcp recorded in mcp/configure8-mcp.yml
+description: >-
+  Binding between configure8's MCP surface and its REST operations. configure8 has BOTH an
+  MCP endpoint and a published OpenAPI, so a crosswalk is emitted — but the crosswalk[] is
+  deliberately empty. The MCP endpoint refuses anonymous tools/list (HTTP 401,
+  -32001 Authorization required), so no tool name, description or inputSchema has been
+  observed, and configure8 publishes no tool list anywhere else. Mapping tools we have not
+  seen onto operations would be fabrication. What IS recorded is the REST side: all 71
+  operations are rest_only until an authenticated introspection pass names the tools.
+surfaces:
+  openapi:
+    url: openapi/configure8-c8-public-api-openapi.json
+    source: https://configure8.readme.io/openapi/6579c0db5a5ca10ec19fd2f4
+    gated: false
+    operations: 71
+  mcp:
+    url: https://configure8.readme.io/mcp
+    gated: true
+    gate: HTTP 401 JSON-RPC -32001 "Authorization required" on tools/list
+    platform_provided: true
+  graphql:
+    present: false
+crosswalk: []
+mcp_only: []
+rest_only:
+- tag: Catalog Entity
+  operations: 23
+  reason: MCP tool list not observable anonymously
+- tag: SCIM
+  operations: 16
+  reason: MCP tool list not observable anonymously
+- tag: Scorecard
+  operations: 6
+  reason: MCP tool list not observable anonymously
+- tag: Deployment
+  operations: 4
+  reason: MCP tool list not observable anonymously
+- tag: Credential
+  operations: 4
+  reason: MCP tool list not observable anonymously
+- tag: Catalog Relation
+  operations: 3
+  reason: MCP tool list not observable anonymously
+- tag: Users
+  operations: 3
+  reason: MCP tool list not observable anonymously
+- tag: Private SCIM
+  operations: 3
+  reason: MCP tool list not observable anonymously
+- tag: Catalog Entity Batch
+  operations: 2
+  reason: MCP tool list not observable anonymously
+- tag: Catalog Entity Metadata
+  operations: 2
+  reason: MCP tool list not observable anonymously
+- tag: Module Settings
+  operations: 2
+  reason: MCP tool list not observable anonymously
+- tag: Sync
+  operations: 2
+  reason: MCP tool list not observable anonymously
+- tag: Templates
+  operations: 1
+  reason: MCP tool list not observable anonymously
+coverage:
+  rest_operations: 71
+  mcp_tools_observed: 0
+  mapped: 0
+  mcp_only: 0
+  rest_only: 71
+  confidence: none
+  blocker: authenticated MCP introspection required

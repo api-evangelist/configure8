@@ -1,0 +1,293 @@
+generated: '2026-09-05'
+method: derived
+source: >-
+  openapi/configure8-c8-public-api-openapi.json — $ref graph and id-reference fields across
+  120 component schemas; entity taxonomy cross-checked against
+  https://configure8.io/docs-sub/configure8-product-docs/reference/api-documentation/catalog-entity
+description: >-
+  configure8's data model is a catalog graph. Everything in it is a Catalog Entity of one of
+  nine types, and the edges between entities are first-class Catalog Relations addressed by
+  their own endpoints rather than by foreign keys on the entities. Scorecards, deployments,
+  costs, module settings and metadata all hang off catalog entities. Every record in the
+  system is scoped to an organization via orgId.
+tenancy:
+  field: orgId
+  note: >-
+    Carried on every persisted DTO — CatalogEntityDto, CatalogResourceDto, CatalogServiceDto,
+    CatalogPersonDto, CatalogLibraryDto, CatalogRepositoryDto, CatalogEnvironmentDto,
+    CatalogSystemDto, CatalogApplicationDto, CatalogManifestDto, CatalogBaseDto,
+    CatalogEntityMetadataDto, TemplateDto, UserDto, ScheduleDto, ScorecardDto,
+    ScorecardMetricDto, ScorecardMetricResultDto, ModuleSettingsDto, DeploymentDto,
+    CredentialDto and ScimConfigDto. Ids are only meaningful inside one organization.
+entities:
+- name: CatalogEntity
+  schema: CatalogEntityDto
+  description: The base catalog record every specialised type extends.
+  endpoints:
+  - POST /public/v1/catalog/entities (query)
+  - GET /public/v1/catalog/entities/{id}
+  - DELETE /public/v1/catalog/entities/{id}
+  subtypes:
+  - 'Service'
+  - 'Resource'
+  - 'Person'
+  - 'Repository'
+  - 'Library'
+  - 'Manifest'
+  - 'Environment'
+  - 'System'
+  - 'Application'
+  - 'Base'
+- name: Service
+  schema: CatalogServiceDto
+  create: CreateCatalogServiceDto
+  update: UpdateCatalogServiceDto
+  endpoints:
+  - 'POST /public/v1/catalog/entities/service'
+  - 'PATCH /public/v1/catalog/entities/service/{id}'
+- name: Resource
+  schema: CatalogResourceDto
+  create: CreateCatalogResourceDto
+  update: UpdateCatalogResourceDto
+  endpoints:
+  - 'POST /public/v1/catalog/entities/resource'
+  - 'PATCH /public/v1/catalog/entities/resource/{id}'
+  - 'POST /public/v1/catalog/batch/entities/resource'
+- name: Person
+  schema: CatalogPersonDto
+  create: CreateCatalogPersonDto
+  endpoints:
+  - 'POST /public/v1/catalog/entities/person'
+  - 'PATCH /public/v1/catalog/entities/person/{id}'
+  note: >-
+    Release 2.157.0 (2024-12-06) records "Remove Person Catalog endpoints from Public API".
+    They are still present in the published contract; treat them as removed in the running
+    service and present in the document.
+- name: Repository
+  schema: CatalogRepositoryDto
+  create: CreateCatalogRepositoryDto
+  update: UpdateCatalogRepositoryDto
+  endpoints:
+  - 'POST /public/v1/catalog/entities/repository'
+  - 'PATCH /public/v1/catalog/entities/repository/{id}'
+- name: Library
+  schema: CatalogLibraryDto
+  endpoints:
+  - 'POST /public/v1/catalog/entities/library'
+  - 'PATCH /public/v1/catalog/entities/library/{id}'
+- name: Manifest
+  schema: CatalogManifestDto
+  create: CreateCatalogManifestDto
+  update: UpdateCatalogManifestDto
+  endpoints:
+  - 'POST /public/v1/catalog/entities/manifest'
+  - 'PATCH /public/v1/catalog/entities/manifest/{id}'
+- name: Environment
+  schema: CatalogEnvironmentDto
+  endpoints:
+  - 'POST /public/v1/catalog/entities/environment'
+  - 'PATCH /public/v1/catalog/entities/environment/{id}'
+- name: System
+  schema: CatalogSystemDto
+  endpoints:
+  - 'POST /public/v1/catalog/entities/system'
+  - 'PATCH /public/v1/catalog/entities/system/{id}'
+- name: Application
+  schema: CatalogApplicationDto
+  endpoints:
+  - 'POST /public/v1/catalog/entities/application'
+  - 'PATCH /public/v1/catalog/entities/application/{id}'
+- name: CatalogRelation
+  schema: CatalogRelationDto
+  create: CreateCatalogRelationDto
+  delete: DeleteCatalogRelationDto
+  endpoints:
+  - 'GET /public/v1/catalog/relations'
+  - 'POST /public/v1/catalog/relations'
+  - 'DELETE /public/v1/catalog/relations'
+  note: >-
+    The edge is the record. A relation carries sourceEntityId and targetEntityId, plus an
+    optional serviceId used only for the Environment-Resource case (EntityParentDto calls
+    the same idea secondaryId). Resource-to-Resource relations are documented as available
+    only for non-discovery-created resources.
+- name: CatalogEntityMetadata
+  schema: CatalogEntityMetadataDto
+  endpoints:
+  - 'GET /public/v1/catalog/metadata/{id}'
+  - 'PUT /public/v1/catalog/metadata/{id}'
+- name: Template
+  schema: TemplateDto
+  endpoints:
+  - 'GET /public/v1/templates'
+- name: User
+  schema: UserDto
+  endpoints:
+  - 'GET /public/v1/users'
+  - 'PATCH /public/v1/users/{id}'
+  - 'DELETE /public/v1/users/{id}'
+- name: Scorecard
+  schema: ScorecardDto
+  endpoints:
+  - 'GET /public/v1/scorecards'
+  - 'GET /public/v1/scorecards/{id}'
+  - 'PUT /public/v1/scorecards/{id}'
+  - 'POST /public/v1/scorecards/{id}/run'
+- name: ScorecardMetric
+  schema: ScorecardMetricDto
+  endpoints:
+  - 'GET /public/v1/scorecards/{id}/metrics'
+- name: ScorecardMetricResult
+  schema: ScorecardMetricResultDto
+  endpoints:
+  - 'GET /public/v1/scorecards/{id}/results'
+- name: Schedule
+  schema: ScheduleDto
+  note: returned when a scorecard re-evaluation is triggered
+- name: ModuleSettings
+  schema: ModuleSettingsDto
+  create: CreateModuleSettingsDto
+  endpoints:
+  - 'GET /public/v1/module-settings/{id}'
+  - 'POST /public/v1/module-settings'
+  note: binds a plugin/integration configuration to a service and a credential
+- name: Deployment
+  schema: DeploymentDto
+  create: CreateDeploymentDto
+  endpoints:
+  - 'POST /public/v1/deployments'
+  - 'GET /public/v1/deployments'
+  - 'PATCH /public/v1/deployments/{id}'
+  - 'DELETE /public/v1/deployments/{id}'
+- name: Credential
+  schema: CredentialDto
+  endpoints:
+  - 'GET /public/v1/credentials'
+  - 'POST /public/v1/credentials'
+  - 'PUT /public/v1/credentials/{id}'
+  - 'DELETE /public/v1/credentials/{id}'
+- name: Cost
+  schema: CostDto
+  endpoints:
+  - 'POST /public/v1/costs/batch'
+  - 'DELETE /public/v1/costs/batch'
+  note: >-
+    Documented on the Costs reference page but NOT present in the published OpenAPI
+    download, which predates it. Fields: catalogResourceId, date (billing date), cost,
+    operation (use "TOTAL" for a resource's daily total), arn (AWS). Max batch 1000.
+- name: SCIMUser
+  schema: SCIMUserDto
+  create: SCIMCreateUserDto
+  endpoints:
+  - 'GET/POST /public/v2/scim/Users'
+  - 'GET/PUT/PATCH/DELETE /public/v2/scim/Users/{id}'
+- name: SCIMGroup
+  endpoints:
+  - 'GET/POST /public/v2/scim/Groups'
+  - 'GET/PUT/PATCH/DELETE /public/v2/scim/Groups/{id}'
+- name: ScimConfig
+  schema: ScimConfigDto
+  endpoints:
+  - 'GET/PATCH/DELETE /api/v1/scim'
+  note: tagged "Private SCIM" in the provider's own contract
+relationships:
+- from: CatalogRelation
+  to: CatalogEntity
+  type: belongs_to
+  via: sourceEntityId
+- from: CatalogRelation
+  to: CatalogEntity
+  type: belongs_to
+  via: targetEntityId
+- from: CatalogRelation
+  to: Service
+  type: belongs_to
+  via: serviceId
+  note: optional; used only for the Environment-Resource relation
+- from: Service
+  to: Repository
+  type: belongs_to
+  via: repositoryId
+- from: Service
+  to: Template
+  type: belongs_to
+  via: templateId
+- from: Person
+  to: User
+  type: belongs_to
+  via: userId
+- from: Resource
+  to: ProviderAccount
+  type: belongs_to
+  via: providerAccountId
+  note: >-
+    The cloud account that owns the resource; the same field appears on Repository and
+    Manifest. Not a first-class entity in the public API — it comes from the Credential the
+    discovery job runs under.
+- from: ModuleSettings
+  to: Service
+  type: belongs_to
+  via: serviceId
+- from: ModuleSettings
+  to: Credential
+  type: belongs_to
+  via: credentialId
+- from: Deployment
+  to: Repository
+  type: belongs_to
+  via: repositoryId
+- from: Deployment
+  to: Environment
+  type: belongs_to
+  via: environmentId
+- from: ScorecardMetricResult
+  to: Scorecard
+  type: belongs_to
+  via: scorecardId
+- from: ScorecardMetricResult
+  to: ScorecardMetric
+  type: belongs_to
+  via: metricId
+- from: ScorecardMetricResult
+  to: Service
+  type: belongs_to
+  via: serviceId
+- from: ScorecardMetric
+  to: Measurement
+  type: belongs_to
+  via: measurementId
+- from: Scorecard
+  to: ScorecardMetric
+  type: has_many
+  via: GET /public/v1/scorecards/{id}/metrics
+- from: Scorecard
+  to: ScorecardMetricResult
+  type: has_many
+  via: GET /public/v1/scorecards/{id}/results
+- from: Schedule
+  to: Credential
+  type: belongs_to
+  via: credentialId
+- from: Cost
+  to: Resource
+  type: belongs_to
+  via: catalogResourceId
+- from: SCIMUser
+  to: ExternalIdP
+  type: belongs_to
+  via: externalId
+- from: Person
+  to: ExternalIdP
+  type: belongs_to
+  via: externalId
+- from: CatalogEntity
+  to: Organization
+  type: belongs_to
+  via: orgId
+  note: applies to every persisted entity in the model
+id_conventions:
+  shape: opaque strings; no documented type prefix
+  scope: organization (orgId)
+  note: >-
+    Unlike providers that prefix ids by type, configure8 ids carry no discriminator — the
+    entity type is in the URL path, not the id. Release 2.156.0 records a "Fix duplicated
+    IDs stored in DB" defect.

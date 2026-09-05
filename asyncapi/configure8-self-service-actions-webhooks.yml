@@ -1,0 +1,94 @@
+generated: '2026-09-05'
+method: searched
+source: >-
+  https://configure8.io/docs-sub/configure8-product-docs/fundamentals/self-service-actions
+asyncapi_published: false
+asyncapi_note: >-
+  configure8 publishes no AsyncAPI document. Probed /asyncapi.json and /asyncapi.yaml
+  patterns are moot — the documented base host app.configure8.io was NXDOMAIN on
+  2026-09-05 — and no event contract appears in the GitHub org, the ReadMe reference or
+  the llms.txt index. There is also no subscriber-facing event catalogue: configure8 does
+  not let a consumer subscribe to catalog or scorecard changes. Type AsyncAPI is NOT
+  asserted.
+type: Webhooks
+description: >-
+  configure8 does have a real, documented webhook contract, but it runs the opposite way to
+  a normal event feed. A Self-Service Action of method "Webhook" makes CONFIGURE8 the
+  sender: when a user runs the action in the portal, configure8 POSTs the user's inputs and
+  the action metadata to a URL the customer owns, then waits for the customer's backend to
+  report progress back through a callback endpoint. It is an outbound trigger plus an
+  inbound status channel, not a subscription.
+direction: outbound (configure8 to customer) with an inbound status callback
+surfaces:
+- name: Self-Service Action trigger
+  direction: configure8 -> customer
+  transport: HTTPS
+  http_method: POST
+  http_method_note: POST is the only method the action editor offers ("Limited options
+    currently available")
+  method_options: [Webhook]
+  method_note: Webhook is currently the only action method configure8 supports
+  target: a "Webhook URL" the customer configures on the action — "URL to your backend and
+    its logic implementation"
+  configurable:
+  - query parameters (fixed across executions)
+  - headers
+  - payload object
+  payload: >-
+    The user's inputs and the relevant action metadata, bundled by configure8. The payload
+    template supports two placeholder families — {{ c8ReportToken }} for the callback token,
+    and {{ <payloadName> }} for any user input, where payloadName is the name given to that
+    input in the User Inputs section. A placeholder is substituted only once; a second use
+    of the same placeholder is left unreplaced. If a referenced payloadName does not exist
+    among the user inputs, configure8 sends the literal string instead of a value.
+  auth: >-
+    configure8 sends a c8-report-token key with the webhook data. There is no signature
+    header and no shared-secret HMAC documented — the token is the only authenticity signal,
+    and it is a bearer value.
+  example_payload: |
+    {
+      "title": "Run build",
+      "inputs": {
+        "c8-report-token": "{{ c8ReportToken }}",
+        "description": "{{ description }}"
+      }
+    }
+- name: Action status callback
+  direction: customer -> configure8
+  transport: HTTPS
+  http_method: POST
+  endpoint: https://app.configure8.io/self-service/api/v1/reports/webhook
+  endpoint_note: >-
+    Documented verbatim. Note it sits under /self-service/api/v1/, NOT under the
+    /public/v1 surface described by the published OpenAPI, and it does not appear in that
+    contract at all — this endpoint is documented in prose only.
+  auth:
+    header: c8-report-token
+    value: the token received on the first inbound request for that execution
+    ttl: >-
+      Valid for one day. After that, if the action is not in Pending Approval, Rejected,
+      Complete or Failed status, configure8 marks the execution Terminated.
+  purpose: >-
+    Keep the action execution's status up to date and attach information such as logs and
+    timestamps, so the portal user sees continuous progress.
+statuses:
+- Pending Approval
+- Rejected
+- Complete
+- Failed
+- Terminated
+statuses_note: >-
+  These five are the states named in the token-expiry rule; the docs do not publish a
+  complete state machine or the transitions between them.
+approval:
+  note: >-
+    "If an approval procedure needs to be performed, we leverage your existing approval
+    process, blocking or releasing the workflow on the result" — approval is delegated to
+    the customer's own system, not modelled by configure8.
+gaps:
+- No AsyncAPI or other machine-readable event contract.
+- No signature or HMAC verification on the outbound call; authenticity rests on a bearer
+  token echoed back.
+- No retry, timeout or delivery-guarantee policy published for the outbound POST.
+- The callback endpoint is absent from the published OpenAPI, so it cannot be code-generated.
+- No dead-letter or replay facility documented.

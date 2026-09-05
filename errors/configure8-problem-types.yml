@@ -1,0 +1,76 @@
+generated: '2026-09-05'
+method: searched
+source: >-
+  https://configure8.io/docs-sub/configure8-product-docs/reference/api-documentation
+  (the "Errors" status-code table) enriched with the response objects declared in
+  openapi/configure8-c8-public-api-openapi.json
+format: http-status
+format_note: >-
+  NOT RFC 9457. The harvested contract contains no application/problem+json media type
+  anywhere; error responses are plain JSON and are documented as a flat HTTP status-code
+  table. There is no `type` URI, no problem-type registry and no machine-readable error
+  code vocabulary. The one exception is the SCIM surface, which returns the SCIM error
+  envelope urn:ietf:params:scim:api:messages:2.0:Error as RFC 7644 requires.
+envelope:
+  default: plain JSON body; shape varies by operation and is not declared for most error
+    responses in the contract
+  scim: urn:ietf:params:scim:api:messages:2.0:Error (SCIMErrorDto)
+problem_types:
+- status: 400
+  title: Bad request
+  detail: Malformed request — body or params. Most commonly a request body that fails the
+    DTO validation for the entity type being created or updated.
+  occurrences_in_contract: 19
+  remediation: Validate the request body against the DTO schema for that entity type
+    (CreateCatalogServiceDto, CreateCatalogResourceDto, CreateDeploymentDto, and so on)
+    before retrying. Retrying the identical body will fail identically.
+- status: 401
+  title: Unauthorised
+  detail: The API key is invalid or was not provided.
+  occurrences_in_contract: 20
+  remediation: Send a valid key in the `Api-Key` header. Keys begin with `c8ak`, are shown
+    once at creation and are irretrievable afterwards, and carry an expiration date — an
+    expired key fails here. API access is an Enterprise-plan feature.
+- status: 403
+  title: Forbidden
+  detail: The caller does not have enough permissions to perform this operation.
+  occurrences_in_contract: 20
+  remediation: The key inherits the permissions of the user who created it. A read-scope key
+    cannot write; a User-role key cannot perform Admin operations; and RBAC ownership
+    governs which catalog items, scorecards and self-service actions the caller may edit.
+    Recreate the key with the write scope, or with the Admin role if the operation needs it.
+- status: 404
+  title: Not found
+  detail: The requested entity is not found.
+  occurrences_in_contract: 39
+  remediation: Confirm the id exists and belongs to the caller's organization. Ids are
+    org-scoped — every catalog DTO carries orgId.
+- status: 409
+  title: Conflict
+  detail: Usually caused by duplicating names in resources, or by incorrect template usage
+    on entity creation.
+  occurrences_in_contract: 23
+  remediation: Change the conflicting name, or reference an existing template id from
+    GET /public/v1/templates instead of an unrelated one. Because the API publishes no
+    idempotency mechanism, a retried create that already succeeded surfaces here rather
+    than replaying safely — treat 409 on a retry as "the first attempt worked".
+- status: 422
+  title: Unprocessable entity
+  detail: The request syntax is correct, but there is a business-logic error on the client
+    side.
+  occurrences_in_contract: 19
+  remediation: Distinct from 400 — the payload parsed and validated but the operation is not
+    legal in the current state (for example a relation the catalog does not permit;
+    Resource-to-Resource relations are documented as available only for non-discovery
+    created resources).
+- status: 500
+  title: Internal server error
+  detail: configure8 internal server error.
+  occurrences_in_contract: 18
+  remediation: Retry with backoff. Note that no idempotency key exists, so a retried write
+    may create a duplicate if the original call in fact committed.
+- status: 502
+  title: Bad gateway
+  detail: Upstream failure. Declared on one operation in the contract.
+  occurrences_in_contract: 1
+  remediation: Retry with backoff.

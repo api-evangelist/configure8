@@ -1,16 +1,114 @@
-generated: '2026-07-11'
-method: derived
-source: openapi/configure8-openapi.yml
+generated: '2026-09-05'
+method: searched
+source: >-
+  https://configure8.io/docs-sub/configure8-product-docs/reference/api-documentation;
+  https://configure8.io/docs-sub/configure8-product-docs/fundamentals/settings/api-key-management;
+  https://configure8.io/docs-sub/configure8-product-docs/fundamentals/role-based-access-control;
+  openapi/configure8-c8-public-api-openapi.json
+docs: https://configure8.io/docs-sub/configure8-product-docs/reference/api-documentation
 summary:
   types:
   - apiKey
+  - http
   api_key_in:
   - header
+  primary: static API key in the Api-Key header
+  oauth2: false
+  openid_connect: false
+  mutual_tls: false
+  transport: HTTPS required for every call
 schemes:
+- name: api-key
+  type: apiKey
+  in: header
+  parameter: Api-Key
+  primary: true
+  key_prefix: c8ak
+  secret_scanning: >-
+    Registered with GitHub secret scanning; the docs cite the prefix as the reason the
+    format supports it
+  description: >-
+    The documented authentication mechanism for the Public API. "Authentication is performed
+    via Api-Key Header. All API calls must be authenticated and made over HTTPS." The docs'
+    own example is
+    `curl https://app.configure8.io/public/v1/catalog/entities --header "Api-Key: my_api_key"`.
+  lifecycle:
+    creation: Settings > API Key Management > Add API Key
+    attributes:
+    - name
+    - expiration period
+    - scope
+    - role
+    scopes:
+    - name: read
+      default: true
+    - name: write
+      default: false
+      note: both admins and regular users may add write to a key's scope
+    roles:
+    - name: Admin
+      note: only admins can create keys with the Admin role
+    - name: User
+    permission_model: >-
+      "Every user has the ability to generate an API key that matches to the permissions
+      associated with their account." A key can never exceed its creator's permissions, and
+      RBAC ownership (Owner / Viewer per credential, catalog entity, scorecard and
+      self-service action) then decides what that key may touch.
+    retrieval: >-
+      Shown once at creation and irretrievable afterwards — "Configure8 API keys are
+      irretrievable, therefore this is the only time it is shown to you"
+    revocation: >-
+      Admins can see and revoke every key in the organization; users can manage only keys
+      they created. Expired keys remain listed alongside active ones.
+    expiry: mandatory expiration period chosen at creation
+  plan_gating: >-
+    API access is an Enterprise-plan feature. The pricing table's "API Access" row reads
+    "No" for the Free plan.
+  sources:
+  - openapi/configure8-c8-public-api-openapi.json
+  - https://configure8.io/docs-sub/configure8-product-docs/fundamentals/settings/api-key-management
+- name: bearer
+  type: http
+  scheme: bearer
+  bearerFormat: JWT
+  primary: false
+  description: >-
+    Declared in the contract and attached as the only security requirement on the 19 SCIM
+    operations (/public/v2/scim/* and the Private SCIM config at /api/v1/scim). The
+    documentation does not describe how this token is obtained; SCIM provisioning is set up
+    through the identity-management settings for Okta or Microsoft Entra ID rather than by
+    a developer minting a token.
+  applies_to: SCIM and Private SCIM operations
+  sources:
+  - openapi/configure8-c8-public-api-openapi.json
+superseded_schemes:
 - name: apiKey
   type: apiKey
   in: header
   parameter: Authorization
-  description: Bearer/API token issued from the Configure8 UI; passed in the Authorization header
+  status: superseded
+  reason: >-
+    This scheme comes only from openapi/_original/configure8-openapi.yml and the five split
+    files derived from it, which are a best-effort reconstruction written from the docs, not
+    a harvested contract — that file says so in its own info.description. The provider's
+    published contract and its documentation both use the `Api-Key` header, not
+    `Authorization`. Recorded here so a later derive pass does not resurrect it.
   sources:
-  - openapi/configure8-openapi.yml
+  - openapi/configure8-catalog-entities-api-openapi.yml
+  - openapi/configure8-catalog-relations-api-openapi.yml
+  - openapi/configure8-deployments-api-openapi.yml
+  - openapi/configure8-scorecards-api-openapi.yml
+  - openapi/configure8-users-api-openapi.yml
+document_level_security:
+  declared: false
+  note: >-
+    The published spec sets no top-level `security`, leaving 52 of 71 operations with no
+    stated requirement even though the docs say every call must be authenticated. The gap is
+    corrected in overlays/configure8-c8-public-api-overlay.yaml rather than by editing the
+    harvested document.
+portal_sso:
+  note: >-
+    Distinct from API authentication. Portal sign-in supports SSO (Okta, Microsoft Entra ID),
+    Sign in with Google and email; SSO is an Enterprise feature. SCIM handles user and group
+    provisioning.
+  docs: https://configure8.io/docs-sub/configure8-product-docs/fundamentals/settings/identity-management

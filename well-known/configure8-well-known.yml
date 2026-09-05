@@ -1,0 +1,89 @@
+generated: '2026-09-05'
+method: probed
+source: live GET of /.well-known/* on every host this record knows
+note: >-
+  Probed configure8.io, www.configure8.io and configure8.readme.io (the ReadMe-hosted API
+  reference). The two hosts named in the record — app.configure8.io (API baseURL, and the
+  scope named on the responsible-disclosure page) and docs.configure8.io (the Documentation
+  pointer) — could NOT be probed at all: both are NXDOMAIN as of 2026-09-05 against
+  1.1.1.1 and 8.8.8.8, so they return no A/AAAA record and curl exits before any HTTP
+  request. That is recorded as an unresolvable host, not as a 404.
+  One real document was served: configure8.readme.io/.well-known/api-catalog, an RFC 9727
+  linkset (application/linkset+json) whose service-desc points at the provider's own
+  published OpenAPI download. It is saved verbatim as configure8-api-catalog.json and is
+  the strongest ownership evidence in this repo for that spec.
+hosts:
+- host: configure8.io
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: www.configure8.io
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: configure8.readme.io
+  documents:
+  - path: /.well-known/api-catalog
+    status: 200
+    content_type: application/linkset+json; charset=utf-8
+    file: configure8-api-catalog.json
+    note: >-
+      RFC 9727 linkset. anchor https://configure8.readme.io/reference; service-desc
+      https://configure8.readme.io/openapi/6579c0db5a5ca10ec19fd2f4
+      (application/vnd.oai.openapi+json); service-doc https://configure8.readme.io/reference.
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+unresolvable_hosts:
+- host: app.configure8.io
+  reason: NXDOMAIN (no A/AAAA record) on 2026-09-05 via 1.1.1.1 and 8.8.8.8
+  role: documented API base host (https://app.configure8.io/public/v1) and the stated scope
+    of the responsible-disclosure program
+- host: docs.configure8.io
+  reason: NXDOMAIN (no A/AAAA record) on 2026-09-05 via 1.1.1.1 and 8.8.8.8
+  role: former GitBook documentation host; the same GitBook space is still served through
+    the marketing site at https://configure8.io/docs-sub/configure8-product-docs
+agent_card:
+  found: false
+  note: >-
+    No A2A agent card. /.well-known/agent-card.json and the legacy /.well-known/agent.json
+    404 on every resolvable host. No AgentCard pointer is emitted.

@@ -1,0 +1,94 @@
+generated: '2026-09-05'
+method: searched
+source: https://configure8.io/docs-sub/configure8-product-docs/extras/release-notes
+description: >-
+  configure8 publishes a dated product release-notes page ("Describes configure8 features,
+  improvements, and bug fixes by release date"), grouped per release into New / Improvement
+  / Fix. It is a product changelog, not an API changelog — API changes appear inside it as
+  ordinary line items (for example "Add SSA endpoints in the Public API", "Remove Person
+  Catalog endpoints from Public API") rather than in a separate breaking-change log.
+scheme: semver-like product versioning (major.minor.patch), independent of the API's path
+  version (/public/v1, /public/v2 for SCIM)
+current_version: 2.159.0
+current_version_date: '2024-12-18'
+staleness_note: >-
+  The most recent entry on the page as fetched on 2026-09-05 is 2.159.0, published
+  2024-12-18 — roughly 20 months old. Two further release-note pages exist for the
+  Kubernetes agent and for self-hosted configure8. No newer release has been published,
+  which is recorded here as an observation, not an inference about the company.
+related_pages:
+- https://configure8.io/docs-sub/configure8-product-docs/extras/k8s-agent-release-notes
+- https://configure8.io/docs-sub/configure8-product-docs/extras/self-hosting-configure8-release-notes
+entries:
+- version: 2.159.0
+  date: '2024-12-18'
+  breaking: false
+  additions:
+  - Add replaceMetadataTags to PATCH /:type/:id so users can override all metatags
+  - Display data in timeline view
+  - Add user data in SF
+  - Improve the "go to" page in tables
+  fixes:
+  - Fix issue with closed dependabot issues count
+  - Fix GitHub repository issue
+  - Security improvements
+- version: 2.158.0
+  date: '2024-12-12'
+  breaking: false
+  additions:
+  - Allow updating of the GitHub teams about tab
+  - Add SSA (Self-Service Action) endpoints in the Public API
+  - Integrate Data-Flexibility into SSA forms
+  fixes:
+  - Fix "COUNT" aggregation function
+  - Fix a problem in the repository language store process
+  - Fix text overflow in the UI
+  - Fix the cache flush after batch catalog deletion
+- version: 2.157.1
+  date: '2024-12-06'
+  breaking: false
+  fixes:
+  - Fix Query Builder "filter" prop in SCIM requests
+- version: 2.157.0
+  date: '2024-12-06'
+  breaking: true
+  breaking_note: >-
+    "Remove Person Catalog endpoints from Public API" — an endpoint removal from the public
+    surface, shipped as a line item under Fix with no deprecation notice, no Sunset header
+    and no migration guidance. The harvested contract still carries
+    POST /public/v1/catalog/entities/person and PATCH /public/v1/catalog/entities/person/{id},
+    because that download was last regenerated before this release.
+  additions:
+  - Add data flexibility integration to the Self Service Actions
+  - Add Query Builder integration to SCIM
+  fixes:
+  - Fix GitHub credential creation
+  - Fix issue in the Sign-up form
+  - Remove Person Catalog endpoints from Public API
+  - Fix aggregation on the Scorecard Metric Results History
+  - Fix count for the Scorecard Metric Results History
+  - Fix sorting by Scorecard levels
+  - Fix missed Repository hyperlink in the repositories table
+- version: 2.156.0
+  date: '2024-11-28'
+  breaking: false
+  fixes:
+  - Fix user public API endpoint
+  - Fix Public API elastic relation deletion
+  - Fix router for the services table
+  - Fix duplicated IDs stored in DB
+- version: 2.155.0
+  date: '2024-11-22'
+  breaking: false
+  fixes:
+  - Fixed clean-up of relations and removal of dead relations in MongoDB
+  - Addressed issues in migration to improve stability
+- version: 2.154.0
+  date: '2024-11-22'
+  breaking: false
+- version: 2.153.0
+  date: '2024-11-19'
+  breaking: false
+- version: 2.152.0
+  date: '2024-11-15'
+  breaking: false

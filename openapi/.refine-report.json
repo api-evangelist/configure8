@@ -17,6 +17,13 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
+  "notes": [
+    "configure8-catalog-entities-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "configure8-catalog-relations-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "configure8-deployments-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "configure8-scorecards-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "configure8-users-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
   "skipped": []
 }

@@ -1,0 +1,34 @@
+generated: '2026-09-05'
+method: generated
+source: openapi/configure8-c8-public-api-openapi.json
+provider: Configure8
+providerId: configure8
+description: >-
+  Packaged Agent Skills for the configure8 Public API. Every operationId referenced in these
+  skills was read out of the provider's own published OpenAPI
+  (https://configure8.readme.io/openapi/6579c0db5a5ca10ec19fd2f4), never invented. Each
+  skill carries the same three runtime warnings, because they apply to the whole API: API
+  access is Enterprise-only, there is no idempotency mechanism on any of the 40 mutating
+  operations, and there is no reversal path for any destructive one.
+skills:
+- name: configure8-catalog-onboard-service
+  file: configure8-catalog-onboard-service.md
+  description: Register a service, link its repository and environments, attach metadata.
+  operations: 6
+- name: configure8-scorecard-run-and-read
+  file: configure8-scorecard-run-and-read.md
+  description: Trigger a scorecard re-evaluation and read metrics and per-service results.
+  operations: 6
+- name: configure8-record-deployment
+  file: configure8-record-deployment.md
+  description: Record, amend and remove deployments from a CI pipeline.
+  operations: 4
+- name: configure8-sync-services-safely
+  file: configure8-sync-services-safely.md
+  description: Use the diff-then-apply pair to preview a bulk sync — the API's only rehearsal
+    mechanism.
+  operations: 5
+cross_links:
+  conventions: conventions/configure8-conventions.yml
+  errors: errors/configure8-problem-types.yml
+  authentication: authentication/configure8-authentication.yml

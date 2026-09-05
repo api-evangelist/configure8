@@ -42,7 +42,7 @@ image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/configure8
 url: >-
   https://raw.githubusercontent.com/api-evangelist/configure8/refs/heads/main/apis.yml
 created: '2026-03-16'
-modified: '2026-04-28'
+modified: '2026-09-05'
 specificationVersion: '0.23'
 kind: company
 tags:
@@ -66,7 +66,7 @@ apis:
     with source-of-truth systems. The API is part of the Configure8 enterprise feature set alongside RBAC,
     SSO/SCIM, and audit logging.
   humanURL: https://www.configure8.io/
-  baseURL: https://app.configure8.io/api
+  baseURL: https://app.configure8.io/public/v1
   image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   tags:
   - Catalog
@@ -74,8 +74,18 @@ apis:
   - Scorecards
   - Self-Service
   properties:
+  - type: OpenAPI
+    url: openapi/configure8-c8-public-api-openapi.json
+  - type: MCPServer
+    url: mcp/configure8-mcp.yml
+  - type: ToolCrosswalk
+    url: mcp/configure8-tool-crosswalk.yml
+  - type: Overlay
+    url: overlays/configure8-c8-public-api-overlay.yaml
   - type: Documentation
-    url: https://docs.configure8.io/
+    url: https://configure8.io/docs-sub/configure8-product-docs/reference/api-documentation
+  - type: APIReference
+    url: https://configure8.readme.io/reference
   - type: Website
     url: https://www.configure8.io/
   x-features:
@@ -99,7 +109,7 @@ apis:
   name: Configure8 Catalog Entities API
   description: The Catalog Entities API from Configure8 — 7 operation(s) for catalog entities.
   humanURL: https://www.configure8.io/
-  baseURL: https://app.configure8.io/api
+  baseURL: https://app.configure8.io/public/v1
   tags:
   - Catalog Entities
   properties:
@@ -109,7 +119,7 @@ apis:
   name: Configure8 Catalog Relations API
   description: The Catalog Relations API from Configure8 — 2 operation(s) for catalog relations.
   humanURL: https://www.configure8.io/
-  baseURL: https://app.configure8.io/api
+  baseURL: https://app.configure8.io/public/v1
   tags:
   - Catalog Relations
   properties:
@@ -119,7 +129,7 @@ apis:
   name: Configure8 Deployments API
   description: The Deployments API from Configure8 — 1 operation(s) for deployments.
   humanURL: https://www.configure8.io/
-  baseURL: https://app.configure8.io/api
+  baseURL: https://app.configure8.io/public/v1
   tags:
   - Deployment
   tags_raw:
@@ -131,7 +141,7 @@ apis:
   name: Configure8 Scorecards API
   description: The Scorecards API from Configure8 — 2 operation(s) for scorecards.
   humanURL: https://www.configure8.io/
-  baseURL: https://app.configure8.io/api
+  baseURL: https://app.configure8.io/public/v1
   tags:
   - Scorecards
   properties:
@@ -141,7 +151,7 @@ apis:
   name: Configure8 Users API
   description: The Users API from Configure8 — 2 operation(s) for users.
   humanURL: https://www.configure8.io/
-  baseURL: https://app.configure8.io/api
+  baseURL: https://app.configure8.io/public/v1
   tags:
   - User
   tags_raw:
@@ -154,10 +164,44 @@ common:
     url: agentic-access/configure8-agentic-access.yml
   - type: VulnerabilityDisclosure
     url: security/configure8-vulnerability-disclosure.yml
+  - type: Security
+    url: security/configure8-vulnerability-disclosure.yml
+  - type: TrustCenter
+    url: security/configure8-trust-center.yml
+  - type: Compliance
+    url: security/configure8-trust-center.yml
   - type: DomainSecurity
     url: security/configure8-domain-security.yml
   - type: Authentication
     url: authentication/configure8-authentication.yml
+  - type: Conventions
+    url: conventions/configure8-conventions.yml
+  - type: Conformance
+    url: conformance/configure8-conformance.yml
+  - type: ErrorCatalog
+    url: errors/configure8-problem-types.yml
+  - type: Lifecycle
+    url: lifecycle/configure8-lifecycle.yml
+  - type: DataModel
+    url: data-model/configure8-data-model.yml
+  - type: Plans
+    url: plans/configure8-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/configure8-rate-limits.yml
+  - type: WellKnown
+    url: well-known/configure8-well-known.yml
+  - type: LLMsTxt
+    url: llms/configure8-llms.txt
+  - type: MCPServer
+    url: mcp/configure8-mcp.yml
+  - type: AgentSkill
+    url: skills/_index.yml
+  - type: Webhooks
+    url: asyncapi/configure8-self-service-actions-webhooks.yml
+  - type: ChangeLog
+    url: changelog/configure8-changelog.yml
+  - type: ChangeLog
+    url: https://configure8.io/docs-sub/configure8-product-docs/extras/release-notes
   - type: GitHubOrganization
     url: https://github.com/Configure8inc
   - type: LinkedIn
@@ -165,17 +209,30 @@ common:
   - type: Website
     url: https://www.configure8.io/
   - type: Documentation
-    url: https://docs.configure8.io/
+    url: https://configure8.io/docs-sub/configure8-product-docs
+  - type: APIReference
+    url: https://configure8.readme.io/reference
+  - type: GettingStarted
+    url: https://configure8.io/docs-sub/configure8-product-docs/quickstart
   - type: Blog
     url: https://www.configure8.io/blog
   - type: Pricing
     url: https://www.configure8.io/pricing
-  - type: Demo
-    url: https://www.configure8.io/demo
-  - type: Login
-    url: https://app.configure8.io/
+  - type: SignUp
+    url: https://configure8.io/try-now
+  - type: Support
+    url: https://configure8.io/contact
+  - type: TermsOfService
+    url: https://configure8.io/tos.pdf
+  - type: PrivacyPolicy
+    url: https://configure8.io/privacy/policy
   - type: Platform Engineering
     url: https://platformengineering.org/tools/configur8
 maintainers:
   - FN: Kin Lane
     email: info@apievangelist.com
+x-enrichment:
+  date: '2026-09-05'
+  status: enriched
+  artifacts_added: 21
+  pass: local-v3

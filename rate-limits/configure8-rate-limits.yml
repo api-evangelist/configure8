@@ -3,95 +3,45 @@ specificationVersion: '0.1'
 schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
 provider: Configure8
 providerId: configure8
+generated: '2026-09-05'
+method: searched
+source: >-
+  https://configure8.io/docs-sub/configure8-product-docs/reference/api-documentation;
+  https://configure8.io/pricing;
+  openapi/configure8-c8-public-api-openapi.json
 created: '2026-05-04'
-# Provenance stamped 2026-08-11: this artifact was written by the API Evangelist
-# bulk sweep dated 2026-05-04, not harvested from the provider. See roadmap#35.
-method: generated
-modified: '2026-05-04'
-tags:
-  - Catalog
-  - Cloud Cost
-  - Developer Experience
-  - DevOps
-  - Internal Developer Portal
-  - Platform Engineering
-  - Scorecards
-  - Self-Service
-  - Service Catalog
-  - SRE
-  - Rate Limiting
-  - Quotas
-  - Throttling
-description: Machine-readable rate limit definitions for the Configure8 API surface. Captures per-tier
-  quotas, burst behavior, response signaling, and recovery semantics. Defaults are scaffold values to
-  be replaced with published provider limits.
-headers:
-  limit: X-RateLimit-Limit
-  remaining: X-RateLimit-Remaining
-  reset: X-RateLimit-Reset
-  retryAfter: Retry-After
-  policy: RateLimit-Policy
-responseCodes:
-  throttled: 429
-  quotaExceeded: 429
-  serviceUnavailable: 503
-limits:
-  - tier: free
-    name: Free Tier Default
-    scope: api-key
-    metric: requests_per_minute
-    limit: 10
-    burst: 20
-    timeFrame: minute
-    applies:
-      - Configure8 REST API
-  - tier: free
-    name: Free Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 1000
-    timeFrame: month
-    applies:
-      - Configure8 REST API
-  - tier: professional
-    name: Professional Tier Default
-    scope: api-key
-    metric: requests_per_minute
-    limit: 100
-    burst: 200
-    timeFrame: minute
-    applies:
-      - Configure8 REST API
-  - tier: professional
-    name: Professional Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 100000
-    timeFrame: month
-    applies:
-      - Configure8 REST API
-  - tier: enterprise
-    name: Enterprise Negotiated Limit
-    scope: contract
-    metric: requests_per_minute
-    limit: 1000
-    burst: 5000
-    timeFrame: minute
-    applies:
-      - Configure8 REST API
-policies:
-  - name: Backoff Strategy
-    description: Clients should implement exponential backoff with jitter, honoring the Retry-After header
-      when present.
-  - name: Burst Handling
-    description: Short bursts above the steady-state limit are tolerated up to the documented burst ceiling
-      before throttling engages.
-  - name: Quota Reset
-    description: Monthly quotas reset at the start of each calendar month in UTC. Per-minute and per-second
-      windows reset on a sliding-window basis.
-  - name: Fair Use
-    description: Even on uncapped enterprise tiers, sustained usage that materially impacts shared infrastructure
-      may be subject to fair-use throttling.
+modified: '2026-09-05'
+supersedes: >-
+  A generated scaffold dated 2026-05-04 that asserted X-RateLimit-Limit / -Remaining /
+  -Reset / RateLimit-Policy response headers, a 429 on exhaustion, and per-tier limits of
+  10 / 100 / 1000 requests per minute across Free / Professional / Enterprise tiers. None of
+  that is published by configure8, and the "Professional" tier does not exist. Replaced with
+  the measured absence.
+description: >-
+  configure8 publishes no rate limits. The API reference documents authentication, an error
+  status-code table and pagination, and stops there — there is no throttling section, no
+  quota, no burst allowance and no documented recovery behaviour. Neither the pricing page
+  nor the plan comparison mentions request volume in any form; the plans are priced per
+  user, not per call.
+limit_count: 0
+headers: {}
+headers_note: >-
+  No rate-limit response headers are documented, and none are declared on any of the 71
+  operations in the harvested contract. Standard RateLimit-* and X-RateLimit-* headers do
+  not appear in the specification at all. An agent has no runtime signal to read: it cannot
+  learn its remaining budget, and it cannot learn when to retry.
+exhaustion_status: null
+exhaustion_status_note: >-
+  429 is NOT among the status codes configure8 documents. The published table covers 400,
+  401, 403, 404, 409, 422 and 5xx, and no operation in the contract declares a 429 response.
+  Whether the service throttles at all — and what it returns if it does — is unknown from
+  outside.
+limits: []
+observed: false
+observed_note: >-
+  Live observation was not possible. The documented base host app.configure8.io was NXDOMAIN
+  when probed on 2026-09-05, so no unauthenticated response headers could be sampled, and
+  API access is in any case an Enterprise-plan feature.
 maintainers:
-  - FN: Kin Lane
-    email: info@apievangelist.com
+- FN: Kin Lane
+  email: info@apievangelist.com

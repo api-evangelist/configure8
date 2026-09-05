@@ -1,4 +1,4 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
   title: Configure8 Public REST Catalog Entities API
   version: v1
@@ -158,6 +158,13 @@ paths:
         '201':
           description: Environment entity created
 components:
+  parameters:
+    EntityId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
   schemas:
     EntityQuery:
       type: object
@@ -173,6 +180,15 @@ components:
         limit:
           type: integer
         offset:
+          type: integer
+    EntityList:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Entity'
+        total:
           type: integer
     Entity:
       type: object
@@ -207,22 +223,6 @@ components:
         metadata:
           type: object
           additionalProperties: true
-    EntityList:
-      type: object
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/Entity'
-        total:
-          type: integer
-  parameters:
-    EntityId:
-      name: id
-      in: path
-      required: true
-      schema:
-        type: string
   securitySchemes:
     apiKey:
       type: apiKey

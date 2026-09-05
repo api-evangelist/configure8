@@ -1,0 +1,62 @@
+generated: '2026-09-05'
+method: searched
+source: >-
+  npm registry search + direct registry.npmjs.org lookups; pypi.org/pypi/<name>/json;
+  https://api.github.com/orgs/Configure8inc/repos;
+  https://configure8.io/docs-sub/configure8-product-docs/reference/api-examples
+description: >-
+  configure8 publishes NO first-party client library on any package registry. The
+  documentation's own integration story is "call the REST API with curl or fetch", and the
+  only code the company distributes is an examples repository and a set of CloudFormation
+  templates on GitHub — both archived.
+package_count: 0
+official_sdk_count: 0
+registries_searched:
+- registry: npm
+  query: https://registry.npmjs.org/-/v1/search?text=configure8
+  result: 0 results
+- registry: npm
+  query: direct lookups of configure8, configure8-sdk, c8-sdk, @configure8/sdk
+  result: 404 on every name
+- registry: pypi
+  query: pypi.org/pypi/configure8/json, pypi.org/pypi/c8-public-api/json
+  result: 404 on both
+- registry: github
+  query: https://api.github.com/orgs/Configure8inc/repos
+  result: 2 public repositories, no published package
+packages: []
+first_party_code:
+- name: configure8examples
+  url: https://github.com/Configure8inc/configure8examples
+  kind: example scripts (Node.js), not a distributable package
+  registry: null
+  version: null
+  published: null
+  official: true
+  archived: true
+  archived_at: '2025-03-31'
+  note: >-
+    The repository the API documentation tells developers to clone: "We prepared a git
+    repository to show how to interact with the Configure8 public APIs. There are six
+    different examples." It has no package.json entry on any registry — the docs run it with
+    `npm run pa:service:metadata` from a local clone. GitHub reports it archived (read-only)
+    as of 2025-03-31, so version and published date are null because there is no registry
+    record to read, not because the check was skipped.
+- name: c8-public-cloudformation-templates
+  url: https://github.com/Configure8inc/c8-public-cloudformation-templates
+  kind: AWS CloudFormation templates for granting configure8's discovery job access
+  registry: null
+  version: null
+  published: null
+  official: true
+  archived: true
+  archived_at: '2025-03-31'
+  note: >-
+    Infrastructure templates referenced by the self-hosting and AWS credential
+    documentation. Not a client library and not registry-distributed, so there is no
+    version metadata endpoint to query.
+decay_signal: >-
+  There is no SDK release date to compare against the API, because there is no SDK. The
+  nearest equivalent signal is that both public repositories — including the one the docs
+  instruct developers to clone — were archived on 2025-03-31, and the product release notes
+  stop at 2024-12-18.

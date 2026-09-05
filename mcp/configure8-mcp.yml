@@ -1,0 +1,56 @@
+generated: '2026-09-05'
+method: probed
+source: https://configure8.readme.io/mcp
+name: configure8 documentation MCP server
+status: live
+description: >-
+  configure8's ReadMe-hosted API reference exposes a Model Context Protocol endpoint at
+  https://configure8.readme.io/mcp. A POST of {"jsonrpc":"2.0","id":1,"method":"tools/list"}
+  with Accept: application/json, text/event-stream returns HTTP 401 and a JSON-RPC error
+  {"code":-32001,"message":"Authorization required"} — a real MCP server that refuses
+  anonymous introspection, not an HTML shell and not a 404. The tool list and inputSchemas
+  therefore need an authenticated introspection pass; they are NOT recorded here, because
+  we have not seen them.
+deployment:
+  mode: remote
+  endpoint: https://configure8.readme.io/mcp
+  auth: unknown
+  verified: probed
+  note: >-
+    Auth challenge is a bare JSON-RPC 401 with no WWW-Authenticate header and no RFC 9728
+    protected-resource metadata — /.well-known/oauth-protected-resource,
+    /.well-known/oauth-protected-resource/mcp and /.well-known/oauth-authorization-server
+    all 404 on this host — so the scheme (OAuth vs API key) could not be established from
+    outside. Recorded as `unknown` rather than guessed.
+platform_provided: true
+platform_note: >-
+  This endpoint is provided by ReadMe, the documentation platform configure8 runs its API
+  reference on, rather than authored by configure8. It is served from a host configure8
+  controls (configure8.readme.io, the project's own subdomain, linked as Documentation from
+  configure8.io) and it scopes to configure8's own API reference, so it is a real agent
+  surface for this provider — but it is platform-authored, and a docs-search surface is not
+  the same thing as an MCP wrapper over the Public API itself.
+probes:
+- url: https://configure8.readme.io/mcp
+  method: POST
+  body: '{"jsonrpc":"2.0","id":1,"method":"tools/list"}'
+  status: 401
+  body_returned: '{"jsonrpc":"2.0","error":{"code":-32001,"message":"Authorization required"},"id":null}'
+- url: https://configure8.io/mcp
+  method: POST
+  status: 404
+- url: https://mcp.configure8.io/
+  method: POST
+  status: 000
+  note: host does not resolve (NXDOMAIN)
+- url: https://configure8.readme.io/.well-known/oauth-protected-resource
+  status: 404
+- url: https://configure8.readme.io/.well-known/oauth-protected-resource/mcp
+  status: 404
+- url: https://configure8.readme.io/.well-known/oauth-authorization-server
+  status: 404
+tools: []
+tools_note: >-
+  Empty because the live tools/list is auth-gated and configure8 publishes no llms.txt tool
+  list. The llms.txt at https://configure8.readme.io/llms.txt is a documentation index
+  (71 reference pages), not a tool manifest. Nothing is derived or invented here.

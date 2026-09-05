@@ -1,0 +1,100 @@
+generated: '2026-09-05'
+method: searched
+source: >-
+  openapi/configure8-c8-public-api-openapi.json (harvested from
+  https://configure8.readme.io/openapi/6579c0db5a5ca10ec19fd2f4);
+  https://configure8.io/docs-sub/configure8-product-docs/reference/api-documentation;
+  https://configure8.io/docs-sub/configure8-product-docs/fundamentals/security;
+  https://configure8.readme.io/.well-known/api-catalog
+conformance:
+- id: scim2
+  name: SCIM 2.0 (RFC 7643 / RFC 7644)
+  conforms: true
+  evidence: >-
+    The contract itself declares SCIM, not a marketing page. openapi/configure8-c8-public-api-openapi.json
+    carries 16 SCIM operations under /public/v2/scim/ — Users, Groups, ServiceProviderConfig,
+    ResourceTypes, Schemas and Schemas/{schema} — and its schemas embed the canonical URNs
+    urn:ietf:params:scim:schemas:core:2.0:User, :core:2.0:Group, :core:2.0:ServiceProviderConfig,
+    :core:2.0:ResourceType, :schemas:extension:enterprise:2.0:User,
+    :api:messages:2.0:ListResponse, :api:messages:2.0:PatchOp and :api:messages:2.0:Error.
+    The documented IdP integrations are Okta and Microsoft Entra ID.
+  domain_standard: true
+  market: identity and access management / user provisioning
+  docs: https://configure8.io/docs-sub/configure8-product-docs/fundamentals/settings/identity-management/users-and-groups-provisioning-scim
+- id: rfc9727
+  name: RFC 9727 API Catalog (/.well-known/api-catalog linkset)
+  conforms: true
+  evidence: >-
+    GET https://configure8.readme.io/.well-known/api-catalog returned HTTP 200 with
+    Content-Type application/linkset+json and a linkset[] whose entry carries service-desc
+    (the OpenAPI, application/vnd.oai.openapi+json) and service-doc (the HTML reference).
+    Saved verbatim at well-known/configure8-api-catalog.json.
+- id: openapi3
+  name: OpenAPI 3.0.0
+  conforms: true
+  evidence: >-
+    The provider publishes a downloadable OpenAPI 3.0.0 document (openapi "3.0.0",
+    51 paths, 71 operations, 120 component schemas) at
+    https://configure8.readme.io/openapi/6579c0db5a5ca10ec19fd2f4 .
+- id: pagination
+  name: Documented collection pagination
+  conforms: true
+  evidence: >-
+    Page-number pagination is documented for every multi-item endpoint: pageNumber
+    (default 0), pageSize (default 20), sort as { property, order: ASC | DESC }, offset
+    computed as pageNumber * pageSize.
+    https://configure8.io/docs-sub/configure8-product-docs/reference/api-documentation
+- id: soc2
+  name: SOC 2 (Type report, AICPA Trust Services Criteria)
+  conforms: true
+  evidence: >-
+    "configure8 is proud to hold SOC2 certification ... We collaborate with an impartial
+    auditor to maintain an up-to-date SOC 2 report ... available for review upon request."
+    https://configure8.io/docs-sub/configure8-product-docs/fundamentals/security
+    The report itself is not published; it is offered on request, so the claim is the
+    provider's own and the artefact is not public.
+- id: oauth2
+  name: OAuth 2.0
+  conforms: false
+  evidence: >-
+    No oauth2 securityScheme in the contract and no OAuth flow in the docs. Authentication
+    is a static Api-Key header (plus a bearer JWT used internally by the SCIM operations).
+    /.well-known/oauth-authorization-server and /.well-known/oauth-protected-resource 404 on
+    every resolvable host.
+- id: oidc
+  name: OpenID Connect
+  conforms: false
+  evidence: >-
+    /.well-known/openid-configuration returned 404 on configure8.io, www.configure8.io and
+    configure8.readme.io. SSO is documented as SAML-style integrations with Okta and
+    Microsoft Entra ID for the portal UI, not as an OIDC provider surface on the API.
+- id: rfc9457
+  name: RFC 9457 Problem Details for HTTP APIs
+  conforms: false
+  evidence: >-
+    No application/problem+json media type appears anywhere in the harvested contract. Error
+    bodies are plain JSON and the documented error contract is a status-code table
+    (400/401/403/404/409/422/5xx), not a problem-type registry.
+- id: idempotency
+  name: Idempotency-Key replay protection
+  conforms: false
+  evidence: >-
+    No Idempotency-Key header, no idempotency section in the docs, and no idempotency
+    parameter on any of the 40 mutating operations in the contract.
+- id: asyncapi
+  name: AsyncAPI / published event contract
+  conforms: false
+  evidence: >-
+    No AsyncAPI document and no provider-published webhook catalog. Self-Service Actions
+    call OUT to customer-configured automation (GitHub Actions, Azure DevOps pipelines,
+    Jenkins), which is an outbound trigger the customer owns, not an event surface
+    configure8 documents for subscribers.
+- id: json_api
+  name: JSON:API
+  conforms: false
+  evidence: Plain JSON request/response bodies; no JSON:API media type or document structure.
+- id: odata
+  name: OData
+  conforms: false
+  evidence: No $metadata surface and no OData query conventions; filtering uses a bespoke
+    query-builder DTO (CatalogSimplePropertyFilter and friends).
