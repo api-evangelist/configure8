@@ -2,10 +2,13 @@
   "repo": "configure8",
   "feeds": [
     {
-      "source": "https://docs.configure8.io/",
-      "error": "URLError"
+      "source": "https://configure8.io/docs-sub/configure8-product-docs/quickstart",
+      "feed_url": "https://configure8.io/docs-sub/configure8-product-docs/quickstart",
+      "title": "",
+      "saved": 0,
+      "method": "none"
     }
   ],
   "post_count": 0,
-  "fetched": "2026-08-30T22:33:40Z"
+  "fetched": "2026-09-06T19:17:18Z"
 }
