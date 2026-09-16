@@ -1,19 +1,27 @@
-generated: '2026-07-15'
+generated: '2026-09-16'
 method: generated
-source: openapi/configure8-openapi.yml
+source: openapi/configure8-catalog-entities-api-openapi.yml, openapi/configure8-catalog-entity-api-openapi.yml,
+  openapi/configure8-catalog-entity-batch-api-openapi.yml, openapi/configure8-catalog-entity-metadata-api-openapi.yml,
+  openapi/configure8-catalog-relation-api-openapi.yml, openapi/configure8-catalog-relations-api-openapi.yml,
+  openapi/configure8-credential-api-openapi.yml, openapi/configure8-deployment-api-openapi.yml,
+  openapi/configure8-deployments-api-openapi.yml, openapi/configure8-module-settings-api-openapi.yml,
+  openapi/configure8-private-scim-api-openapi.yml, openapi/configure8-scim-api-openapi.yml,
+  openapi/configure8-scorecard-api-openapi.yml, openapi/configure8-scorecards-api-openapi.yml,
+  openapi/configure8-sync-api-openapi.yml, openapi/configure8-templates-api-openapi.yml, openapi/configure8-users-api-openapi.yml
 description: Recommended x-agentic-access execution contracts, classified heuristically from
   the OpenAPI. A governance starting point for exposing this API to AI agents — review and bind
   audience per deployment. See research/curity/agentic-governance/.
 summary:
-  operations: 18
+  operations: 89
   by_action_class:
-    acting: 13
-    connected: 5
+    acting: 63
+    connected: 26
   by_consequence:
     write: 12
-    read: 5
+    read: 26
+    safety-critical: 50
     physical: 1
-  human_in_the_loop_required: 0
+  human_in_the_loop_required: 50
 operations:
 - path: /catalog/entities
   method: post
@@ -153,6 +161,468 @@ operations:
       - abnormal
       - high-value
     audit: required
+- path: /public/v1/catalog/entities
+  method: post
+  operationId: CatalogEntityController_getCatalogEntities
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /public/v1/catalog/entities/{id}
+  method: get
+  operationId: CatalogEntityController_getCatalogEntityById
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /public/v1/catalog/entities/{id}
+  method: delete
+  operationId: CatalogEntityController_deleteCatalogEntityById
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /public/v1/catalog/entities/person
+  method: post
+  operationId: CatalogEntityController_createPersonEntity
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /public/v1/catalog/entities/resource/{id}
+  method: patch
+  operationId: CatalogEntityController_updateResourceEntity
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /public/v1/catalog/entities/service/{id}
+  method: patch
+  operationId: CatalogEntityController_updateServiceEntity
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /public/v1/catalog/entities/person/{id}
+  method: patch
+  operationId: CatalogEntityController_updatePersonEntity
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /public/v1/catalog/entities/resource
+  method: post
+  operationId: CatalogEntityController_createCatalogResourceEntity
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /public/v1/catalog/entities/library
+  method: post
+  operationId: CatalogEntityController_createCatalogLibrary
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /public/v1/catalog/entities/repository
+  method: post
+  operationId: CatalogEntityController_createCatalogRepository
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /public/v1/catalog/entities/repository/{id}
+  method: patch
+  operationId: CatalogEntityController_updateRepositoryEntity
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /public/v1/catalog/entities/environment
+  method: post
+  operationId: CatalogEntityController_createCatalogEnvironment
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /public/v1/catalog/entities/service
+  method: post
+  operationId: CatalogEntityController_createServiceEntity
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /public/v1/catalog/entities/system
+  method: post
+  operationId: CatalogEntityController_createCatalogSystemEntity
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /public/v1/catalog/entities/application
+  method: post
+  operationId: CatalogEntityController_createCatalogApplicationEntity
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /public/v1/catalog/entities/application/{id}
+  method: patch
+  operationId: CatalogEntityController_updateApplicationEntity
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /public/v1/catalog/entities/manifest
+  method: post
+  operationId: CatalogEntityController_createCatalogManifestEntity
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /public/v1/catalog/entities/environment/{id}
+  method: patch
+  operationId: CatalogEntityController_updateCatalogEnvironmentEntity
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /public/v1/catalog/entities/manifest/{id}
+  method: patch
+  operationId: CatalogEntityController_updateCatalogManifestEntity
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /public/v1/catalog/entities/system/{id}
+  method: patch
+  operationId: CatalogEntityController_updateCatalogSystemEntity
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /public/v1/catalog/entities/library/{id}
+  method: patch
+  operationId: CatalogEntityController_updateCatalogLibraryEntity
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /public/v1/catalog/entities/base
+  method: post
+  operationId: CatalogEntityController_createCatalogBase
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /public/v1/catalog/entities/base/{id}
+  method: patch
+  operationId: CatalogEntityController_updateCatalogBaseEntity
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /public/v1/catalog/batch/entities/resource
+  method: post
+  operationId: CatalogEntityBatchController_createCatalogEntitiesBulk
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /public/v1/catalog/batch/entities
+  method: delete
+  operationId: CatalogEntityBatchController_deleteCatalogEntitiesBulk
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /public/v1/catalog/metadata/{id}
+  method: get
+  operationId: CatalogEntityMetadataController_getCatalogEntityMetadataById
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /public/v1/catalog/metadata/{id}
+  method: put
+  operationId: CatalogEntityMetadataController_updateCatalogEntityMetadataById
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /public/v1/catalog/relations
+  method: get
+  operationId: CatalogRelationController_getCatalogEntityRelations
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /public/v1/catalog/relations
+  method: post
+  operationId: CatalogRelationController_createCatalogEntityRelation
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /public/v1/catalog/relations
+  method: delete
+  operationId: CatalogRelationController_deleteCatalogRelationById
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
 - path: /catalog/relations
   method: get
   operationId: listCatalogRelations
@@ -195,6 +665,550 @@ operations:
       - abnormal
       - high-value
     audit: required
+- path: /public/v1/credentials
+  method: get
+  operationId: CredentialController_getCredentials
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /public/v1/credentials
+  method: post
+  operationId: CredentialController_createCredential
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /public/v1/credentials/{id}
+  method: put
+  operationId: CredentialController_updateCredential
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /public/v1/credentials/{id}
+  method: delete
+  operationId: CredentialController_deleteCredential
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /public/v1/deployments
+  method: post
+  operationId: DeploymentController_create
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /public/v1/deployments
+  method: get
+  operationId: DeploymentController_getDeployments
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /public/v1/deployments/{id}
+  method: patch
+  operationId: DeploymentController_update
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /public/v1/deployments/{id}
+  method: delete
+  operationId: DeploymentController_delete
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /deployments
+  method: post
+  operationId: recordDeployment
+  x-agentic-access:
+    action-class: acting
+    consequence: physical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 300
+      exchange: true
+      purpose-required: true
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /public/v1/module-settings/{id}
+  method: get
+  operationId: ModuleSettingsController_getModuleSettingById
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /public/v1/module-settings
+  method: post
+  operationId: ModuleSettingsController_createModuleSetting
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/v1/scim
+  method: patch
+  operationId: ScimController_updateScimConfig
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/v1/scim
+  method: delete
+  operationId: ScimController_deleteScimConfig
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /api/v1/scim
+  method: get
+  operationId: ScimController_getScimConfig
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /public/v2/scim/Users/{id}
+  method: get
+  operationId: SCIMController_getUser
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /public/v2/scim/Users/{id}
+  method: put
+  operationId: SCIMController_putUser
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /public/v2/scim/Users/{id}
+  method: patch
+  operationId: SCIMController_patchUser
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /public/v2/scim/Users/{id}
+  method: delete
+  operationId: SCIMController_deleteUser
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /public/v2/scim/Users
+  method: get
+  operationId: SCIMController_getUsers
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /public/v2/scim/Users
+  method: post
+  operationId: SCIMController_createUser
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /public/v2/scim/Groups
+  method: get
+  operationId: SCIMController_getGroups
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /public/v2/scim/Groups
+  method: post
+  operationId: SCIMController_createGroup
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /public/v2/scim/Groups/{id}
+  method: get
+  operationId: SCIMController_getGroup
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /public/v2/scim/Groups/{id}
+  method: put
+  operationId: SCIMController_putGroup
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /public/v2/scim/Groups/{id}
+  method: patch
+  operationId: SCIMController_patchGroup
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /public/v2/scim/Groups/{id}
+  method: delete
+  operationId: SCIMController_deleteGroup
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /public/v2/scim/ServiceProviderConfig
+  method: get
+  operationId: SCIMController_getServiceProviderConfig
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /public/v2/scim/ResourceTypes
+  method: get
+  operationId: SCIMController_getResourceTypes
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /public/v2/scim/Schemas
+  method: get
+  operationId: SCIMController_getSchemas
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /public/v2/scim/Schemas/{schema}
+  method: get
+  operationId: SCIMController_getSchema
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /public/v1/scorecards/{id}/run
+  method: post
+  operationId: ScorecardController_createScorecardSchedule
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /public/v1/scorecards
+  method: get
+  operationId: ScorecardController_getScorecards
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /public/v1/scorecards/{id}/metrics
+  method: get
+  operationId: ScorecardController_getMetricsByScorecardId
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /public/v1/scorecards/{id}/results
+  method: get
+  operationId: ScorecardController_getScorecardMetricResults
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /public/v1/scorecards/{id}
+  method: put
+  operationId: ScorecardController_updateScorecardById
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /public/v1/scorecards/{id}
+  method: get
+  operationId: ScorecardController_getScorecardDefinitionById
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /scorecards
+  method: get
+  operationId: listScorecards
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /scorecards/{id}
+  method: get
+  operationId: getScorecard
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /public/v1/sync/services/diff
+  method: post
+  operationId: SyncController_getServiceDiff
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /public/v1/sync/services
+  method: post
+  operationId: SyncController_applyServiceDiff
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /public/v1/templates
+  method: get
+  operationId: TemplateController_getAllTemplates
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
 - path: /users
   method: get
   operationId: listUsers
@@ -237,41 +1251,45 @@ operations:
       - abnormal
       - high-value
     audit: required
-- path: /scorecards
-  method: get
-  operationId: listScorecards
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /scorecards/{id}
-  method: get
-  operationId: getScorecard
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /deployments
-  method: post
-  operationId: recordDeployment
+- path: /public/v1/users/{id}
+  method: patch
+  operationId: UserController_updateUserById
   x-agentic-access:
     action-class: acting
-    consequence: physical
+    consequence: safety-critical
     subject: required
     audience: null
     token:
-      max-ttl: 300
+      max-ttl: 120
       exchange: true
       purpose-required: true
+      proof-of-possession: true
     escalation:
-      human-in-the-loop: conditional
-      triggers:
-      - abnormal
-      - high-value
+      human-in-the-loop: required
     audit: required
+- path: /public/v1/users/{id}
+  method: delete
+  operationId: UserController_deleteUserById
+  x-agentic-access:
+    action-class: acting
+    consequence: safety-critical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 120
+      exchange: true
+      purpose-required: true
+      proof-of-possession: true
+    escalation:
+      human-in-the-loop: required
+    audit: required
+- path: /public/v1/users
+  method: get
+  operationId: UserController_getAllUsers
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
