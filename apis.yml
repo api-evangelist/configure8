@@ -57,54 +57,6 @@ tags:
   - Service Catalog
   - SRE
 apis:
-- aid: configure8:idp-rest-api
-  name: Configure8 REST API
-  description: >-
-    The Configure8 REST API gives platform teams programmatic access to the service catalog, scorecards,
-    self-service actions, environments, and cost data. It is used to ingest services and resources from
-    external systems, drive scorecards in CI, trigger self-service actions, and synchronize the portal
-    with source-of-truth systems. The API is part of the Configure8 enterprise feature set alongside RBAC,
-    SSO/SCIM, and audit logging.
-  humanURL: https://www.configure8.io/
-  baseURL: https://app.configure8.io/public/v1
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  tags:
-  - Catalog
-  - REST
-  - Scorecards
-  - Self-Service
-  properties:
-  - type: OpenAPI
-    url: openapi/configure8-c8-public-api-openapi.json
-  - type: MCPServer
-    url: mcp/configure8-mcp.yml
-  - type: ToolCrosswalk
-    url: mcp/configure8-tool-crosswalk.yml
-  - type: Overlay
-    url: overlays/configure8-c8-public-api-overlay.yaml
-  - type: Documentation
-    url: https://configure8.io/docs-sub/configure8-product-docs/reference/api-documentation
-  - type: APIReference
-    url: https://configure8.readme.io/reference
-  - type: Website
-    url: https://www.configure8.io/
-  x-features:
-  - Service Catalog
-  - Resource Catalog
-  - Dependency Mapping
-  - Scorecards
-  - Self-Service Actions
-  - No-Code Workflow Builder
-  - Cloud Cost Visibility
-  - RBAC and SSO
-  - SCIM Provisioning
-  - Self-Hosted or SaaS
-  x-use-cases:
-  - Catalog every service, environment, and resource in one place
-  - Score services against production-readiness standards
-  - Let developers self-serve infrastructure via the portal
-  - Surface cloud spend per service and per team
-  - Replace internal wikis with a living developer portal
 - aid: configure8:configure8-catalog-entities-api
   name: Configure8 Catalog Entities API
   description: The Catalog Entities API from Configure8 — 7 operation(s) for catalog entities.
@@ -159,7 +111,226 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/configure8-users-api-openapi.yml
+- aid: configure8:configure8-catalog-entity-api
+  name: Configure8 Catalog Entity API
+  description: The Catalog Entity API from Configure8 — 22 operation(s) for catalog entity.
+  humanURL: https://www.configure8.io/
+  baseURL: https://app.configure8.io/public/v1
+  tags:
+  - Catalog Entity
+  properties:
+  - type: OpenAPI
+    url: openapi/configure8-catalog-entity-api-openapi.yml
+  - type: ToolCrosswalk
+    url: mcp/configure8-tool-crosswalk.yml
+  - type: Documentation
+    url: https://configure8.io/docs-sub/configure8-product-docs/reference/api-documentation
+  - type: APIReference
+    url: https://configure8.readme.io/reference
+  - type: Website
+    url: https://www.configure8.io/
+- aid: configure8:configure8-catalog-entity-batch-api
+  name: Configure8 Catalog Entity Batch API
+  description: The Catalog Entity Batch API from Configure8 — 2 operation(s) for catalog entity batch.
+  humanURL: https://www.configure8.io/
+  baseURL: https://app.configure8.io/public/v1
+  tags:
+  - Catalog Entity Batch
+  properties:
+  - type: OpenAPI
+    url: openapi/configure8-catalog-entity-batch-api-openapi.yml
+  - type: ToolCrosswalk
+    url: mcp/configure8-tool-crosswalk.yml
+  - type: Documentation
+    url: https://configure8.io/docs-sub/configure8-product-docs/reference/api-documentation
+  - type: APIReference
+    url: https://configure8.readme.io/reference
+  - type: Website
+    url: https://www.configure8.io/
+- aid: configure8:configure8-catalog-entity-metadata-api
+  name: Configure8 Catalog Entity Metadata API
+  description: >-
+    The Catalog Entity Metadata API from Configure8 — 1 operation(s) for catalog entity metadata.
+  humanURL: https://www.configure8.io/
+  baseURL: https://app.configure8.io/public/v1
+  tags:
+  - Catalog Entity Metadata
+  properties:
+  - type: OpenAPI
+    url: openapi/configure8-catalog-entity-metadata-api-openapi.yml
+  - type: ToolCrosswalk
+    url: mcp/configure8-tool-crosswalk.yml
+  - type: Documentation
+    url: https://configure8.io/docs-sub/configure8-product-docs/reference/api-documentation
+  - type: APIReference
+    url: https://configure8.readme.io/reference
+  - type: Website
+    url: https://www.configure8.io/
+- aid: configure8:configure8-catalog-relation-api
+  name: Configure8 Catalog Relation API
+  description: The Catalog Relation API from Configure8 — 1 operation(s) for catalog relation.
+  humanURL: https://www.configure8.io/
+  baseURL: https://app.configure8.io/public/v1
+  tags:
+  - Catalog Relation
+  properties:
+  - type: OpenAPI
+    url: openapi/configure8-catalog-relation-api-openapi.yml
+  - type: ToolCrosswalk
+    url: mcp/configure8-tool-crosswalk.yml
+  - type: Documentation
+    url: https://configure8.io/docs-sub/configure8-product-docs/reference/api-documentation
+  - type: APIReference
+    url: https://configure8.readme.io/reference
+  - type: Website
+    url: https://www.configure8.io/
+- aid: configure8:configure8-credential-api
+  name: Configure8 Credential API
+  description: The Credential API from Configure8 — 2 operation(s) for credential.
+  humanURL: https://www.configure8.io/
+  baseURL: https://app.configure8.io/public/v1
+  tags:
+  - Credential
+  properties:
+  - type: OpenAPI
+    url: openapi/configure8-credential-api-openapi.yml
+  - type: ToolCrosswalk
+    url: mcp/configure8-tool-crosswalk.yml
+  - type: Documentation
+    url: https://configure8.io/docs-sub/configure8-product-docs/reference/api-documentation
+  - type: APIReference
+    url: https://configure8.readme.io/reference
+  - type: Website
+    url: https://www.configure8.io/
+- aid: configure8:configure8-deployment-api
+  name: Configure8 Deployment API
+  description: The Deployment API from Configure8 — 2 operation(s) for deployment.
+  humanURL: https://www.configure8.io/
+  baseURL: https://app.configure8.io/public/v1
+  tags:
+  - Deployment
+  properties:
+  - type: OpenAPI
+    url: openapi/configure8-deployment-api-openapi.yml
+  - type: ToolCrosswalk
+    url: mcp/configure8-tool-crosswalk.yml
+  - type: Documentation
+    url: https://configure8.io/docs-sub/configure8-product-docs/reference/api-documentation
+  - type: APIReference
+    url: https://configure8.readme.io/reference
+  - type: Website
+    url: https://www.configure8.io/
+- aid: configure8:configure8-module-settings-api
+  name: Configure8 Module Settings API
+  description: The Module Settings API from Configure8 — 2 operation(s) for module settings.
+  humanURL: https://www.configure8.io/
+  baseURL: https://app.configure8.io/public/v1
+  tags:
+  - Module Settings
+  properties:
+  - type: OpenAPI
+    url: openapi/configure8-module-settings-api-openapi.yml
+  - type: ToolCrosswalk
+    url: mcp/configure8-tool-crosswalk.yml
+  - type: Documentation
+    url: https://configure8.io/docs-sub/configure8-product-docs/reference/api-documentation
+  - type: APIReference
+    url: https://configure8.readme.io/reference
+  - type: Website
+    url: https://www.configure8.io/
+- aid: configure8:configure8-private-scim-api
+  name: Configure8 Private SCIM API
+  description: The Private SCIM API from Configure8 — 1 operation(s) for private scim.
+  humanURL: https://www.configure8.io/
+  baseURL: https://app.configure8.io/public/v1
+  tags:
+  - Private SCIM
+  properties:
+  - type: OpenAPI
+    url: openapi/configure8-private-scim-api-openapi.yml
+  - type: ToolCrosswalk
+    url: mcp/configure8-tool-crosswalk.yml
+  - type: Documentation
+    url: https://configure8.io/docs-sub/configure8-product-docs/reference/api-documentation
+  - type: APIReference
+    url: https://configure8.readme.io/reference
+  - type: Website
+    url: https://www.configure8.io/
+- aid: configure8:configure8-scim-api
+  name: Configure8 SCIM API
+  description: The SCIM API from Configure8 — 8 operation(s) for scim.
+  humanURL: https://www.configure8.io/
+  baseURL: https://app.configure8.io/public/v1
+  tags:
+  - SCIM
+  properties:
+  - type: OpenAPI
+    url: openapi/configure8-scim-api-openapi.yml
+  - type: ToolCrosswalk
+    url: mcp/configure8-tool-crosswalk.yml
+  - type: Documentation
+    url: https://configure8.io/docs-sub/configure8-product-docs/reference/api-documentation
+  - type: APIReference
+    url: https://configure8.readme.io/reference
+  - type: Website
+    url: https://www.configure8.io/
+- aid: configure8:configure8-scorecard-api
+  name: Configure8 Scorecard API
+  description: The Scorecard API from Configure8 — 5 operation(s) for scorecard.
+  humanURL: https://www.configure8.io/
+  baseURL: https://app.configure8.io/public/v1
+  tags:
+  - Scorecard
+  properties:
+  - type: OpenAPI
+    url: openapi/configure8-scorecard-api-openapi.yml
+  - type: ToolCrosswalk
+    url: mcp/configure8-tool-crosswalk.yml
+  - type: Documentation
+    url: https://configure8.io/docs-sub/configure8-product-docs/reference/api-documentation
+  - type: APIReference
+    url: https://configure8.readme.io/reference
+  - type: Website
+    url: https://www.configure8.io/
+- aid: configure8:configure8-sync-api
+  name: Configure8 Sync API
+  description: The Sync API from Configure8 — 2 operation(s) for sync.
+  humanURL: https://www.configure8.io/
+  baseURL: https://app.configure8.io/public/v1
+  tags:
+  - Sync
+  properties:
+  - type: OpenAPI
+    url: openapi/configure8-sync-api-openapi.yml
+  - type: ToolCrosswalk
+    url: mcp/configure8-tool-crosswalk.yml
+  - type: Documentation
+    url: https://configure8.io/docs-sub/configure8-product-docs/reference/api-documentation
+  - type: APIReference
+    url: https://configure8.readme.io/reference
+  - type: Website
+    url: https://www.configure8.io/
+- aid: configure8:configure8-templates-api
+  name: Configure8 Templates API
+  description: The Templates API from Configure8 — 1 operation(s) for templates.
+  humanURL: https://www.configure8.io/
+  baseURL: https://app.configure8.io/public/v1
+  tags:
+  - Templates
+  properties:
+  - type: OpenAPI
+    url: openapi/configure8-templates-api-openapi.yml
+  - type: ToolCrosswalk
+    url: mcp/configure8-tool-crosswalk.yml
+  - type: Documentation
+    url: https://configure8.io/docs-sub/configure8-product-docs/reference/api-documentation
+  - type: APIReference
+    url: https://configure8.readme.io/reference
+  - type: Website
+    url: https://www.configure8.io/
 common:
+  - type: Overlay
+    url: overlays/configure8-c8-public-api-overlay.yaml
   - type: AgenticAccess
     url: agentic-access/configure8-agentic-access.yml
   - type: VulnerabilityDisclosure
