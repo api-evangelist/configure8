@@ -280,6 +280,8 @@ apis:
   humanURL: https://www.configure8.io/
   baseURL: https://app.configure8.io/public/v1
   tags:
+  - Scorecards
+  tags_raw:
   - Scorecard
   properties:
   - type: OpenAPI
