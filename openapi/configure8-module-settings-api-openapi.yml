@@ -1,0 +1,355 @@
+openapi: 3.2.0
+info:
+  title: C8 Public Module Settings API
+  description: Documentation for C8 Public API
+  version: 1.0.0
+  contact: {}
+servers: []
+tags:
+- name: Module Settings
+paths:
+  /public/v1/module-settings/{id}:
+    get:
+      operationId: ModuleSettingsController_getModuleSettingById
+      summary: Get a module setting by id
+      parameters:
+      - name: id
+        required: true
+        in: path
+        description: Id for given module setting.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ModuleSettingsDto'
+        '404':
+          description: No module setting found.
+      tags:
+      - Module Settings
+  /public/v1/module-settings:
+    post:
+      operationId: ModuleSettingsController_createModuleSetting
+      summary: Create a module settings object
+      parameters: []
+      requestBody:
+        required: true
+        description: Module settings object to be saved.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateModuleSettingsDto'
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ModuleSettingsDto'
+        '404':
+          description: ''
+      tags:
+      - Module Settings
+components:
+  schemas:
+    ModuleSettingsDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The unique identifier of the module setting
+        serviceId:
+          type: string
+          description: The unique identifier of the service associated with the module setting
+        credentialId:
+          type: string
+          description: The unique identifier of the credential associated with the module setting
+        providerName:
+          type: string
+          enum:
+          - GitHub
+          - GitLab
+          - Azure DevOps
+          - Bitbucket
+          - CircleCI
+          - Datadog
+          - EmbeddedView
+          - Jenkins
+          - Jira
+          - NewRelic
+          - OpsGenie
+          - PagerDuty
+          - Scorecards
+          - SonarCloud
+          - Splunk
+          description: The name of the provider
+        providerType:
+          type: string
+          enum:
+          - REPOS
+          - CICD
+          - OTHER
+          - ISSUE_TRACKING
+          - OMS
+          - CODE_INSPECTION
+          description: The type of the provider
+        orgId:
+          type: string
+          description: The unique identifier of the organization associated with the module setting
+        title:
+          type: string
+          description: The title of the module setting
+        uiPluginName:
+          type: string
+          enum:
+          - github_actions
+          - github_activity
+          - gitlab_pipelines
+          - gitlab_activity
+          - azure_devops_activity
+          - azure_devops_pipelines
+          - bitbucket_pipelines
+          - bitbucket_activity
+          - circle_ci
+          - datadog_embedded_dashboard
+          - datadog_embedded_graph
+          - datadog_monitor
+          - datadog_slo
+          - embedded_view
+          - jenkins
+          - jira_activity
+          - new_relic_chart
+          - opsgenie_oncall
+          - pagerduty_oncall
+          - scorecards
+          - sonarcloud_repo_profile
+          - aws_security_hub
+          - splunk_oncall
+          description: The name of the UI plugin associated with the module setting
+        configuration:
+          description: An array of configuration aspects for the module setting
+          type: array
+          items:
+            $ref: '#/components/schemas/ModuleSettingAspectDto'
+        layout:
+          description: The layout of the module setting
+          allOf:
+          - $ref: '#/components/schemas/ModuleSettingLayoutDto'
+        status:
+          type: string
+          description: The status of the module setting
+          enum:
+          - ACTIVE
+          - CREDENTIAL_DISABLED
+          - CREDENTIAL_BROKEN
+        createdBy:
+          type: string
+          description: The unique identifier of the user who created the module setting
+        lastChangedBy:
+          type: string
+          description: The unique identifier of the user who last changed the module setting
+        createDateTime:
+          format: date-time
+          type: string
+          description: The date and time when the module setting was created
+        lastChangedDateTime:
+          format: date-time
+          type: string
+          description: The date and time when the module setting was last changed
+        state:
+          description: An array of state information associated with the module setting
+          type: array
+          items:
+            $ref: '#/components/schemas/ModuleSettingStateDto'
+      required:
+      - id
+      - serviceId
+      - credentialId
+      - providerName
+      - providerType
+      - orgId
+      - title
+      - uiPluginName
+      - configuration
+      - layout
+      - status
+      - createdBy
+      - lastChangedBy
+      - createDateTime
+      - lastChangedDateTime
+      - state
+    ModuleSettingStateDto:
+      type: object
+      properties:
+        key:
+          type: string
+          description: The key of the module setting state
+        value:
+          type: string
+          description: The value of the module setting state
+      required:
+      - key
+      - value
+    ModuleSettingLayoutDto:
+      type: object
+      properties:
+        x:
+          type: number
+          description: The x position of the module setting layout
+        y:
+          type: number
+          description: The y position of the module setting layout
+        w:
+          type: number
+          description: The width of the module setting layout
+        h:
+          type: number
+          description: The height of the module setting layout
+        minW:
+          type: number
+          description: The minimum width of the module setting layout
+        maxW:
+          type: number
+          description: The maximum width of the module setting layout
+        minH:
+          type: number
+          description: The minimum height of the module setting layout
+        maxH:
+          type: number
+          description: The maximum height of the module setting layout
+        static:
+          type: boolean
+          description: Whether the module setting layout is static
+        isResizable:
+          type: boolean
+          description: Whether the module setting layout is resizable
+        isBounded:
+          type: boolean
+          description: Whether the module setting layout is bounded
+      required:
+      - x
+      - y
+      - w
+      - h
+    ModuleSettingAspectDto:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the setting aspect
+        value:
+          type: object
+          description: The value of the setting aspect
+      required:
+      - name
+      - value
+    CreateModuleSettingsDto:
+      type: object
+      properties:
+        serviceId:
+          type: string
+          description: Existing Service identifier
+        credentialId:
+          type: string
+          description: Existing Credential identifier
+        providerName:
+          type: string
+          enum:
+          - GitHub
+          - GitLab
+          - Azure DevOps
+          - Bitbucket
+          - CircleCI
+          - Datadog
+          - EmbeddedView
+          - Jenkins
+          - Jira
+          - NewRelic
+          - OpsGenie
+          - PagerDuty
+          - Scorecards
+          - SonarCloud
+          - Splunk
+          description: Provider name
+        providerType:
+          type: string
+          enum:
+          - REPOS
+          - CICD
+          - OTHER
+          - ISSUE_TRACKING
+          - OMS
+          - CODE_INSPECTION
+          description: Provider type
+        title:
+          type: string
+          description: Module title
+        uiPluginName:
+          type: string
+          enum:
+          - github_actions
+          - github_activity
+          - gitlab_pipelines
+          - gitlab_activity
+          - azure_devops_activity
+          - azure_devops_pipelines
+          - bitbucket_pipelines
+          - bitbucket_activity
+          - circle_ci
+          - datadog_embedded_dashboard
+          - datadog_embedded_graph
+          - datadog_monitor
+          - datadog_slo
+          - embedded_view
+          - jenkins
+          - jira_activity
+          - new_relic_chart
+          - opsgenie_oncall
+          - pagerduty_oncall
+          - scorecards
+          - sonarcloud_repo_profile
+          - aws_security_hub
+          - splunk_oncall
+          description: Plugin name
+        configuration:
+          description: Array of configuration aspects
+          type: array
+          items:
+            $ref: '#/components/schemas/ModuleSettingAspectDto'
+        layout:
+          description: The layout of the module setting
+          allOf:
+          - $ref: '#/components/schemas/ModuleSettingLayoutDto'
+        state:
+          description: Array of state information
+          type: array
+          items:
+            $ref: '#/components/schemas/ModuleSettingStateDto'
+        status:
+          type: string
+          enum:
+          - ACTIVE
+          - CREDENTIAL_DISABLED
+          - CREDENTIAL_BROKEN
+          description: Status of the module setting
+      required:
+      - serviceId
+      - providerName
+      - providerType
+      - configuration
+      - status
+  securitySchemes:
+    api-key:
+      type: apiKey
+      in: header
+      name: Api-Key
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

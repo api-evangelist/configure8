@@ -1,0 +1,148 @@
+openapi: 3.2.0
+info:
+  title: C8 Public Catalog Entity Metadata API
+  description: Documentation for C8 Public API
+  version: 1.0.0
+  contact: {}
+servers: []
+tags:
+- name: Catalog Entity Metadata
+paths:
+  /public/v1/catalog/metadata/{id}:
+    get:
+      operationId: CatalogEntityMetadataController_getCatalogEntityMetadataById
+      summary: Get catalog entity's metadata id
+      parameters:
+      - name: id
+        required: true
+        in: path
+        description: Unique id of catalog entity to return its metadata
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CatalogEntityMetadataDto'
+        '400':
+          description: Returned when request body is not valid
+        '404':
+          description: Returned when catalog entity with specified id is not found
+      tags:
+      - Catalog Entity Metadata
+    put:
+      operationId: CatalogEntityMetadataController_updateCatalogEntityMetadataById
+      summary: Update catalog entity's metadata by id
+      parameters:
+      - name: id
+        required: true
+        in: path
+        description: Unique id of catalog entity to update its metadata
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CatalogEntityMetadataUpdateDto'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CatalogEntityMetadataDto'
+        '404':
+          description: Returned when catalog entity with specified id is not found
+        '422':
+          description: Returned when nickname meta tags are duplicated in category or in provider scope
+      tags:
+      - Catalog Entity Metadata
+components:
+  schemas:
+    CatalogEntityMetadataUpdateDto:
+      type: object
+      properties:
+        metaTags:
+          description: Catalog entity's metadata
+          type: array
+          items:
+            $ref: '#/components/schemas/MetadataTagDto'
+    CatalogEntityMetadataDto:
+      type: object
+      properties:
+        id:
+          type: string
+        orgId:
+          type: string
+        type:
+          type: string
+          enum:
+          - application
+          - system
+          - service
+          - resource
+          - environment
+          - person
+          - api
+          - repository
+          - library
+          - manifest
+          - team
+          - base
+          description: Catalog entity type
+        metaTags:
+          description: Catalog entity's metadata
+          type: array
+          items:
+            $ref: '#/components/schemas/MetadataTagDto'
+      required:
+      - id
+      - orgId
+      - type
+    MetadataTagDto:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Metadata tag's name
+        value:
+          type: string
+          description: Metadata tag's value
+        type:
+          type: string
+          enum:
+          - JSON
+          - Code
+          - Link
+          - Text
+          - AutoMap
+          - Nickname
+          description: Metadata tag's type
+        createdBy:
+          type:
+          - string
+          - 'null'
+          enum:
+          - MANUAL
+          - SYSTEM
+          description: Metadata tag's createdBy strategy
+      required:
+      - name
+      - value
+      - type
+  securitySchemes:
+    api-key:
+      type: apiKey
+      in: header
+      name: Api-Key
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

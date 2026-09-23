@@ -1,0 +1,392 @@
+openapi: 3.2.0
+info:
+  title: C8 Public Catalog Entity Batch API
+  description: Documentation for C8 Public API
+  version: 1.0.0
+  contact: {}
+servers: []
+tags:
+- name: Catalog Entity Batch
+paths:
+  /public/v1/catalog/batch/entities/resource:
+    post:
+      operationId: CatalogEntityBatchController_createCatalogEntitiesBulk
+      summary: Batch create new resource catalog entities
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/CreateCatalogResourceDto'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateCatalogResourceBatchResultDto'
+      tags:
+      - Catalog Entity Batch
+  /public/v1/catalog/batch/entities:
+    delete:
+      operationId: CatalogEntityBatchController_deleteCatalogEntitiesBulk
+      summary: Batch delete the specified catalog entities
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeleteCatalogEntitiesBatchDto'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteCatalogEntitiesBatchResultDto'
+      tags:
+      - Catalog Entity Batch
+components:
+  schemas:
+    MetadataTagDto:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Metadata tag's name
+        value:
+          type: string
+          description: Metadata tag's value
+        type:
+          type: string
+          enum:
+          - JSON
+          - Code
+          - Link
+          - Text
+          - AutoMap
+          - Nickname
+          description: Metadata tag's type
+        createdBy:
+          type:
+          - string
+          - 'null'
+          enum:
+          - MANUAL
+          - SYSTEM
+          description: Metadata tag's createdBy strategy
+      required:
+      - name
+      - value
+      - type
+    EntityParentDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Parent entity id
+        secondaryId:
+          type: string
+          description: Service id, used only in Environment-Resource relation (label 'contains')
+        label:
+          type: string
+          enum:
+          - belongs_to
+          - depends_on
+          - provides
+          - has_environment
+          - part_of
+          - consumes
+          - uses
+          - contains
+          - has_repository
+          - has_library
+          - has_manifest
+          - has_dependency
+          - child_of
+          - relative_to
+          - ''
+          description: Entity relation type
+        field:
+          type: string
+          description: Entity relation field
+      required:
+      - id
+      - secondaryId
+      - label
+      - field
+    FailedResource:
+      type: object
+      properties:
+        providerResourceKey:
+          type: string
+          description: Provider resource key
+        status:
+          type: number
+          description: Status of failed creation
+        error:
+          type: string
+          description: Error message
+      required:
+      - providerResourceKey
+      - status
+      - error
+    CreateCatalogResourceDto:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the entity
+        description:
+          type: string
+          description: Description of the entity
+        tags:
+          description: Tags to add to the entity
+          type: array
+          items:
+            type: string
+        links:
+          description: List of URLs linked to this entity
+          type: array
+          items:
+            $ref: '#/components/schemas/MetadataLinkDto'
+        metaTags:
+          description: List of metadata tags linked to this entity
+          type: array
+          items:
+            $ref: '#/components/schemas/MetadataTagDto'
+        permissions:
+          type: object
+          description: "List of permissions linked to this entity. The 'permissions' property is an optional object where the keys can represent either user identifier or team identifier, \n    and the value is array of the permissions associated with each user or team."
+          additionalProperties:
+            type: array
+            items:
+              type: string
+              enum:
+              - read
+              - create
+              - modify
+              - delete
+              - inherit
+              - execute
+        generalAccess:
+          type: array
+          description: Entity visibility control. By default it is set to a default access control on organization level
+          items:
+            type: string
+            enum:
+            - read
+            - inherit
+        providerResourceKey:
+          type: string
+          description: The key/ID of the resource in the provider
+          example: '123456789012'
+        provider:
+          type: string
+          description: Provider name
+        providerResourceType:
+          type: string
+          description: Provider resource type
+        providerAccountId:
+          type: string
+          description: The key/ID of the account that owns this resource
+        location:
+          type: string
+          description: Resource location
+        details:
+          type: object
+          description: Resource details in json format
+        parents:
+          description: Catalog resource's parents
+          type: array
+          items:
+            $ref: '#/components/schemas/EntityParentDto'
+        deepLinkUrl:
+          type: string
+          description: Deep link to the resource
+      required:
+      - name
+      - providerResourceKey
+      - provider
+      - providerResourceType
+    DeleteCatalogEntitiesBatchResultDto:
+      type: object
+      properties:
+        deleted:
+          type: number
+          description: Number of deleted entities
+      required:
+      - deleted
+    DeleteCatalogEntitiesBatchDto:
+      type: object
+      properties:
+        ids:
+          description: Ids of entities to delete
+          type: array
+          items:
+            type: string
+      required:
+      - ids
+    CatalogResourceDto:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        orgId:
+          type: string
+        type:
+          type: string
+          enum:
+          - application
+          - system
+          - service
+          - resource
+          - environment
+          - person
+          - api
+          - repository
+          - library
+          - manifest
+          - team
+          - base
+          description: Catalog entity type
+        description:
+          type: string
+          description: Catalog entity description
+        tags:
+          description: Catalog entity's tags
+          type: array
+          items:
+            type: string
+        metaTags:
+          description: Catalog entity's metadata
+          type: array
+          items:
+            $ref: '#/components/schemas/MetadataTagDto'
+        links:
+          description: Catalog entity's links
+          type: array
+          items:
+            $ref: '#/components/schemas/MetadataLinkDto'
+        parents:
+          description: Catalog entity's parents
+          type: array
+          items:
+            $ref: '#/components/schemas/EntityParentDto'
+        createdBy:
+          type: string
+        lastChangedBy:
+          type: string
+        createDateTime:
+          format: date-time
+          type: string
+        lastChangedDateTime:
+          format: date-time
+          type: string
+        permissions:
+          type: object
+          description: "List of permissions linked to this entity. The 'permissions' property is an optional object where the keys can represent either user identifier or team identifier, \n    and the value is array of the permissions associated with each user or team."
+          additionalProperties:
+            type: array
+            items:
+              type: string
+              enum:
+              - read
+              - create
+              - modify
+              - delete
+              - inherit
+              - execute
+        generalAccess:
+          type: array
+          description: Entity visibility control. By default it is set to a default access control on organization level
+          items:
+            type: string
+            enum:
+            - read
+            - inherit
+        provider:
+          type: string
+        providerType:
+          type: string
+        providerResourceKey:
+          type: string
+        providerResourceType:
+          type: string
+        providerAccountId:
+          type: string
+        location:
+          type: string
+        details:
+          type: object
+        deepLinkUrl:
+          type: string
+      required:
+      - id
+      - name
+      - orgId
+      - type
+      - provider
+      - providerType
+      - providerResourceKey
+      - providerResourceType
+      - providerAccountId
+      - location
+    CreateCatalogResourceBatchResultDto:
+      type: object
+      properties:
+        success:
+          type: number
+          description: Number of successfully saved entities
+        failures:
+          type: number
+          description: Number of entities that failed saving
+        items:
+          description: Created resources
+          type: array
+          items:
+            $ref: '#/components/schemas/CatalogResourceDto'
+        failed:
+          description: Failed resources
+          type: array
+          items:
+            $ref: '#/components/schemas/FailedResource'
+      required:
+      - success
+      - failures
+      - items
+      - failed
+    MetadataLinkDto:
+      type: object
+      properties:
+        url:
+          type: string
+          description: Link url
+        title:
+          type: string
+          description: Link title
+        icon:
+          type: string
+          description: Link icon
+      required:
+      - url
+      - title
+      - icon
+  securitySchemes:
+    api-key:
+      type: apiKey
+      in: header
+      name: Api-Key
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

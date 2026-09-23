@@ -1,0 +1,215 @@
+openapi: 3.2.0
+info:
+  title: C8 Public Catalog Relation API
+  description: Documentation for C8 Public API
+  version: 1.0.0
+  contact: {}
+servers: []
+tags:
+- name: Catalog Relation
+paths:
+  /public/v1/catalog/relations:
+    get:
+      operationId: CatalogRelationController_getCatalogEntityRelations
+      summary: GET a list of catalog relations
+      parameters:
+      - name: sourceId
+        required: false
+        in: query
+        description: Id of the source entity from which we want to get, if not provided, it will return all relations of the target entity or all relations if targetId is not provided
+        schema:
+          type: string
+      - name: targetId
+        required: false
+        in: query
+        description: Id of the target entity from which we want to get, if not provided, it will return all relations of the source entity or all relations if sourceId is not provided
+        schema:
+          type: string
+      - name: pageNumber
+        required: false
+        in: query
+        schema:
+          default: 0
+          type: number
+      - name: pageSize
+        required: false
+        in: query
+        schema:
+          default: 20
+          type: number
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CatalogRelationResultDto'
+      tags:
+      - Catalog Relation
+    post:
+      operationId: CatalogRelationController_createCatalogEntityRelation
+      summary: Create relation between catalog entities
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCatalogRelationDto'
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CatalogRelationDto'
+        '400':
+          description: Returned when request body is not valid
+        '404':
+          description: At least one of the requested catalog entities was not found
+        '422':
+          description: Returned when request data cannot be processed and is logically invalid
+      tags:
+      - Catalog Relation
+    delete:
+      operationId: CatalogRelationController_deleteCatalogRelationById
+      summary: Delete catalog entity relation
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeleteCatalogRelationDto'
+      responses:
+        '200':
+          description: ''
+        '404':
+          description: At least one of the requested catalog entities was not found.
+        '422':
+          description: It's not possible for these requested entities to have relation between each other.
+      tags:
+      - Catalog Relation
+components:
+  schemas:
+    CatalogRelationDto:
+      type: object
+      properties:
+        sourceEntityId:
+          type: string
+        targetEntityId:
+          type: string
+        label:
+          type: string
+          description: Entity relation type
+          enum:
+          - belongs_to
+          - depends_on
+          - provides
+          - has_environment
+          - part_of
+          - consumes
+          - uses
+          - contains
+          - has_repository
+          - has_library
+          - has_manifest
+          - has_dependency
+          - child_of
+          - relative_to
+          - ''
+        field:
+          type: string
+          description: Entity relation field
+      required:
+      - sourceEntityId
+      - targetEntityId
+      - label
+    DeleteCatalogRelationDto:
+      type: object
+      properties:
+        serviceId:
+          type: string
+          description: Catalog relation service id
+        sourceEntityId:
+          type: string
+          description: Catalog Source entity id
+        targetEntityId:
+          type: string
+          description: Catalog Target entity id
+        field:
+          type: string
+          description: Entity relation field
+      required:
+      - sourceEntityId
+      - targetEntityId
+    CreateCatalogRelationDto:
+      type: object
+      properties:
+        serviceId:
+          type: string
+          description: Service id as an additional relation parameter. Used ONLY when creating Environment-Resource relation
+        sourceEntityId:
+          type: string
+          description: Id of the entity from which we want to create a relation
+        targetEntityId:
+          type: string
+          description: Id of the entity to which we want to create a relation
+        label:
+          type: string
+          enum:
+          - belongs_to
+          - depends_on
+          - provides
+          - has_environment
+          - part_of
+          - consumes
+          - uses
+          - contains
+          - has_repository
+          - has_library
+          - has_manifest
+          - has_dependency
+          - child_of
+          - relative_to
+          - ''
+          description: Entity relation type
+        field:
+          type: string
+          description: Entity relation field
+      required:
+      - sourceEntityId
+      - targetEntityId
+      - label
+    CatalogRelationResultDto:
+      type: object
+      properties:
+        totalFound:
+          type: number
+          description: Total elements found
+        pageNumber:
+          type: number
+        pageSize:
+          type: number
+        items:
+          description: Found catalog entities
+          type: array
+          items:
+            $ref: '#/components/schemas/CatalogRelationDto'
+      required:
+      - totalFound
+      - pageNumber
+      - pageSize
+      - items
+  securitySchemes:
+    api-key:
+      type: apiKey
+      in: header
+      name: Api-Key
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

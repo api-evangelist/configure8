@@ -1,0 +1,803 @@
+openapi: 3.2.0
+info:
+  title: C8 Public Scorecard API
+  description: Documentation for C8 Public API
+  version: 1.0.0
+  contact: {}
+servers: []
+tags:
+- name: Scorecard
+paths:
+  /public/v1/scorecards/{id}/run:
+    post:
+      operationId: ScorecardController_createScorecardSchedule
+      summary: Trigger a reevaluate for the given scorecard
+      parameters:
+      - name: id
+        required: true
+        in: path
+        description: Unique id of scorecard
+        schema:
+          type: string
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScheduleDto'
+        '404':
+          description: Requested scorecard not found
+      tags:
+      - Scorecard
+  /public/v1/scorecards:
+    get:
+      operationId: ScorecardController_getScorecards
+      summary: GET an organizational list of scorecard definitions optionally filtered
+      parameters:
+      - name: name
+        required: false
+        in: query
+        description: Filter based on scorecard definition name
+        schema:
+          type: string
+      - name: serviceId
+        required: false
+        in: query
+        description: Filter based on scorecard definition service id
+        schema:
+          type: string
+      - name: pageNumber
+        required: false
+        in: query
+        description: Page number to return
+        schema:
+          default: 0
+          type: number
+      - name: pageSize
+        required: false
+        in: query
+        description: Number of items to return per page
+        schema:
+          default: 20
+          type: number
+      - name: sortProperty
+        required: false
+        in: query
+        description: Sort property
+        schema:
+          default: name
+          enum:
+          - orgId
+          - id
+          - name
+          - createdAt
+          - updatedAt
+          - lastChangedBy
+          - createdBy
+          - startAt
+          - dueAt
+          - status
+          - isEvaluating
+          - evaluatedAt
+          - evaluateTotal
+          - evaluatePassed
+          - evaluateFailed
+          - evaluatePercentage
+          - evaluateServicesPercentage
+          type: string
+      - name: sortOrder
+        required: false
+        in: query
+        description: Sort order
+        schema:
+          default: ASC
+          enum:
+          - ASC
+          - DESC
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScorecardPageDto'
+      tags:
+      - Scorecard
+  /public/v1/scorecards/{id}/metrics:
+    get:
+      operationId: ScorecardController_getMetricsByScorecardId
+      summary: Get scorecard metrics
+      parameters:
+      - name: id
+        required: true
+        in: path
+        description: Filter by scorecard service id
+        schema:
+          type: string
+      - name: name
+        required: false
+        in: query
+        description: Filter metrics by name
+        schema:
+          type: string
+      - name: onlySystem
+        required: false
+        in: query
+        description: Filter metrics by system metrics only
+        schema:
+          type: boolean
+      - name: pageNumber
+        required: false
+        in: query
+        description: Page number to return
+        schema:
+          default: 0
+          type: number
+      - name: pageSize
+        required: false
+        in: query
+        description: Number of items to return per page
+        schema:
+          default: 20
+          type: number
+      - name: sortProperty
+        required: false
+        in: query
+        description: Sort property
+        schema:
+          default: name
+          enum:
+          - id
+          - measurementId
+          - name
+          - comparisonOperator
+          - comparisonType
+          - threshold
+          - passOnNoData
+          - category
+          - createdAt
+          - updatedAt
+          - lastChangedBy
+          - createdBy
+          type: string
+      - name: sortOrder
+        required: false
+        in: query
+        description: Sort order
+        schema:
+          default: ASC
+          enum:
+          - ASC
+          - DESC
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScorecardMetricPageDto'
+        '404':
+          description: Scorecard is not found
+      tags:
+      - Scorecard
+  /public/v1/scorecards/{id}/results:
+    get:
+      operationId: ScorecardController_getScorecardMetricResults
+      summary: Get a scorecard results
+      parameters:
+      - name: id
+        required: true
+        in: path
+        description: Unique id of scorecard
+        schema:
+          type: string
+      - name: serviceId
+        required: false
+        in: query
+        description: Service id to filter the results
+        schema:
+          type: string
+      - name: metricId
+        required: false
+        in: query
+        description: Metric id to filter the results
+        schema:
+          type: string
+      - name: passed
+        required: false
+        in: query
+        description: Filter results based on passed or failed metrics
+        schema:
+          type: boolean
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ScorecardMetricResultDto'
+        '404':
+          description: Requested scorecard not found
+      tags:
+      - Scorecard
+  /public/v1/scorecards/{id}:
+    put:
+      operationId: ScorecardController_updateScorecardById
+      summary: Update an organizational scorecard definition by id
+      parameters:
+      - name: id
+        required: true
+        in: path
+        description: Id of scorecard definition to update
+        schema:
+          type: string
+      requestBody:
+        required: true
+        description: Scorecard metric object to be updated.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateScorecardDefinitionDto'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScorecardDto'
+        '400':
+          description: Returned when request body is not valid
+        '404':
+          description: Scorecard is not found
+      tags:
+      - Scorecard
+    get:
+      operationId: ScorecardController_getScorecardDefinitionById
+      summary: GET an organizational scorecard definition by id
+      parameters:
+      - name: id
+        required: true
+        in: path
+        description: Id of scorecard definition to return
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScorecardDto'
+        '404':
+          description: Scorecard definition is not found
+        '422':
+          description: ''
+        '502':
+          description: ''
+      tags:
+      - Scorecard
+components:
+  schemas:
+    ScorecardMetricResultDto:
+      type: object
+      properties:
+        orgId:
+          type: string
+          description: The organization ID
+        metricId:
+          type: string
+          description: The metric ID
+        serviceId:
+          type: string
+          description: The service ID
+        scorecardId:
+          type: string
+          description: The scorecard ID
+        comparisonOperator:
+          type: string
+          description: The comparison operator
+          enum:
+          - equal
+          - less than
+          - less than or equal
+          - greater than
+          - greater than or equal
+          - contains text
+          - text begins with
+          - text ends with
+          - text matches regexp
+        comparisonType:
+          type: string
+          description: The comparison type
+          enum:
+          - number
+          - version
+          - text
+        threshold:
+          type: object
+          description: The threshold
+        rawResult:
+          type: object
+          description: The raw result
+        pass:
+          type: boolean
+          description: Is metric passed or not
+        updatedAt:
+          format: date-time
+          type: string
+      required:
+      - orgId
+      - metricId
+      - serviceId
+      - scorecardId
+      - comparisonOperator
+      - comparisonType
+      - threshold
+      - rawResult
+      - pass
+      - updatedAt
+    ScheduleDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Schedule id
+        orgId:
+          type: string
+          description: Schedule organization id
+        credentialId:
+          type: string
+          description: Scorecard id
+        isActive:
+          type: boolean
+          description: Schedule is active or not
+        createdBy:
+          type: string
+          description: Schedule created by
+        createdDateTime:
+          format: date-time
+          type: string
+          description: Schedule created date time
+        lastChangedDateTime:
+          format: date-time
+          type: string
+          description: Schedule last changed by
+      required:
+      - id
+      - orgId
+      - credentialId
+      - isActive
+      - createdBy
+      - createdDateTime
+      - lastChangedDateTime
+    ScorecardMetricPageDto:
+      type: object
+      properties:
+        items:
+          description: List of scorecard metrics
+          type: array
+          items:
+            $ref: '#/components/schemas/ScorecardMetricDto'
+        totalFound:
+          type: number
+          description: Total scorecard metrics found by this endpoint call
+        pageNumber:
+          type: number
+          description: Requested page, note that it starts with 0
+          default: 0
+        pageSize:
+          type: number
+          description: Maximum scorecard metrics in one paginated response
+          default: 20
+          maximum: 100
+          minimum: 0
+      required:
+      - items
+      - totalFound
+      - pageNumber
+      - pageSize
+    ScorecardPageDto:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ScorecardDto'
+        totalFound:
+          type: number
+          description: Total scorecards found
+        pageNumber:
+          type: number
+          description: Requested page, note that it starts with 0
+        pageSize:
+          type: number
+          description: Maximum scorecards in one paginated response
+      required:
+      - items
+      - totalFound
+      - pageNumber
+      - pageSize
+    UpdateScorecardDefinitionDto:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Scorecard name
+        description:
+          type: string
+          description: Scorecard description
+        icon:
+          type: string
+          description: Scorecard icon
+          enum:
+          - activity
+          - chart
+          - check
+          - crown
+          - default
+          - deployment
+          - destination
+          - development
+          - diagram
+          - health
+          - piece
+          - progress
+          - ready
+          - time
+          - trend_up
+        metrics:
+          description: Scorecard metrics
+          type: array
+          items:
+            type: array
+        services:
+          description: Scorecard service ids
+          type: array
+          items:
+            type: array
+        lastChangedBy:
+          type: string
+          description: Scorecard last changed by
+        notifications:
+          type: array
+          description: Scorecard notifications
+          items:
+            type: string
+            enum:
+            - DISCOVERY
+            - DISCOVERY_ON_DEMAND
+            - SCORECARD_AGGREGATION
+            - SCORECARD_AGGREGATION_ON_DEMAND
+            - SCORECARD_NOTIFICATION
+            - SERVICE_NOTIFICATION
+            - AUTOMAPPING_BY_TAGS
+            - AUTOMAPPING_PERMISSIONS_BY_PATTERNS
+            - CREDENTIALS_NOTIFICATION
+            - SSA_TERMINATION
+            - COSTS_RECALCULATE
+            - CALCULATE_SERVICE_DETAILS
+        startAt:
+          format: date-time
+          type:
+          - string
+          - 'null'
+          example: '2024-03-20T00:00:00.000Z'
+          description: Scorecard start at
+        dueAt:
+          format: date-time
+          type:
+          - string
+          - 'null'
+          example: '2025-03-21T23:59:59.999Z'
+          description: Scorecard due at
+        status:
+          type: string
+          enum:
+          - ACTIVE
+          - DRAFT
+          - ARCHIVED
+          description: Scorecard status
+      required:
+      - name
+      - icon
+      - metrics
+      - services
+      - lastChangedBy
+      - status
+    ScorecardDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Scorecard id
+        orgId:
+          type: string
+          description: Scorecard organization id
+        name:
+          type: string
+          description: Scorecard name
+        description:
+          type: string
+          description: Scorecard description
+        icon:
+          type: string
+          description: Scorecard icon
+          enum:
+          - activity
+          - chart
+          - check
+          - crown
+          - default
+          - deployment
+          - destination
+          - development
+          - diagram
+          - health
+          - piece
+          - progress
+          - ready
+          - time
+          - trend_up
+        metrics:
+          description: Scorecard metrics
+          type: array
+          items:
+            type: array
+        services:
+          description: Scorecard service ids
+          type: array
+          items:
+            type: array
+        createdBy:
+          type: string
+          description: Scorecard created by
+        lastChangedBy:
+          type: string
+          description: Scorecard last changed by
+        createdAt:
+          format: date-time
+          type: string
+          description: Scorecard created at
+        updatedAt:
+          format: date-time
+          type: string
+          description: Scorecard updated at
+        notifications:
+          type: array
+          description: Scorecard notifications
+          items:
+            type: string
+            enum:
+            - DISCOVERY
+            - DISCOVERY_ON_DEMAND
+            - SCORECARD_AGGREGATION
+            - SCORECARD_AGGREGATION_ON_DEMAND
+            - SCORECARD_NOTIFICATION
+            - SERVICE_NOTIFICATION
+            - AUTOMAPPING_BY_TAGS
+            - AUTOMAPPING_PERMISSIONS_BY_PATTERNS
+            - CREDENTIALS_NOTIFICATION
+            - SSA_TERMINATION
+            - COSTS_RECALCULATE
+            - CALCULATE_SERVICE_DETAILS
+        isEvaluating:
+          type: boolean
+          description: Scorecard is evaluating
+        evaluatedAt:
+          format: date-time
+          type: string
+          description: Scorecard evaluated at
+        evaluateTotal:
+          type: number
+          description: Scorecard evaluate total
+        evaluatePassed:
+          type: number
+          description: Scorecard evaluate passed
+        evaluateFailed:
+          type: number
+          description: Scorecard evaluate failed
+        evaluatePercentage:
+          type: number
+          description: Scorecard evaluate percentage
+        evaluateServicesPercentage:
+          type: number
+          description: Scorecard evaluate services percentage
+        autoApply:
+          type: boolean
+          description: Scorecard auto apply services
+        startAt:
+          format: date-time
+          type:
+          - string
+          - 'null'
+          description: Scorecard start at
+        dueAt:
+          format: date-time
+          type:
+          - string
+          - 'null'
+          description: Scorecard due at
+        generalAccess:
+          type: array
+          items:
+            type: string
+            enum:
+            - read
+            - create
+            - modify
+            - delete
+            - inherit
+            - execute
+        daysLeft:
+          type:
+          - number
+          - 'null'
+          description: Scorecard valid days left
+        status:
+          type: string
+          enum:
+          - ACTIVE
+          - DRAFT
+          - ARCHIVED
+          description: Scorecard status
+        permissions:
+          type: object
+      required:
+      - id
+      - orgId
+      - name
+      - description
+      - icon
+      - metrics
+      - services
+      - createdBy
+      - lastChangedBy
+      - createdAt
+      - updatedAt
+      - notifications
+      - isEvaluating
+      - evaluatedAt
+      - evaluateTotal
+      - evaluatePassed
+      - evaluateFailed
+      - evaluatePercentage
+      - evaluateServicesPercentage
+      - autoApply
+      - generalAccess
+      - status
+      - permissions
+    ScorecardMetricDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The id of the scorecard metric.
+        orgId:
+          type: string
+          description: The organization id of the scorecard.
+        measurementId:
+          type: string
+          description: The id of the measurement.
+        name:
+          type: string
+          description: The name of the scorecard metric.
+        description:
+          type: string
+          description: The description of the scorecard metric.
+        comparisonOperator:
+          type: string
+          description: The comparison operator of the scorecard metric.
+          enum:
+          - equal
+          - less than
+          - less than or equal
+          - greater than
+          - greater than or equal
+          - contains text
+          - text begins with
+          - text ends with
+          - text matches regexp
+        comparisonType:
+          type: string
+          description: The comparison type of the scorecard metric.
+          enum:
+          - number
+          - version
+          - text
+        threshold:
+          type: object
+          description: The threshold of the scorecard metric.
+        passOnNoData:
+          type: boolean
+          default: false
+          description: Whether to pass on no data or not.
+        parameters:
+          type: object
+          description: The parameters of the scorecard metric.
+        category:
+          type: string
+          description: The category of the scorecard metric.
+          enum:
+          - SERVICE_METADATA
+          - INTEGRATIONS
+          - CODE_AND_CONFIGURATIONS
+        icon:
+          type: string
+          description: The icon of the scorecard metric.
+          enum:
+          - issue-tracking
+          - application-count
+          - cicd-configured
+          - code-inspection
+          - codesmell
+          - dependency
+          - document-dashboard
+          - document-link
+          - document-text
+          - documentation-log
+          - documentation-runbook
+          - environment-count
+          - environment-resource-count
+          - issue-tracking
+          - jira-query-count
+          - language
+          - language-percentage
+          - lifecycle
+          - metadata-match
+          - metadata-present
+          - oncall
+          - oncall-escalation
+          - oncall-time
+          - owner-count
+          - repository
+          - repository-activity
+          - repository-approval
+          - repository-file
+          - resource-type
+          - vulnerability
+        notes:
+          type: string
+          description: The notes of the scorecard metric.
+        createdBy:
+          type: string
+          description: The user who created the scorecard metric.
+        lastChangedBy:
+          type: string
+          description: The user who last changed the scorecard metric.
+        createdAt:
+          format: date-time
+          type: string
+          description: The date when the scorecard metric was created.
+        updatedAt:
+          format: date-time
+          type: string
+          description: The date when the scorecard metric was last updated.
+      required:
+      - id
+      - orgId
+      - measurementId
+      - name
+      - comparisonOperator
+      - threshold
+      - passOnNoData
+      - createdBy
+      - lastChangedBy
+      - createdAt
+      - updatedAt
+  securitySchemes:
+    api-key:
+      type: apiKey
+      in: header
+      name: Api-Key
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

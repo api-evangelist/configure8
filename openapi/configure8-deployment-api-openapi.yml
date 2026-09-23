@@ -1,0 +1,416 @@
+openapi: 3.2.0
+info:
+  title: C8 Public Deployment API
+  description: Documentation for C8 Public API
+  version: 1.0.0
+  contact: {}
+servers: []
+tags:
+- name: Deployment
+paths:
+  /public/v1/deployments:
+    post:
+      operationId: DeploymentController_create
+      summary: Create a new deployment entity
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateDeploymentDto'
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeploymentDto'
+        '400':
+          description: Returned when request body is not valid
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden request
+        '404':
+          description: Deployment not found
+        '500':
+          description: Internal server error
+      tags:
+      - Deployment
+    get:
+      operationId: DeploymentController_getDeployments
+      summary: GET an organizational list of deployments optionally filtered
+      parameters:
+      - name: name
+        required: false
+        in: query
+        description: Filter based on deployment name
+        schema:
+          type: string
+      - name: ownerEmail
+        required: false
+        in: query
+        description: Filter based on owner email
+        schema:
+          type: string
+      - name: repositoryId
+        required: false
+        in: query
+        description: Filter based on deployment repository id
+        schema:
+          type: string
+      - name: environmentId
+        required: false
+        in: query
+        description: Filter based on deployment environment id
+        schema:
+          type: string
+      - name: pageNumber
+        required: false
+        in: query
+        description: Page number to return
+        schema:
+          default: 0
+          type: number
+      - name: pageSize
+        required: false
+        in: query
+        description: Number of items to return per page
+        schema:
+          default: 20
+          type: number
+      - name: sortProperty
+        required: false
+        in: query
+        description: Sort property
+        schema:
+          default: startedAt
+          enum:
+          - startedAt
+          - name
+          - createdAt
+          - updatedAt
+          - lastChangedBy
+          - createdBy
+          type: string
+      - name: sortOrder
+        required: false
+        in: query
+        description: Sort order
+        schema:
+          default: ASC
+          enum:
+          - ASC
+          - DESC
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/PaginatedResponseDto'
+                - properties:
+                    items:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/DeploymentDto'
+        '400':
+          description: Returned when request query is not valid
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden request
+        '500':
+          description: Internal server error
+      tags:
+      - Deployment
+  /public/v1/deployments/{id}:
+    patch:
+      operationId: DeploymentController_update
+      summary: Update a deployment entity
+      parameters:
+      - name: id
+        required: true
+        in: path
+        description: ID of the deployment entity.
+        schema: {}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateDeploymentDto'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeploymentDto'
+        '400':
+          description: Returned when request body is not valid
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden request
+        '404':
+          description: Deployment not found
+        '500':
+          description: Internal server error
+      tags:
+      - Deployment
+    delete:
+      operationId: DeploymentController_delete
+      summary: Delete a deployment entity
+      parameters:
+      - name: id
+        required: true
+        in: path
+        description: ID of the deployment entity.
+        schema: {}
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: Returned when request body is not valid
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden request
+        '404':
+          description: Deployment not found
+        '500':
+          description: Internal server error
+      tags:
+      - Deployment
+components:
+  schemas:
+    UpdateDeploymentDto:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of deployment
+        description:
+          type: string
+          description: The description of deployment
+        status:
+          type: string
+          enum:
+          - PENDING
+          - IN_PROGRESS
+          - FAILED
+          - SUCCESS
+          - CANCELLED
+          - OTHER
+          - UNKNOWN
+          - INACTIVE
+          - ABANDONED
+          - NOT_DEPLOYED
+          - QUEUED
+          description: The status of deployment
+        sha:
+          type: string
+          description: The commit SHA hash of deployment
+        url:
+          type: string
+          description: The url on the web page with deployment details
+        version:
+          type: string
+          description: The version of deployment
+        login:
+          type: string
+          description: The login of deployment owner
+        ownerEmail:
+          type: string
+          description: The email of deployment owner
+        startedAt:
+          format: date-time
+          type: string
+          example: '2024-03-20T00:00:00.000Z'
+          description: The start date of deployment
+        finishedAt:
+          format: date-time
+          type: string
+          example: '2024-03-20T00:00:00.000Z'
+          description: The finished date of deployment
+    PaginatedResponseDto:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            type: array
+        totalFound:
+          type: number
+        pageNumber:
+          type: number
+        pageSize:
+          type: number
+        aggregation:
+          type: object
+      required:
+      - items
+      - totalFound
+      - pageNumber
+      - pageSize
+    DeploymentDto:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        orgId:
+          type: string
+        description:
+          type: string
+          description: Deployment entity description
+        status:
+          type: string
+          enum:
+          - PENDING
+          - IN_PROGRESS
+          - FAILED
+          - SUCCESS
+          - CANCELLED
+          - OTHER
+          - UNKNOWN
+          - INACTIVE
+          - ABANDONED
+          - NOT_DEPLOYED
+          - QUEUED
+        repositoryId:
+          type: string
+          description: The repository id
+        environmentId:
+          type: string
+          description: The environment id
+        originalEnvironment:
+          type: string
+          description: The original environment name
+        sha:
+          type: string
+        ref:
+          type: string
+        url:
+          type: string
+          description: The url on the web page with detail
+        version:
+          type: string
+        login:
+          type: string
+        ownerEmail:
+          type: string
+        duration:
+          type: number
+        createdBy:
+          type: string
+        lastChangedBy:
+          type: string
+        createdAt:
+          format: date-time
+          type: string
+        updatedAt:
+          format: date-time
+          type: string
+        startedAt:
+          format: date-time
+          type: string
+        finishedAt:
+          format: date-time
+          type:
+          - string
+          - 'null'
+      required:
+      - id
+      - name
+      - orgId
+      - status
+      - repositoryId
+      - createdBy
+      - lastChangedBy
+      - createdAt
+      - startedAt
+    CreateDeploymentDto:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of deployment
+        description:
+          type: string
+          description: The description of deployment
+        repositoryId:
+          type: string
+          description: The repository id in the Configure8 application
+        environment:
+          type: string
+          description: The environment of deployment
+        status:
+          type: string
+          enum:
+          - PENDING
+          - IN_PROGRESS
+          - FAILED
+          - SUCCESS
+          - CANCELLED
+          - OTHER
+          - UNKNOWN
+          - INACTIVE
+          - ABANDONED
+          - NOT_DEPLOYED
+          - QUEUED
+          description: The status of deployment
+        sha:
+          type: string
+          description: The commit SHA hash of deployment
+        ref:
+          type: string
+          description: The commit branch of deployment
+        url:
+          type: string
+          description: The url on the web page with deployment details
+        startedAt:
+          format: date-time
+          type: string
+          example: '2024-03-20T00:00:00.000Z'
+          description: The start date of deployment
+        version:
+          type: string
+          description: The version of deployment
+        login:
+          type: string
+          description: The login of deployment owner
+        ownerEmail:
+          type: string
+          description: The email of deployment owner
+        finishedAt:
+          format: date-time
+          type: string
+          example: '2024-03-20T00:00:00.000Z'
+          description: The finished date of deployment
+      required:
+      - name
+      - repositoryId
+      - environment
+      - status
+      - sha
+      - ref
+      - url
+      - startedAt
+  securitySchemes:
+    api-key:
+      type: apiKey
+      in: header
+      name: Api-Key
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

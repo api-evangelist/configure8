@@ -1,11 +1,13 @@
 openapi: 3.2.0
 info:
-  title: Configure8 Public REST Catalog Entities Users API
-  version: v1
-  description: Best-effort OpenAPI 3.1 description of the Configure8 public REST API, derived from the published API reference at https://docs.configure8.io/ and https://configure8.readme.io/reference. Covers catalog entities, catalog relations, scorecards, users, and related Internal Developer Portal operations. Endpoint paths and request shapes follow Configure8's documented `/public/v1` surface.
-  contact:
-    name: Configure8 Documentation
-    url: https://docs.configure8.io/
+  title: Configure8 Users API
+  x-refined-note:
+  - x-generated-from differs across the merged source definitions and was not carried
+  - x-provenance-note differs across the merged source definitions and was not carried
+  - x-refined-note differs across the merged source definitions and was not carried
+  - x-superseded-by differs across the merged source definitions and was not carried
+  version: '1.0'
+  description: 'Operations tagged Users across 2 of this provider''s published API definitions: configure8-openapi.yml, configure8-users-api-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://{tenant}.configure8.io/public/v1
   description: Configure8 SaaS tenant
@@ -13,8 +15,6 @@ servers:
     tenant:
       default: app
       description: Configure8 tenant subdomain
-security:
-- apiKey: []
 tags:
 - name: Users
 paths:
@@ -42,6 +42,15 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/User'
+      security:
+      - apiKey: []
+    servers:
+    - url: https://{tenant}.configure8.io/public/v1
+      description: Configure8 SaaS tenant
+      variables:
+        tenant:
+          default: app
+          description: Configure8 tenant subdomain
   /users/{id}:
     parameters:
     - name: id
@@ -67,6 +76,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
+      security:
+      - apiKey: []
     delete:
       tags:
       - Users
@@ -75,6 +86,144 @@ paths:
       responses:
         '204':
           description: Deleted
+      security:
+      - apiKey: []
+    servers:
+    - url: https://{tenant}.configure8.io/public/v1
+      description: Configure8 SaaS tenant
+      variables:
+        tenant:
+          default: app
+          description: Configure8 tenant subdomain
+  /public/v1/users/{id}:
+    servers:
+    - url: https://{tenant}.configure8.io/public/v1
+      description: Configure8 SaaS tenant
+      variables:
+        tenant:
+          default: app
+          description: Configure8 tenant subdomain
+    patch:
+      operationId: UserController_updateUserById
+      summary: Update a user entity
+      parameters:
+      - name: id
+        required: true
+        in: path
+        description: Unique id of user to update
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUserDto'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDto'
+        '404':
+          description: Requested user not found
+        '409':
+          description: ''
+      tags:
+      - Users
+    delete:
+      operationId: UserController_deleteUserById
+      summary: Delete a user entity
+      parameters:
+      - name: id
+        required: true
+        in: path
+        description: Unique id of user to delete
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+        '404':
+          description: Requested user not found
+        '409':
+          description: ''
+      tags:
+      - Users
+  /public/v1/users:
+    servers:
+    - url: https://{tenant}.configure8.io/public/v1
+      description: Configure8 SaaS tenant
+      variables:
+        tenant:
+          default: app
+          description: Configure8 tenant subdomain
+    get:
+      operationId: UserController_getAllUsers
+      summary: Return list of users based on the given filters
+      parameters:
+      - name: searchTerms
+        required: false
+        in: query
+        description: Search term to filter users on that, Regex expressions can be used too
+        schema:
+          type: string
+      - name: pageNumber
+        required: false
+        in: query
+        description: Page number for getting results
+        schema:
+          default: 0
+          type: number
+      - name: pageSize
+        required: false
+        in: query
+        description: How many users should be included in one page
+        schema:
+          default: 20
+          type: number
+      - name: sortProperty
+        required: false
+        in: query
+        description: Sort the result based on this property
+        schema:
+          default: lastName
+          enum:
+          - id
+          - firstName
+          - lastName
+          - email
+          - displayName
+          - orgId
+          - status
+          - role
+          - photoUrl
+          - acceptedTermsOfServiceAndPrivacyPolicyAt
+          - createdAt
+          - updatedAt
+          - lastChangedBy
+          - lastLoginAt
+          type: string
+      - name: sortOrder
+        required: false
+        in: query
+        description: Sort order
+        schema:
+          default: ASC
+          enum:
+          - ASC
+          - DESC
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsersPageDto'
+      tags:
+      - Users
 components:
   schemas:
     User:
@@ -89,9 +238,132 @@ components:
           type: string
         role:
           type: string
+    UpdateUserDto:
+      type: object
+      properties:
+        firstName:
+          type: string
+          description: User first name
+        lastName:
+          type: string
+          description: User last name
+        displayName:
+          type: string
+          description: User display name
+        photoUrl:
+          type: string
+          description: User avatar url
+        status:
+          type: string
+          description: User status
+          enum:
+          - INVITED
+          - UNVERIFIED
+          - ACTIVE
+          - DISABLED
+        role:
+          type: string
+          description: User role
+          enum:
+          - USER
+          - ADMIN
+    UsersPageDto:
+      type: object
+      properties:
+        items:
+          description: List of users
+          type: array
+          items:
+            $ref: '#/components/schemas/User_2'
+        totalFound:
+          type: number
+          description: Total users found by this endpoint call
+        pageSize:
+          type: number
+          description: Maximum users in one paginated response
+        pageNumber:
+          type: number
+          description: Requested page, note that it starts with 0
+      required:
+      - items
+      - totalFound
+      - pageSize
+      - pageNumber
+    User_2:
+      type: object
+      properties: {}
+    UserDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: User id
+        email:
+          type: string
+          description: User email
+        orgId:
+          type: string
+          description: User organization id
+        firstName:
+          type: string
+          description: User first name
+        lastName:
+          type: string
+          description: User last name
+        displayName:
+          type: string
+          description: User display name
+        status:
+          type: string
+          enum:
+          - INVITED
+          - UNVERIFIED
+          - ACTIVE
+          - DISABLED
+          description: User status
+        role:
+          type: string
+          enum:
+          - USER
+          - ADMIN
+          description: User role
+        photoUrl:
+          type: string
+          description: User avatar url
+        acceptedTermsOfServiceAndPrivacyPolicyAt:
+          format: date-time
+          type: string
+          description: Identifier for when user accepted terms of service and privacy policy
+        lastChangedBy:
+          type: string
+          description: Who last changed this user info
+        lastLoginAt:
+          format: date-time
+          type: string
+          description: Last user login date
+        provisioned:
+          type: boolean
+          description: Indificates if user created with SCIM
+      required:
+      - id
+      - email
+      - orgId
+      - status
+      - role
   securitySchemes:
     apiKey:
       type: apiKey
       in: header
       name: Authorization
       description: Bearer/API token issued from the Configure8 UI; passed in the Authorization header
+    api-key:
+      type: apiKey
+      in: header
+      name: Api-Key
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+x-refined-from:
+- configure8-openapi.yml
+- configure8-users-api-openapi.yml

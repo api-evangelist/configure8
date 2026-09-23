@@ -1,0 +1,1485 @@
+openapi: 3.2.0
+info:
+  title: C8 Public SCIM API
+  description: Documentation for C8 Public API
+  version: 1.0.0
+  contact: {}
+servers: []
+tags:
+- name: SCIM
+paths:
+  /public/v2/scim/Users/{id}:
+    get:
+      operationId: SCIMController_getUser
+      summary: Get a SCIM user
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SCIMUserDto'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SCIMErrorDto'
+        '403':
+          description: Forbidden request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SCIMErrorDto'
+        '404':
+          description: Returned when user is not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SCIMErrorDto'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SCIMErrorDto'
+      tags:
+      - SCIM
+      security:
+      - bearer: []
+    put:
+      operationId: SCIMController_putUser
+      summary: SCIM controller put user
+      description: Update a SCIM user
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SCIMUserDto'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SCIMUserDto'
+        '400':
+          description: Returned when request body is not valid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SCIMErrorDto'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SCIMErrorDto'
+        '403':
+          description: Forbidden request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SCIMErrorDto'
+        '404':
+          description: Returned when user is not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SCIMErrorDto'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SCIMErrorDto'
+      tags:
+      - SCIM
+      security:
+      - bearer: []
+      x-summary-source: derived
+    patch:
+      operationId: SCIMController_patchUser
+      summary: Updates a SCIM user status
+      description: Patch a SCIM user
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SCIMUserPatchBodyDto'
+      responses:
+        '204':
+          description: ''
+        '400':
+          description: Returned when request body is not valid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SCIMErrorDto'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SCIMErrorDto'
+        '403':
+          description: Forbidden request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SCIMErrorDto'
+        '404':
+          description: Returned when user is not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SCIMErrorDto'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SCIMErrorDto'
+      tags:
+      - SCIM
+      security:
+      - bearer: []
+    delete:
+      operationId: SCIMController_deleteUser
+      summary: SCIM controller delete user
+      description: Delete a SCIM user
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+        '400':
+          description: Returned when request can not be processed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SCIMErrorDto'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SCIMErrorDto'
+        '403':
+          description: Forbidden request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SCIMErrorDto'
+        '404':
+          description: Returned when user is not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SCIMErrorDto'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SCIMErrorDto'
+      tags:
+      - SCIM
+      security:
+      - bearer: []
+      x-summary-source: derived
+  /public/v2/scim/Users:
+    get:
+      operationId: SCIMController_getUsers
+      summary: Get SCIM users
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SCIMUserListDto'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SCIMErrorDto'
+        '403':
+          description: Forbidden request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SCIMErrorDto'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SCIMErrorDto'
+      tags:
+      - SCIM
+      security:
+      - bearer: []
+    post:
+      operationId: SCIMController_createUser
+      summary: Create a SCIM user
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SCIMCreateUserDto'
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SCIMUserDto'
+        '400':
+          description: Returned when request body is not valid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SCIMErrorDto'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SCIMErrorDto'
+        '403':
+          description: Forbidden request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SCIMErrorDto'
+        '409':
+          description: Returned if user already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SCIMErrorDto'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SCIMErrorDto'
+      tags:
+      - SCIM
+      security:
+      - bearer: []
+  /public/v2/scim/Groups:
+    get:
+      operationId: SCIMController_getGroups
+      summary: Get SCIM group list
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SCIMGroupListDto'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SCIMErrorDto'
+        '403':
+          description: Forbidden request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SCIMErrorDto'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SCIMErrorDto'
+      tags:
+      - SCIM
+      security:
+      - bearer: []
+    post:
+      operationId: SCIMController_createGroup
+      summary: Create a SCIM group
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SCIMGroupCreateDto'
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SCIMGroupDto'
+        '400':
+          description: Returned when request body is not valid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SCIMErrorDto'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SCIMErrorDto'
+        '403':
+          description: Forbidden request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SCIMErrorDto'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SCIMErrorDto'
+      tags:
+      - SCIM
+      security:
+      - bearer: []
+  /public/v2/scim/Groups/{id}:
+    get:
+      operationId: SCIMController_getGroup
+      summary: Get SCIM group
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SCIMGroupDto'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SCIMErrorDto'
+        '403':
+          description: Forbidden request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SCIMErrorDto'
+        '404':
+          description: Returned when group is not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SCIMErrorDto'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SCIMErrorDto'
+      tags:
+      - SCIM
+      security:
+      - bearer: []
+    put:
+      operationId: SCIMController_putGroup
+      summary: Updates group membership or group name
+      description: Update a SCIM group
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SCIMGroupUpdateDto'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SCIMGroupDto'
+        '400':
+          description: Returned when request body is not valid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SCIMErrorDto'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SCIMErrorDto'
+        '403':
+          description: Forbidden request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SCIMErrorDto'
+        '404':
+          description: Returned when group is not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SCIMErrorDto'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SCIMErrorDto'
+      tags:
+      - SCIM
+      security:
+      - bearer: []
+    patch:
+      operationId: SCIMController_patchGroup
+      summary: SCIM controller patch group
+      description: Patch a SCIM group. Supports add, remove, and replace members or replace group name
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SCIMGroupPatchBodyDto'
+      responses:
+        '204':
+          description: Group patched successfully
+        '400':
+          description: Returned when request body is not valid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SCIMErrorDto'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SCIMErrorDto'
+        '403':
+          description: Forbidden request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SCIMErrorDto'
+        '404':
+          description: Returned when group is not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SCIMErrorDto'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SCIMErrorDto'
+      tags:
+      - SCIM
+      security:
+      - bearer: []
+      x-summary-source: derived
+    delete:
+      operationId: SCIMController_deleteGroup
+      summary: SCIM controller delete group
+      description: Delete a SCIM group
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+        '400':
+          description: Returned when request can not be processed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SCIMErrorDto'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SCIMErrorDto'
+        '403':
+          description: Forbidden request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SCIMErrorDto'
+        '404':
+          description: Returned when group is not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SCIMErrorDto'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SCIMErrorDto'
+      tags:
+      - SCIM
+      security:
+      - bearer: []
+      x-summary-source: derived
+  /public/v2/scim/ServiceProviderConfig:
+    get:
+      operationId: SCIMController_getServiceProviderConfig
+      summary: Get SCIM service provider configuration
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScimSchemaServiceProviderConfigDto'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SCIMErrorDto'
+        '403':
+          description: Forbidden request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SCIMErrorDto'
+      tags:
+      - SCIM
+      security:
+      - bearer: []
+  /public/v2/scim/ResourceTypes:
+    get:
+      operationId: SCIMController_getResourceTypes
+      summary: Get SCIM ResourceTypes schema
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScimResourceTypeDto'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SCIMErrorDto'
+        '403':
+          description: Forbidden request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SCIMErrorDto'
+      tags:
+      - SCIM
+      security:
+      - bearer: []
+  /public/v2/scim/Schemas:
+    get:
+      operationId: SCIMController_getSchemas
+      summary: Get array of all SCIM SCHEMAS
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/ScimSchemaUserDto'
+                - $ref: '#/components/schemas/ScimSchemaGroupDto'
+                - $ref: '#/components/schemas/ScimSchemaServiceProviderConfigDto'
+                - type: array
+                  items:
+                    $ref: '#/components/schemas/ScimResourceTypeDto'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SCIMErrorDto'
+        '403':
+          description: Forbidden request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SCIMErrorDto'
+      tags:
+      - SCIM
+      security:
+      - bearer: []
+  /public/v2/scim/Schemas/{schema}:
+    get:
+      operationId: SCIMController_getSchema
+      summary: Get SCIM schema by schema id
+      parameters:
+      - name: schema
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/ScimSchemaUserDto'
+                - $ref: '#/components/schemas/ScimSchemaGroupDto'
+                - $ref: '#/components/schemas/ScimSchemaServiceProviderConfigDto'
+                - type: array
+                  items:
+                    $ref: '#/components/schemas/ScimResourceTypeDto'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SCIMErrorDto'
+        '403':
+          description: Forbidden request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SCIMErrorDto'
+      tags:
+      - SCIM
+      security:
+      - bearer: []
+components:
+  schemas:
+    SCIMGroupCreateDto:
+      type: object
+      properties:
+        schemas:
+          type: array
+          description: SCIM group create schemas
+          items:
+            type: string
+            enum:
+            - urn:ietf:params:scim:schemas:core:2.0:User
+            - urn:ietf:params:scim:schemas:core:2.0:Group
+            - urn:ietf:params:scim:api:messages:2.0:ListResponse
+            - urn:ietf:params:scim:api:messages:2.0:Error
+            - urn:ietf:params:scim:api:messages:2.0:PatchOp
+            - urn:ietf:params:scim:schemas:core:2.0:ServiceProviderConfig
+            - urn:ietf:params:scim:schemas:core:2.0:ResourceType
+        displayName:
+          type: string
+          description: SCIM group name
+        members:
+          description: SCIM group members
+          type: array
+          items:
+            $ref: '#/components/schemas/SCIMGroupMemberDto'
+      required:
+      - schemas
+      - displayName
+      - members
+    SCIMUserPatchBodyDto:
+      type: object
+      properties:
+        schemas:
+          description: Patch operation schemas
+          type: array
+          items:
+            type: string
+        Operations:
+          description: Patch operation list
+          type: array
+          items:
+            type: string
+      required:
+      - schemas
+      - Operations
+    SCIMSchemaMemberDto:
+      type: object
+      properties:
+        value:
+          type: string
+          description: The value of an attribute.
+        $ref:
+          type: string
+          description: The URI of a resource.
+        display:
+          type: string
+          description: The displayName of a resource.
+      required:
+      - value
+      - $ref
+      - display
+    SCIMGroupMemberDto:
+      type: object
+      properties:
+        value:
+          type: string
+          description: SCIM group member id
+        $ref:
+          type: string
+          description: SCIM group member API URL
+        display:
+          type: string
+          description: SCIM group member name
+      required:
+      - value
+      - $ref
+      - display
+    SCIMSchemaBulk:
+      type: object
+      properties:
+        supported:
+          type: boolean
+          description: Indicates whether or not the operation is supported.
+        maxOperations:
+          type: number
+          description: The maximum number of operations.
+        maxPayloadSize:
+          type: number
+          description: The maximum payload size in bytes.
+      required:
+      - supported
+      - maxOperations
+      - maxPayloadSize
+    SCIMSchemaPatchDto:
+      type: object
+      properties:
+        supported:
+          type: boolean
+          description: Indicates whether or not the operation is required.
+      required:
+      - supported
+    SCIMCreateUserDto:
+      type: object
+      properties:
+        schemas:
+          type: array
+          description: SCIM user create schemas
+          items:
+            type: string
+            enum:
+            - urn:ietf:params:scim:schemas:core:2.0:User
+            - urn:ietf:params:scim:schemas:core:2.0:Group
+            - urn:ietf:params:scim:api:messages:2.0:ListResponse
+            - urn:ietf:params:scim:api:messages:2.0:Error
+            - urn:ietf:params:scim:api:messages:2.0:PatchOp
+            - urn:ietf:params:scim:schemas:core:2.0:ServiceProviderConfig
+            - urn:ietf:params:scim:schemas:core:2.0:ResourceType
+        externalId:
+          type: string
+          description: SCIM external user id
+        userName:
+          type: string
+          description: SCIM username
+        name:
+          description: SCIM user name details
+          allOf:
+          - $ref: '#/components/schemas/SCIMUserNameDto'
+        displayName:
+          type: string
+          description: SCIM user display name
+        active:
+          type: boolean
+          description: SCIM user active status
+        emails:
+          description: SCIM user emails
+          type: array
+          items:
+            $ref: '#/components/schemas/SCIMUserEmailDto'
+        groups:
+          description: SCIM user groups
+          type: array
+          items:
+            $ref: '#/components/schemas/SCIMUserGroupDto'
+      required:
+      - schemas
+      - externalId
+      - userName
+      - name
+      - displayName
+      - active
+      - emails
+      - groups
+    SCIMGroupListDto:
+      type: object
+      properties:
+        schemas:
+          type: array
+          description: SCIM group create schemas
+          items:
+            type: string
+            enum:
+            - urn:ietf:params:scim:schemas:core:2.0:User
+            - urn:ietf:params:scim:schemas:core:2.0:Group
+            - urn:ietf:params:scim:api:messages:2.0:ListResponse
+            - urn:ietf:params:scim:api:messages:2.0:Error
+            - urn:ietf:params:scim:api:messages:2.0:PatchOp
+            - urn:ietf:params:scim:schemas:core:2.0:ServiceProviderConfig
+            - urn:ietf:params:scim:schemas:core:2.0:ResourceType
+        totalResults:
+          type: number
+          description: Total result number
+        startIndex:
+          type: number
+          description: List start index
+        itemsPerPage:
+          type: number
+          description: Items per page
+        Resources:
+          description: SCIM group list
+          allOf:
+          - $ref: '#/components/schemas/SCIMGroupDto'
+      required:
+      - schemas
+      - totalResults
+      - startIndex
+      - itemsPerPage
+      - Resources
+    SCIMSchemaMetaDto:
+      type: object
+      properties:
+        resourceType:
+          type: string
+          description: The resource's type. This value is always "Schema".
+        created:
+          type: string
+          description: When this schema created.
+        lastModified:
+          type: string
+          description: When this schema last modified.
+        version:
+          type: string
+          description: The schema's version. This value is REQUIRED.
+        location:
+          type: string
+          description: The schema's HTTP-addressable URL relative to the Base URL of the service provider, e.g., "/Schemas/urn:ietf:params:scim:schemas:core:2.0:User". This value is REQUIRED.
+    SCIMGroupDto:
+      type: object
+      properties:
+        schemas:
+          type: array
+          description: SCIM group create schemas
+          items:
+            type: string
+            enum:
+            - urn:ietf:params:scim:schemas:core:2.0:User
+            - urn:ietf:params:scim:schemas:core:2.0:Group
+            - urn:ietf:params:scim:api:messages:2.0:ListResponse
+            - urn:ietf:params:scim:api:messages:2.0:Error
+            - urn:ietf:params:scim:api:messages:2.0:PatchOp
+            - urn:ietf:params:scim:schemas:core:2.0:ServiceProviderConfig
+            - urn:ietf:params:scim:schemas:core:2.0:ResourceType
+        displayName:
+          type: string
+          description: SCIM group name
+        members:
+          description: SCIM group members
+          type: array
+          items:
+            $ref: '#/components/schemas/SCIMGroupMemberDto'
+        id:
+          type: string
+          description: SCIM group id
+        meta:
+          description: SCIM group meta
+          allOf:
+          - $ref: '#/components/schemas/SCIMGroupMetaDto'
+      required:
+      - schemas
+      - displayName
+      - members
+      - id
+      - meta
+    ScimSchemaUserDto:
+      type: object
+      properties:
+        schemas:
+          type: array
+          description: The list of supported schemas for the resource type. The value must be one of the URIs listed in the Schemas section.
+          items:
+            type: string
+            enum:
+            - urn:ietf:params:scim:schemas:core:2.0:User
+            - urn:ietf:params:scim:schemas:core:2.0:Group
+            - urn:ietf:params:scim:api:messages:2.0:ListResponse
+            - urn:ietf:params:scim:api:messages:2.0:Error
+            - urn:ietf:params:scim:api:messages:2.0:PatchOp
+            - urn:ietf:params:scim:schemas:core:2.0:ServiceProviderConfig
+            - urn:ietf:params:scim:schemas:core:2.0:ResourceType
+        id:
+          type: string
+          description: The resource type's server unique id. This is a read-only value.
+        userName:
+          type: string
+          description: The resource type name. This is a human-readable name.
+        meta:
+          description: The resource meta
+          allOf:
+          - $ref: '#/components/schemas/SCIMSchemaMetaDto'
+        active:
+          type: boolean
+          description: A Boolean value indicating the User's administrative status.
+        displayName:
+          type: string
+          description: The name of the User, suitable for display to end-users.
+        emails:
+          description: Email addresses for the user. The value SHOULD be canonicalized by the service provider.
+          type: array
+          items:
+            $ref: '#/components/schemas/SCIMUserEmailDto'
+        externalId:
+          type: string
+          description: The URI of the User's photo.
+        groups:
+          description: A list of groups to which the user belongs, either through direct membership, through nested groups, or dynamically calculated.
+          type: array
+          items:
+            $ref: '#/components/schemas/SCIMUserGroupDto'
+        name:
+          description: The components of the user's real name.
+          allOf:
+          - $ref: '#/components/schemas/SCIMUserNameDto'
+      required:
+      - schemas
+      - id
+      - userName
+      - meta
+      - emails
+      - externalId
+      - groups
+      - name
+    SCIMSchemaEtagDto:
+      type: object
+      properties:
+        supported:
+          type: boolean
+          description: Indicates whether or not the operation is supported.
+      required:
+      - supported
+    SCIMUserMetaDto:
+      type: object
+      properties:
+        resourceType:
+          type: string
+          description: SCIM user meta type
+          enum:
+          - User
+          - Group
+        created:
+          type: string
+          description: SCIM user created date
+        lastModified:
+          type: string
+          description: SCIM user created date
+        location:
+          type: string
+          description: SCIM user API url
+      required:
+      - resourceType
+    ScimSchemaGroupDto:
+      type: object
+      properties:
+        schemas:
+          type: array
+          description: The list of supported schemas for the resource type. The value must be one of the URIs listed in the Schemas section.
+          items:
+            type: string
+            enum:
+            - urn:ietf:params:scim:schemas:core:2.0:User
+            - urn:ietf:params:scim:schemas:core:2.0:Group
+            - urn:ietf:params:scim:api:messages:2.0:ListResponse
+            - urn:ietf:params:scim:api:messages:2.0:Error
+            - urn:ietf:params:scim:api:messages:2.0:PatchOp
+            - urn:ietf:params:scim:schemas:core:2.0:ServiceProviderConfig
+            - urn:ietf:params:scim:schemas:core:2.0:ResourceType
+        id:
+          type: string
+          description: The resource type's server unique id. This is a read-only value.
+        displayName:
+          type: string
+          description: The resource type name. This is a human-readable name.
+        members:
+          description: The resource type's primary/base schema URI, e.g., "urn:ietf:params:scim:schemas:core:2.0:User".
+          type: array
+          items:
+            $ref: '#/components/schemas/SCIMSchemaMemberDto'
+        meta:
+          description: The resource type's meta information.
+          allOf:
+          - $ref: '#/components/schemas/SCIMSchemaMetaDto'
+      required:
+      - schemas
+      - id
+      - displayName
+      - members
+      - meta
+    SCIMUserEmailDto:
+      type: object
+      properties:
+        value:
+          type: string
+          description: SCIM user email value
+        type:
+          type: string
+          description: SCIM user email type
+        primary:
+          type: boolean
+          description: SCIM user primary email marker
+      required:
+      - value
+      - type
+      - primary
+    SCIMErrorDto:
+      type: object
+      properties:
+        schemas:
+          type: array
+          items:
+            type: string
+            enum:
+            - urn:ietf:params:scim:schemas:core:2.0:User
+            - urn:ietf:params:scim:schemas:core:2.0:Group
+            - urn:ietf:params:scim:api:messages:2.0:ListResponse
+            - urn:ietf:params:scim:api:messages:2.0:Error
+            - urn:ietf:params:scim:api:messages:2.0:PatchOp
+            - urn:ietf:params:scim:schemas:core:2.0:ServiceProviderConfig
+            - urn:ietf:params:scim:schemas:core:2.0:ResourceType
+        detail:
+          type: string
+          readOnly: true
+        status:
+          type: number
+          readOnly: true
+      required:
+      - schemas
+      - detail
+      - status
+    SCIMSchemaFilterDto:
+      type: object
+      properties:
+        supported:
+          type: boolean
+          description: Indicates whether or not the operation is supported.
+          default: false
+        maxResults:
+          type: number
+          description: The maximum number of results returned by the server. The maximum value is 100.
+      required:
+      - supported
+      - maxResults
+    ScimResourceTypeDto:
+      type: object
+      properties:
+        schemas:
+          type: array
+          description: The list of supported schemas for the resource type. The value must be one of the URIs listed in the Schemas section.
+          items:
+            type: string
+            enum:
+            - urn:ietf:params:scim:schemas:core:2.0:User
+            - urn:ietf:params:scim:schemas:core:2.0:Group
+            - urn:ietf:params:scim:api:messages:2.0:ListResponse
+            - urn:ietf:params:scim:api:messages:2.0:Error
+            - urn:ietf:params:scim:api:messages:2.0:PatchOp
+            - urn:ietf:params:scim:schemas:core:2.0:ServiceProviderConfig
+            - urn:ietf:params:scim:schemas:core:2.0:ResourceType
+        id:
+          type: string
+          description: The resource type's server unique id. This is a read-only value.
+        name:
+          type: string
+          description: The resource type name. This is a human-readable name.
+        endpoint:
+          type: string
+          description: The resource type's HTTP-addressable endpoint relative to the Base URL of the service provider, e.g., "Users".
+        description:
+          type: string
+          description: The resource type's primary/base schema URI, e.g., "urn:ietf:params:scim:schemas:core:2.0:User".
+        schema:
+          type: string
+          enum:
+          - urn:ietf:params:scim:schemas:core:2.0:User
+          - urn:ietf:params:scim:schemas:core:2.0:Group
+          - urn:ietf:params:scim:api:messages:2.0:ListResponse
+          - urn:ietf:params:scim:api:messages:2.0:Error
+          - urn:ietf:params:scim:api:messages:2.0:PatchOp
+          - urn:ietf:params:scim:schemas:core:2.0:ServiceProviderConfig
+          - urn:ietf:params:scim:schemas:core:2.0:ResourceType
+          description: The resource type's primary/base schema URI, e.g., "urn:ietf:params:scim:schemas:core:2.0:User".
+        schemaExtensions:
+          type: array
+          items:
+            type: object
+          description: The resource type's schema extensions, e.g., "urn:ietf:params:scim:schemas:extension:enterprise:2.0:User". This value is OPTIONAL.
+        meta:
+          description: The resource type's meta information.
+          allOf:
+          - $ref: '#/components/schemas/SCIMSchemaMetaDto'
+      required:
+      - schemas
+      - id
+      - name
+      - endpoint
+      - description
+      - schema
+      - schemaExtensions
+      - meta
+    SCIMGroupUpdateDto:
+      type: object
+      properties:
+        schemas:
+          type: array
+          description: SCIM group create schemas
+          items:
+            type: string
+            enum:
+            - urn:ietf:params:scim:schemas:core:2.0:User
+            - urn:ietf:params:scim:schemas:core:2.0:Group
+            - urn:ietf:params:scim:api:messages:2.0:ListResponse
+            - urn:ietf:params:scim:api:messages:2.0:Error
+            - urn:ietf:params:scim:api:messages:2.0:PatchOp
+            - urn:ietf:params:scim:schemas:core:2.0:ServiceProviderConfig
+            - urn:ietf:params:scim:schemas:core:2.0:ResourceType
+        displayName:
+          type: string
+          description: SCIM group name
+        members:
+          description: SCIM group members
+          type: array
+          items:
+            $ref: '#/components/schemas/SCIMGroupMemberDto'
+        id:
+          type: string
+          description: SCIM group id
+      required:
+      - schemas
+      - displayName
+      - members
+      - id
+    SCIMSchemaSortDto:
+      type: object
+      properties:
+        supported:
+          type: boolean
+          description: Indicates whether or not the operation is supported.
+      required:
+      - supported
+    SCIMUserListDto:
+      type: object
+      properties:
+        schemas:
+          type: array
+          description: SCIM user create schemas
+          items:
+            type: string
+            enum:
+            - urn:ietf:params:scim:schemas:core:2.0:User
+            - urn:ietf:params:scim:schemas:core:2.0:Group
+            - urn:ietf:params:scim:api:messages:2.0:ListResponse
+            - urn:ietf:params:scim:api:messages:2.0:Error
+            - urn:ietf:params:scim:api:messages:2.0:PatchOp
+            - urn:ietf:params:scim:schemas:core:2.0:ServiceProviderConfig
+            - urn:ietf:params:scim:schemas:core:2.0:ResourceType
+        totalResults:
+          type: number
+          description: Total result number
+        startIndex:
+          type: number
+          description: List start index
+        itemsPerPage:
+          type: number
+          description: Items per page
+        Resources:
+          description: SCIM user list
+          allOf:
+          - $ref: '#/components/schemas/SCIMUserDto'
+      required:
+      - schemas
+      - totalResults
+      - startIndex
+      - itemsPerPage
+      - Resources
+    SCIMGroupPatchBodyDto:
+      type: object
+      properties:
+        schemas:
+          description: Patch operation schemas
+          type: array
+          items:
+            type: string
+        Operations:
+          description: Patch operation list
+          type: array
+          items:
+            type: string
+      required:
+      - schemas
+      - Operations
+    SCIMUserNameDto:
+      type: object
+      properties:
+        familyName:
+          type: string
+          description: SCIM user last name
+        givenName:
+          type: string
+          description: SCIM user first name
+      required:
+      - familyName
+      - givenName
+    ScimSchemaServiceProviderConfigDto:
+      type: object
+      properties:
+        schemas:
+          type: array
+          description: The list of supported schemas for the resource type. The value must be one of the URIs listed in the Schemas section.
+          items:
+            type: string
+            enum:
+            - urn:ietf:params:scim:schemas:core:2.0:User
+            - urn:ietf:params:scim:schemas:core:2.0:Group
+            - urn:ietf:params:scim:api:messages:2.0:ListResponse
+            - urn:ietf:params:scim:api:messages:2.0:Error
+            - urn:ietf:params:scim:api:messages:2.0:PatchOp
+            - urn:ietf:params:scim:schemas:core:2.0:ServiceProviderConfig
+            - urn:ietf:params:scim:schemas:core:2.0:ResourceType
+        documentationUri:
+          type: string
+          description: The resource document uri
+        patch:
+          description: The resource path
+          allOf:
+          - $ref: '#/components/schemas/SCIMSchemaPatchDto'
+        bulk:
+          description: The resource bulk
+          allOf:
+          - $ref: '#/components/schemas/SCIMSchemaBulk'
+        filter:
+          description: The resource filter
+          allOf:
+          - $ref: '#/components/schemas/SCIMSchemaFilterDto'
+        changePassword:
+          description: The resource change password
+          allOf:
+          - $ref: '#/components/schemas/SCIMSchemaChangePassword'
+        sort:
+          description: The resource sort
+          allOf:
+          - $ref: '#/components/schemas/SCIMSchemaSortDto'
+        etag:
+          description: The resource etag
+          allOf:
+          - $ref: '#/components/schemas/SCIMSchemaEtagDto'
+        authenticationSchemes:
+          description: The resource authentication schemes
+          type: array
+          items:
+            $ref: '#/components/schemas/SCIMSchemaAuthenticationSchemaDto'
+        meta:
+          description: The resource meta
+          allOf:
+          - $ref: '#/components/schemas/SCIMSchemaMetaDto'
+      required:
+      - schemas
+      - documentationUri
+      - patch
+      - bulk
+      - filter
+      - changePassword
+      - sort
+      - etag
+      - authenticationSchemes
+      - meta
+    SCIMUserGroupDto:
+      type: object
+      properties:
+        value:
+          type: string
+          description: SCIM user group id
+        display:
+          type: string
+          description: SCIM user group name
+      required:
+      - value
+      - display
+    SCIMGroupMetaDto:
+      type: object
+      properties:
+        resourceType:
+          type: string
+          description: SCIM resource type
+          enum:
+          - User
+          - Group
+        location:
+          type: string
+          description: SCIM group API URL
+      required:
+      - resourceType
+      - location
+    SCIMSchemaAuthenticationSchemaDto:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The common authentication schema name, e.g., HTTP Basic.
+        description:
+          type: string
+          description: The description of the authentication schema.
+        specUri:
+          type: string
+          description: The HTTP-addressable URL pointing to the authentication schema's specification.
+        documentationUri:
+          type: string
+          description: The HTTP-addressable URL pointing to the authentication schema's usage documentation.
+        type:
+          type: string
+          description: The type of authentication schema, e.g., "oauth", "oauth2", "oauthbearertoken", "httpbasic", "httpdigest".
+      required:
+      - name
+      - description
+      - specUri
+      - documentationUri
+      - type
+    SCIMUserDto:
+      type: object
+      properties:
+        schemas:
+          type: array
+          description: SCIM user create schemas
+          items:
+            type: string
+            enum:
+            - urn:ietf:params:scim:schemas:core:2.0:User
+            - urn:ietf:params:scim:schemas:core:2.0:Group
+            - urn:ietf:params:scim:api:messages:2.0:ListResponse
+            - urn:ietf:params:scim:api:messages:2.0:Error
+            - urn:ietf:params:scim:api:messages:2.0:PatchOp
+            - urn:ietf:params:scim:schemas:core:2.0:ServiceProviderConfig
+            - urn:ietf:params:scim:schemas:core:2.0:ResourceType
+        externalId:
+          type: string
+          description: SCIM external user id
+        userName:
+          type: string
+          description: SCIM username
+        name:
+          description: SCIM user name details
+          allOf:
+          - $ref: '#/components/schemas/SCIMUserNameDto'
+        displayName:
+          type: string
+          description: SCIM user display name
+        active:
+          type: boolean
+          description: SCIM user active status
+        emails:
+          description: SCIM user emails
+          type: array
+          items:
+            $ref: '#/components/schemas/SCIMUserEmailDto'
+        groups:
+          description: SCIM user groups
+          type: array
+          items:
+            $ref: '#/components/schemas/SCIMUserGroupDto'
+        id:
+          type: string
+          description: SCIM user id
+        meta:
+          description: SCIM user meta
+          allOf:
+          - $ref: '#/components/schemas/SCIMUserMetaDto'
+      required:
+      - schemas
+      - externalId
+      - userName
+      - name
+      - displayName
+      - active
+      - emails
+      - groups
+      - id
+      - meta
+    SCIMSchemaChangePassword:
+      type: object
+      properties:
+        supported:
+          type: boolean
+          description: Indicates whether or not the operation is supported.
+      required:
+      - supported
+  securitySchemes:
+    api-key:
+      type: apiKey
+      in: header
+      name: Api-Key
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

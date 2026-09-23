@@ -1,0 +1,104 @@
+openapi: 3.2.0
+info:
+  title: C8 Public Private SCIM API
+  description: Documentation for C8 Public API
+  version: 1.0.0
+  contact: {}
+servers: []
+tags:
+- name: Private SCIM
+paths:
+  /api/v1/scim:
+    patch:
+      operationId: ScimController_updateScimConfig
+      summary: Update SCIM config
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateScimConfigDto'
+      responses:
+        '200':
+          description: ''
+      tags:
+      - Private SCIM
+      security:
+      - bearer: []
+    delete:
+      operationId: ScimController_deleteScimConfig
+      summary: Delete SCIM config
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags:
+      - Private SCIM
+      security:
+      - bearer: []
+    get:
+      operationId: ScimController_getScimConfig
+      summary: Get SCIM config for user's organization
+      parameters: []
+      responses:
+        '200':
+          description: SCIM config for the user organization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScimConfigDto'
+      tags:
+      - Private SCIM
+      security:
+      - bearer: []
+      - bearer: []
+components:
+  schemas:
+    ScimConfigDto:
+      type: object
+      properties:
+        id:
+          type: string
+          readOnly: true
+        orgId:
+          type: string
+          readOnly: true
+        status:
+          type: string
+          readOnly: true
+          enum:
+          - ACTIVE
+          - DISABLED
+        lastChangedBy:
+          type: string
+          readOnly: true
+      required:
+      - id
+      - orgId
+      - status
+      - lastChangedBy
+    UpdateScimConfigDto:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Status of SCIM
+          example: ACTIVE
+          enum:
+          - ACTIVE
+          - DISABLED
+      required:
+      - status
+  securitySchemes:
+    api-key:
+      type: apiKey
+      in: header
+      name: Api-Key
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

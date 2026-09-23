@@ -1,0 +1,26 @@
+# Front Door AI Index — configure8 — 2026-09-17
+# AI vocabulary counted on the provider's root page. Generated; do not edit.
+# `score` is null unless ownership is `own` — see front_door_ai.py.
+front_door_ai:
+  slug: configure8
+  lexicon_version: '1.0'
+  probed_at: '2026-09-17'
+  host: www.configure8.io
+  final_host: configure8.io
+  ownership: own
+  owner: configure8
+  shares_host_with: null
+  inherited_from: null
+  verdict: silent
+  score: 0
+  host_score: 0
+  density: 0.0
+  words: 729
+  tiers:
+    agentic: 0
+    core: 0
+    model: 0
+  ambiguous: 3
+  top_terms:
+    cognitive: 2
+    agent: 1

@@ -6,6 +6,9 @@ info:
   contact:
     name: Configure8 Documentation
     url: https://docs.configure8.io/
+  x-generated-from: documentation
+  x-provenance-note: NOT HARVESTED. This document was written by API Evangelist as a best-effort reconstruction from configure8's published API reference, as its own description above says. It is superseded as of 2026-09-05 by the provider's REAL published contract, harvested verbatim to openapi/configure8-c8-public-api-openapi.json from https://configure8.readme.io/openapi/6579c0db5a5ca10ec19fd2f4 (declared by configure8's own /.well-known/api-catalog linkset). The real contract has 51 paths, 71 operations and 120 schemas against this file's 14 paths and 18 operations, uses the `Api-Key` header rather than `Authorization`, and carries a full SCIM 2.0 surface this file does not describe. Do not derive new artifacts from this file.
+  x-superseded-by: openapi/configure8-c8-public-api-openapi.json
 servers:
 - url: https://{tenant}.configure8.io/public/v1
   description: Configure8 SaaS tenant
@@ -158,38 +161,7 @@ paths:
         '201':
           description: Environment entity created
 components:
-  parameters:
-    EntityId:
-      name: id
-      in: path
-      required: true
-      schema:
-        type: string
   schemas:
-    EntityQuery:
-      type: object
-      properties:
-        kind:
-          type: string
-        owner:
-          type: string
-        tag:
-          type: string
-        search:
-          type: string
-        limit:
-          type: integer
-        offset:
-          type: integer
-    EntityList:
-      type: object
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/Entity'
-        total:
-          type: integer
     Entity:
       type: object
       properties:
@@ -223,6 +195,37 @@ components:
         metadata:
           type: object
           additionalProperties: true
+    EntityQuery:
+      type: object
+      properties:
+        kind:
+          type: string
+        owner:
+          type: string
+        tag:
+          type: string
+        search:
+          type: string
+        limit:
+          type: integer
+        offset:
+          type: integer
+    EntityList:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Entity'
+        total:
+          type: integer
+  parameters:
+    EntityId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
   securitySchemes:
     apiKey:
       type: apiKey

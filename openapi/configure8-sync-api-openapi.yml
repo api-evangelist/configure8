@@ -1,0 +1,157 @@
+openapi: 3.2.0
+info:
+  title: C8 Public Sync API
+  description: Documentation for C8 Public API
+  version: 1.0.0
+  contact: {}
+servers: []
+tags:
+- name: Sync
+paths:
+  /public/v1/sync/services/diff:
+    post:
+      operationId: SyncController_getServiceDiff
+      summary: Get a diff of services and their dependencies based on the given input
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetServiceDiffDto'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SyncServicesResultDto'
+      tags:
+      - Sync
+  /public/v1/sync/services:
+    post:
+      operationId: SyncController_applyServiceDiff
+      summary: Apply a diff of services and their dependencies
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApplyServiceDiffDto'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SyncServicesResultDto'
+      tags:
+      - Sync
+components:
+  schemas:
+    ApplyServiceDiffDto:
+      type: object
+      properties:
+        services:
+          description: The list of service definitions, where the key is the name of the service
+          allOf:
+          - $ref: '#/components/schemas/Services'
+        dependencies:
+          description: The list of service dependencies to be added/removed
+          allOf:
+          - $ref: '#/components/schemas/Dependencies'
+        metatagMappingName:
+          type: string
+          description: The metatag that will be used to map given services to existing ones with different names
+      required:
+      - services
+      - dependencies
+      - metatagMappingName
+    SyncServicesResultDto:
+      type: object
+      properties:
+        services:
+          $ref: '#/components/schemas/Services'
+        dependencies:
+          $ref: '#/components/schemas/Dependencies'
+        errors:
+          description: A list of errors that happened during the sync
+          type: array
+          items:
+            type: string
+      required:
+      - services
+      - dependencies
+    ServiceDefinition:
+      type: object
+      properties:
+        calls:
+          description: The list of service definitions, where the key is the name of the service
+          type: array
+          items:
+            type: string
+      required:
+      - calls
+    GetServiceDiffDto:
+      type: object
+      properties:
+        services:
+          type: object
+          description: The list of service definitions, where the key is the name of the service
+          additionalProperties:
+            $ref: '#/components/schemas/ServiceDefinition'
+        metatagMappingName:
+          type: string
+          description: The metatag that will be used to map given services to existing ones with different names
+      required:
+      - services
+      - metatagMappingName
+    Dependencies:
+      type: object
+      properties:
+        added:
+          type: object
+          description: A map of dependencies to be added, where the key is a service from the request
+          additionalProperties:
+            type: array
+            items:
+              type: string
+        removed:
+          type: object
+          description: A map of dependencies to be removed, where the key is a service from the request
+          additionalProperties:
+            type: array
+            items:
+              type: string
+      required:
+      - added
+      - removed
+    Services:
+      type: object
+      properties:
+        added:
+          description: A list of services to be added
+          type: array
+          items:
+            type: string
+        mappings:
+          type: object
+          description: Map where the key is a service passed in the request and the value is the name of an existing service in C8
+          additionalProperties:
+            type: string
+      required:
+      - added
+      - mappings
+  securitySchemes:
+    api-key:
+      type: apiKey
+      in: header
+      name: Api-Key
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true

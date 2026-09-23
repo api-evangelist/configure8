@@ -1,10 +1,19 @@
 {
   "provider": "configure8",
   "sources": [
-    "configure8-catalog-entities-api-openapi.yml",
-    "configure8-catalog-relations-api-openapi.yml",
-    "configure8-deployments-api-openapi.yml",
-    "configure8-scorecards-api-openapi.yml",
+    "_original/configure8-openapi.yml",
+    "configure8-catalog-entity-api-openapi.yml",
+    "configure8-catalog-entity-batch-api-openapi.yml",
+    "configure8-catalog-entity-metadata-api-openapi.yml",
+    "configure8-catalog-relation-api-openapi.yml",
+    "configure8-credential-api-openapi.yml",
+    "configure8-deployment-api-openapi.yml",
+    "configure8-module-settings-api-openapi.yml",
+    "configure8-private-scim-api-openapi.yml",
+    "configure8-scim-api-openapi.yml",
+    "configure8-scorecard-api-openapi.yml",
+    "configure8-sync-api-openapi.yml",
+    "configure8-templates-api-openapi.yml",
     "configure8-users-api-openapi.yml"
   ],
   "outputs": [
@@ -12,18 +21,47 @@
     "configure8-catalog-relations-api-openapi.yml",
     "configure8-deployments-api-openapi.yml",
     "configure8-scorecards-api-openapi.yml",
-    "configure8-users-api-openapi.yml"
+    "configure8-users-api-openapi.yml",
+    "configure8-catalog-entity-api-openapi.yml",
+    "configure8-catalog-entity-batch-api-openapi.yml",
+    "configure8-catalog-entity-metadata-api-openapi.yml",
+    "configure8-catalog-relation-api-openapi.yml",
+    "configure8-credential-api-openapi.yml",
+    "configure8-deployment-api-openapi.yml",
+    "configure8-module-settings-api-openapi.yml",
+    "configure8-private-scim-api-openapi.yml",
+    "configure8-scim-api-openapi.yml",
+    "configure8-scorecard-api-openapi.yml",
+    "configure8-sync-api-openapi.yml",
+    "configure8-templates-api-openapi.yml"
   ],
   "archived": [],
   "errors": [],
-  "warnings": [],
+  "warnings": [
+    "configure8-catalog-entity-api-openapi.yml: previously refined output kept for 23 operation(s) no archived document covers (e.g. /public/v1/catalog/entities post, /public/v1/catalog/entities/application post, /public/v1/catalog/entities/application/{id} patch); its other 0 operation(s) came from the archive and were dropped from it. The archive is incomplete for this provider \u2014 re-harvest to restore _original/ as the full source of truth.",
+    "configure8-catalog-entity-batch-api-openapi.yml: previously refined output kept for 2 operation(s) no archived document covers (e.g. /public/v1/catalog/batch/entities delete, /public/v1/catalog/batch/entities/resource post); its other 0 operation(s) came from the archive and were dropped from it. The archive is incomplete for this provider \u2014 re-harvest to restore _original/ as the full source of truth.",
+    "configure8-catalog-entity-metadata-api-openapi.yml: previously refined output kept for 2 operation(s) no archived document covers (e.g. /public/v1/catalog/metadata/{id} get, /public/v1/catalog/metadata/{id} put); its other 0 operation(s) came from the archive and were dropped from it. The archive is incomplete for this provider \u2014 re-harvest to restore _original/ as the full source of truth.",
+    "configure8-catalog-relation-api-openapi.yml: previously refined output kept for 3 operation(s) no archived document covers (e.g. /public/v1/catalog/relations delete, /public/v1/catalog/relations get, /public/v1/catalog/relations post); its other 0 operation(s) came from the archive and were dropped from it. The archive is incomplete for this provider \u2014 re-harvest to restore _original/ as the full source of truth.",
+    "configure8-credential-api-openapi.yml: previously refined output kept for 4 operation(s) no archived document covers (e.g. /public/v1/credentials get, /public/v1/credentials post, /public/v1/credentials/{id} delete); its other 0 operation(s) came from the archive and were dropped from it. The archive is incomplete for this provider \u2014 re-harvest to restore _original/ as the full source of truth.",
+    "configure8-deployment-api-openapi.yml: previously refined output kept for 4 operation(s) no archived document covers (e.g. /public/v1/deployments get, /public/v1/deployments post, /public/v1/deployments/{id} delete); its other 0 operation(s) came from the archive and were dropped from it. The archive is incomplete for this provider \u2014 re-harvest to restore _original/ as the full source of truth.",
+    "configure8-module-settings-api-openapi.yml: previously refined output kept for 2 operation(s) no archived document covers (e.g. /public/v1/module-settings post, /public/v1/module-settings/{id} get); its other 0 operation(s) came from the archive and were dropped from it. The archive is incomplete for this provider \u2014 re-harvest to restore _original/ as the full source of truth.",
+    "configure8-private-scim-api-openapi.yml: previously refined output kept for 3 operation(s) no archived document covers (e.g. /api/v1/scim delete, /api/v1/scim get, /api/v1/scim patch); its other 0 operation(s) came from the archive and were dropped from it. The archive is incomplete for this provider \u2014 re-harvest to restore _original/ as the full source of truth.",
+    "configure8-scim-api-openapi.yml: previously refined output kept for 16 operation(s) no archived document covers (e.g. /public/v2/scim/Groups get, /public/v2/scim/Groups post, /public/v2/scim/Groups/{id} delete); its other 0 operation(s) came from the archive and were dropped from it. The archive is incomplete for this provider \u2014 re-harvest to restore _original/ as the full source of truth.",
+    "configure8-scorecard-api-openapi.yml: previously refined output kept for 6 operation(s) no archived document covers (e.g. /public/v1/scorecards get, /public/v1/scorecards/{id} get, /public/v1/scorecards/{id} put); its other 0 operation(s) came from the archive and were dropped from it. The archive is incomplete for this provider \u2014 re-harvest to restore _original/ as the full source of truth.",
+    "configure8-sync-api-openapi.yml: previously refined output kept for 2 operation(s) no archived document covers (e.g. /public/v1/sync/services post, /public/v1/sync/services/diff post); its other 0 operation(s) came from the archive and were dropped from it. The archive is incomplete for this provider \u2014 re-harvest to restore _original/ as the full source of truth.",
+    "configure8-templates-api-openapi.yml: previously refined output kept for 1 operation(s) no archived document covers (e.g. /public/v1/templates get); its other 0 operation(s) came from the archive and were dropped from it. The archive is incomplete for this provider \u2014 re-harvest to restore _original/ as the full source of truth.",
+    "configure8-users-api-openapi.yml: previously refined output kept for 3 operation(s) no archived document covers (e.g. /public/v1/users get, /public/v1/users/{id} delete, /public/v1/users/{id} patch); its other 3 operation(s) came from the archive and were dropped from it. The archive is incomplete for this provider \u2014 re-harvest to restore _original/ as the full source of truth."
+  ],
   "notes": [
-    "configure8-catalog-entities-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "configure8-catalog-relations-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "configure8-deployments-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "configure8-scorecards-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "configure8-users-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "configure8-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "tag 'Users' spans 2 source specs (configure8-openapi.yml, configure8-users-api-openapi.yml): per-path servers applied",
     "apis.yml register: already-registered"
   ],
-  "skipped": []
+  "skipped": [
+    "configure8-catalog-entities-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "configure8-catalog-relations-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "configure8-deployments-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "configure8-scorecards-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

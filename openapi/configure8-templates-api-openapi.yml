@@ -1,0 +1,214 @@
+openapi: 3.2.0
+info:
+  title: C8 Public Templates API
+  description: Documentation for C8 Public API
+  version: 1.0.0
+  contact: {}
+servers: []
+tags:
+- name: Templates
+paths:
+  /public/v1/templates:
+    get:
+      operationId: TemplateController_getAllTemplates
+      summary: Get all the templates available
+      parameters:
+      - name: name
+        required: false
+        in: query
+        description: Templates name to filter the results
+        schema:
+          type: string
+      - name: type
+        required: false
+        in: query
+        description: Templates type to filter the results
+        schema:
+          enum:
+          - core
+          - user
+          type: string
+      - name: category
+        required: false
+        in: query
+        description: Template Category to filter the results
+        schema:
+          enum:
+          - create
+          - display
+          type: string
+      - name: entityType
+        required: false
+        in: query
+        description: Template entity type to filter the results
+        schema:
+          enum:
+          - service
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TemplateDto'
+      tags:
+      - Templates
+components:
+  schemas:
+    TemplateFormDto:
+      type: object
+      properties:
+        sections:
+          description: Template form sections
+          type: array
+          items:
+            $ref: '#/components/schemas/TemplateFormSectionDto'
+      required:
+      - sections
+    TemplateAttributeDto:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Template attribute name
+        description:
+          type: string
+          description: Template attribute description
+        displayName:
+          type: string
+          description: Template attribute display name
+        attributeType:
+          type: string
+          enum:
+          - string
+          - number
+          - array
+          - multiline_string
+          description: Template attribute type
+        optional:
+          type: boolean
+          description: Is this attribute required or not
+      required:
+      - name
+      - displayName
+      - attributeType
+      - optional
+    TemplateDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Template id
+        orgId:
+          type: string
+          description: Template orgId
+        name:
+          type: string
+          description: Template name
+        description:
+          type: string
+          description: Template description
+        type:
+          type: string
+          description: Template type
+          enum:
+          - core
+          - user
+        category:
+          type: string
+          description: Template category
+          enum:
+          - create
+          - display
+        icon:
+          type: string
+          description: Template icon
+        definition:
+          description: Template definition
+          allOf:
+          - $ref: '#/components/schemas/TemplateDefinitionDto'
+        createdBy:
+          type: string
+          description: Template createdBy
+        createdAt:
+          format: date-time
+          type: string
+          description: Template createdAt
+        updatedAt:
+          format: date-time
+          type: string
+          description: Template updatedAt
+        lastChangedBy:
+          type: string
+          description: Template last changed by id
+      required:
+      - id
+      - orgId
+      - name
+      - description
+      - type
+      - category
+      - definition
+      - createdBy
+      - createdAt
+      - updatedAt
+      - lastChangedBy
+    TemplateDefinitionDto:
+      type: object
+      properties:
+        entityType:
+          type: string
+          enum:
+          - application
+          - system
+          - service
+          - resource
+          - environment
+          - person
+          - api
+          - repository
+          - library
+          - manifest
+          - team
+          - base
+          description: Template definition entityType
+        form:
+          description: Template definition form
+          allOf:
+          - $ref: '#/components/schemas/TemplateFormDto'
+      required:
+      - entityType
+      - form
+    TemplateFormSectionDto:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Section title
+        description:
+          type: string
+          description: Section description
+        attributes:
+          description: Attributes
+          type: array
+          items:
+            $ref: '#/components/schemas/TemplateAttributeDto'
+      required:
+      - title
+      - description
+      - attributes
+  securitySchemes:
+    api-key:
+      type: apiKey
+      in: header
+      name: Api-Key
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+x-readme:
+  explorer-enabled: true
+  proxy-enabled: true
