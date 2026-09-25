@@ -6,8 +6,14 @@ artifacts:
   agentic-access/configure8-agentic-access.yml:
     method: generated
     evidence: declared in the artifact
+  asyncapi/configure8-self-service-actions-webhooks.yml:
+    method: searched
+    evidence: declared in the artifact
   authentication/configure8-authentication.yml:
-    method: derived
+    method: searched
+    evidence: declared in the artifact
+  changelog/configure8-changelog.yml:
+    method: searched
     evidence: declared in the artifact
   collections/configure8-catalog-entities-api.opencollection.json:
     method: derived
@@ -45,58 +51,25 @@ artifacts:
   collections/configure8.postman_collection.json:
     method: derived
     evidence: openapi/configure8
+  conformance/configure8-conformance.yml:
+    method: searched
+    evidence: declared in the artifact
+  conventions/configure8-conventions.yml:
+    method: searched
+    evidence: declared in the artifact
+  data-model/configure8-data-model.yml:
+    method: derived
+    evidence: declared in the artifact
+  errors/configure8-problem-types.yml:
+    method: searched
+    evidence: declared in the artifact
   finops/configure8-finops.yml:
     method: generated
     evidence: declared in the artifact
-  kin/checks-2026-09-05T072335.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-06T210741.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-07T135032.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-10T093022.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-10T111628.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-11T211707.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-12T193225.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-17T064519.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-19T080027.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-19T082702.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-19T114122.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-20T165047.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-20T191845.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-20T205517.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-21T110057.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-24T064859.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-24T171257.yml:
+  front-door-ai/2026-09-17.yml:
+    method: unknown
+    evidence: no authorship recorded
+  kin/checks-2026-09-24T161608.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
   kin/score-2026-08-25T125852.yml:
@@ -183,43 +156,229 @@ artifacts:
   kin/score-2026-09-05T072335.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
-  openapi/_original/configure8-openapi.yml:
+  kin/score-2026-09-05T144739.yml:
     method: generated
-    evidence: >-
-      Corrected 2026-09-05. Previously recorded as harvested/byte-identical, which the file
-      itself contradicts — its info.description says "Best-effort OpenAPI 3.1 description ...
-      derived from the published API reference". Superseded by
-      openapi/configure8-c8-public-api-openapi.json, which IS harvested verbatim.
-  openapi/configure8-c8-public-api-openapi.json:
-    method: harvested
-    evidence: >-
-      fetched from the provider as-is from
-      https://configure8.readme.io/openapi/6579c0db5a5ca10ec19fd2f4 on 2026-09-05, the URL
-      configure8's own /.well-known/api-catalog names as service-desc
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-05T195450.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-05T211839.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-06T011047.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-06T211804.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-06T224210.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-07T200636.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-07T213054.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-08T214843.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-08T232836.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-10T204815.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-10T222408.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-12T062655.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-12T080032.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-12T204651.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-12T221936.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-13T214537.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-14T064754.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-14T210656.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-14T225847.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-15T211329.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-15T230249.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-16T210549.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-16T225339.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-17T211151.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-17T233623.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-18T205255.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-18T231945.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-19T165737.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-19T193153.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-20T205903.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-20T232958.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-21T211425.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-21T233935.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-22T213221.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-23T000603.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-24T064009.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-24T090406.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-24T161608.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  lifecycle/configure8-lifecycle.yml:
+    method: searched
+    evidence: declared in the artifact
+  llms/configure8-llms.txt:
+    method: searched
+    evidence: 'derive-llms-provenance.py: harvested'
+  mcp/configure8-mcp.yml:
+    method: unknown
+    evidence: no authorship recorded
+  mcp/configure8-tool-crosswalk.yml:
+    method: derived
+    evidence: declared in the artifact
+  openapi/_original/configure8-openapi.yml:
+    method: derived
+    evidence: 'the document itself says it was modelled, not published by the provider: "x-generated-from:
+      documentation"'
   openapi/configure8-catalog-entities-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/configure8-catalog-entity-api-openapi.yml:
+    method: unknown
+    evidence: no authorship recorded
+  openapi/configure8-catalog-entity-batch-api-openapi.yml:
+    method: unknown
+    evidence: no authorship recorded
+  openapi/configure8-catalog-entity-metadata-api-openapi.yml:
+    method: unknown
+    evidence: no authorship recorded
+  openapi/configure8-catalog-relation-api-openapi.yml:
+    method: unknown
+    evidence: no authorship recorded
   openapi/configure8-catalog-relations-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/configure8-credential-api-openapi.yml:
+    method: unknown
+    evidence: no authorship recorded
+  openapi/configure8-deployment-api-openapi.yml:
+    method: unknown
+    evidence: no authorship recorded
   openapi/configure8-deployments-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/configure8-module-settings-api-openapi.yml:
+    method: unknown
+    evidence: no authorship recorded
+  openapi/configure8-private-scim-api-openapi.yml:
+    method: unknown
+    evidence: no authorship recorded
+  openapi/configure8-scim-api-openapi.yml:
+    method: unknown
+    evidence: no authorship recorded
+  openapi/configure8-scorecard-api-openapi.yml:
+    method: unknown
+    evidence: no authorship recorded
   openapi/configure8-scorecards-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/configure8-sync-api-openapi.yml:
+    method: unknown
+    evidence: no authorship recorded
+  openapi/configure8-templates-api-openapi.yml:
+    method: unknown
+    evidence: no authorship recorded
   openapi/configure8-users-api-openapi.yml:
-    method: derived
-    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
-  plans/configure8-plans-pricing.yml:
+    method: unknown
+    evidence: no authorship recorded
+  overlays/configure8-c8-public-api-overlay.yaml:
     method: generated
     evidence: declared in the artifact
+  packages/configure8-packages.yml:
+    method: searched
+    evidence: declared in the artifact
+  plans/configure8-plans-pricing.yml:
+    method: searched
+    evidence: declared in the artifact
   rate-limits/configure8-rate-limits.yml:
-    method: generated
+    method: searched
     evidence: declared in the artifact
   security/configure8-domain-security.yml:
     method: unknown
     evidence: no authorship recorded
+  security/configure8-trust-center.yml:
+    method: searched
+    evidence: declared in the artifact
   security/configure8-vulnerability-disclosure.yml:
     method: searched
     evidence: declared in the artifact
+  skills/_index.yml:
+    method: generated
+    evidence: declared in the artifact
+  skills/configure8-catalog-onboard-service.md:
+    method: generated
+    evidence: declared in the artifact
+  skills/configure8-record-deployment.md:
+    method: generated
+    evidence: declared in the artifact
+  skills/configure8-scorecard-run-and-read.md:
+    method: generated
+    evidence: declared in the artifact
+  skills/configure8-sync-services-safely.md:
+    method: generated
+    evidence: declared in the artifact
+  well-known/configure8-api-catalog.json:
+    method: unknown
+    evidence: no authorship recorded
+  well-known/configure8-well-known.yml:
+    method: unknown
+    evidence: no authorship recorded
