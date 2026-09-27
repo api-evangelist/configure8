@@ -92,57 +92,6 @@ paths:
       - Catalog Relation
 components:
   schemas:
-    CatalogRelationDto:
-      type: object
-      properties:
-        sourceEntityId:
-          type: string
-        targetEntityId:
-          type: string
-        label:
-          type: string
-          description: Entity relation type
-          enum:
-          - belongs_to
-          - depends_on
-          - provides
-          - has_environment
-          - part_of
-          - consumes
-          - uses
-          - contains
-          - has_repository
-          - has_library
-          - has_manifest
-          - has_dependency
-          - child_of
-          - relative_to
-          - ''
-        field:
-          type: string
-          description: Entity relation field
-      required:
-      - sourceEntityId
-      - targetEntityId
-      - label
-    DeleteCatalogRelationDto:
-      type: object
-      properties:
-        serviceId:
-          type: string
-          description: Catalog relation service id
-        sourceEntityId:
-          type: string
-          description: Catalog Source entity id
-        targetEntityId:
-          type: string
-          description: Catalog Target entity id
-        field:
-          type: string
-          description: Entity relation field
-      required:
-      - sourceEntityId
-      - targetEntityId
     CreateCatalogRelationDto:
       type: object
       properties:
@@ -174,6 +123,57 @@ components:
           - relative_to
           - ''
           description: Entity relation type
+        field:
+          type: string
+          description: Entity relation field
+      required:
+      - sourceEntityId
+      - targetEntityId
+      - label
+    DeleteCatalogRelationDto:
+      type: object
+      properties:
+        serviceId:
+          type: string
+          description: Catalog relation service id
+        sourceEntityId:
+          type: string
+          description: Catalog Source entity id
+        targetEntityId:
+          type: string
+          description: Catalog Target entity id
+        field:
+          type: string
+          description: Entity relation field
+      required:
+      - sourceEntityId
+      - targetEntityId
+    CatalogRelationDto:
+      type: object
+      properties:
+        sourceEntityId:
+          type: string
+        targetEntityId:
+          type: string
+        label:
+          type: string
+          description: Entity relation type
+          enum:
+          - belongs_to
+          - depends_on
+          - provides
+          - has_environment
+          - part_of
+          - consumes
+          - uses
+          - contains
+          - has_repository
+          - has_library
+          - has_manifest
+          - has_dependency
+          - child_of
+          - relative_to
+          - ''
         field:
           type: string
           description: Entity relation field

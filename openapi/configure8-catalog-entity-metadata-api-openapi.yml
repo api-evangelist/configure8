@@ -71,6 +71,37 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/MetadataTagDto'
+    MetadataTagDto:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Metadata tag's name
+        value:
+          type: string
+          description: Metadata tag's value
+        type:
+          type: string
+          enum:
+          - JSON
+          - Code
+          - Link
+          - Text
+          - AutoMap
+          - Nickname
+          description: Metadata tag's type
+        createdBy:
+          type:
+          - string
+          - 'null'
+          enum:
+          - MANUAL
+          - SYSTEM
+          description: Metadata tag's createdBy strategy
+      required:
+      - name
+      - value
+      - type
     CatalogEntityMetadataDto:
       type: object
       properties:
@@ -102,37 +133,6 @@ components:
       required:
       - id
       - orgId
-      - type
-    MetadataTagDto:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Metadata tag's name
-        value:
-          type: string
-          description: Metadata tag's value
-        type:
-          type: string
-          enum:
-          - JSON
-          - Code
-          - Link
-          - Text
-          - AutoMap
-          - Nickname
-          description: Metadata tag's type
-        createdBy:
-          type:
-          - string
-          - 'null'
-          enum:
-          - MANUAL
-          - SYSTEM
-          description: Metadata tag's createdBy strategy
-      required:
-      - name
-      - value
       - type
   securitySchemes:
     api-key:

@@ -58,6 +58,24 @@ paths:
       - Templates
 components:
   schemas:
+    TemplateFormSectionDto:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Section title
+        description:
+          type: string
+          description: Section description
+        attributes:
+          description: Attributes
+          type: array
+          items:
+            $ref: '#/components/schemas/TemplateAttributeDto'
+      required:
+      - title
+      - description
+      - attributes
     TemplateFormDto:
       type: object
       properties:
@@ -68,34 +86,6 @@ components:
             $ref: '#/components/schemas/TemplateFormSectionDto'
       required:
       - sections
-    TemplateAttributeDto:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Template attribute name
-        description:
-          type: string
-          description: Template attribute description
-        displayName:
-          type: string
-          description: Template attribute display name
-        attributeType:
-          type: string
-          enum:
-          - string
-          - number
-          - array
-          - multiline_string
-          description: Template attribute type
-        optional:
-          type: boolean
-          description: Is this attribute required or not
-      required:
-      - name
-      - displayName
-      - attributeType
-      - optional
     TemplateDto:
       type: object
       properties:
@@ -156,6 +146,34 @@ components:
       - createdAt
       - updatedAt
       - lastChangedBy
+    TemplateAttributeDto:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Template attribute name
+        description:
+          type: string
+          description: Template attribute description
+        displayName:
+          type: string
+          description: Template attribute display name
+        attributeType:
+          type: string
+          enum:
+          - string
+          - number
+          - array
+          - multiline_string
+          description: Template attribute type
+        optional:
+          type: boolean
+          description: Is this attribute required or not
+      required:
+      - name
+      - displayName
+      - attributeType
+      - optional
     TemplateDefinitionDto:
       type: object
       properties:
@@ -182,24 +200,6 @@ components:
       required:
       - entityType
       - form
-    TemplateFormSectionDto:
-      type: object
-      properties:
-        title:
-          type: string
-          description: Section title
-        description:
-          type: string
-          description: Section description
-        attributes:
-          description: Attributes
-          type: array
-          items:
-            $ref: '#/components/schemas/TemplateAttributeDto'
-      required:
-      - title
-      - description
-      - attributes
   securitySchemes:
     api-key:
       type: apiKey
