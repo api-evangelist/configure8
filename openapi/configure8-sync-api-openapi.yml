@@ -50,6 +50,53 @@ paths:
       - Sync
 components:
   schemas:
+    SyncServicesResultDto:
+      type: object
+      properties:
+        services:
+          $ref: '#/components/schemas/Services'
+        dependencies:
+          $ref: '#/components/schemas/Dependencies'
+        errors:
+          description: A list of errors that happened during the sync
+          type: array
+          items:
+            type: string
+      required:
+      - services
+      - dependencies
+    GetServiceDiffDto:
+      type: object
+      properties:
+        services:
+          type: object
+          description: The list of service definitions, where the key is the name of the service
+          additionalProperties:
+            $ref: '#/components/schemas/ServiceDefinition'
+        metatagMappingName:
+          type: string
+          description: The metatag that will be used to map given services to existing ones with different names
+      required:
+      - services
+      - metatagMappingName
+    ApplyServiceDiffDto:
+      type: object
+      properties:
+        services:
+          description: The list of service definitions, where the key is the name of the service
+          allOf:
+          - $ref: '#/components/schemas/Services'
+        dependencies:
+          description: The list of service dependencies to be added/removed
+          allOf:
+          - $ref: '#/components/schemas/Dependencies'
+        metatagMappingName:
+          type: string
+          description: The metatag that will be used to map given services to existing ones with different names
+      required:
+      - services
+      - dependencies
+      - metatagMappingName
     Services:
       type: object
       properties:
@@ -86,38 +133,6 @@ components:
       required:
       - added
       - removed
-    GetServiceDiffDto:
-      type: object
-      properties:
-        services:
-          type: object
-          description: The list of service definitions, where the key is the name of the service
-          additionalProperties:
-            $ref: '#/components/schemas/ServiceDefinition'
-        metatagMappingName:
-          type: string
-          description: The metatag that will be used to map given services to existing ones with different names
-      required:
-      - services
-      - metatagMappingName
-    ApplyServiceDiffDto:
-      type: object
-      properties:
-        services:
-          description: The list of service definitions, where the key is the name of the service
-          allOf:
-          - $ref: '#/components/schemas/Services'
-        dependencies:
-          description: The list of service dependencies to be added/removed
-          allOf:
-          - $ref: '#/components/schemas/Dependencies'
-        metatagMappingName:
-          type: string
-          description: The metatag that will be used to map given services to existing ones with different names
-      required:
-      - services
-      - dependencies
-      - metatagMappingName
     ServiceDefinition:
       type: object
       properties:
@@ -128,21 +143,6 @@ components:
             type: string
       required:
       - calls
-    SyncServicesResultDto:
-      type: object
-      properties:
-        services:
-          $ref: '#/components/schemas/Services'
-        dependencies:
-          $ref: '#/components/schemas/Dependencies'
-        errors:
-          description: A list of errors that happened during the sync
-          type: array
-          items:
-            type: string
-      required:
-      - services
-      - dependencies
   securitySchemes:
     api-key:
       type: apiKey

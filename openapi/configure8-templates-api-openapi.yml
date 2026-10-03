@@ -58,34 +58,6 @@ paths:
       - Templates
 components:
   schemas:
-    TemplateFormSectionDto:
-      type: object
-      properties:
-        title:
-          type: string
-          description: Section title
-        description:
-          type: string
-          description: Section description
-        attributes:
-          description: Attributes
-          type: array
-          items:
-            $ref: '#/components/schemas/TemplateAttributeDto'
-      required:
-      - title
-      - description
-      - attributes
-    TemplateFormDto:
-      type: object
-      properties:
-        sections:
-          description: Template form sections
-          type: array
-          items:
-            $ref: '#/components/schemas/TemplateFormSectionDto'
-      required:
-      - sections
     TemplateDto:
       type: object
       properties:
@@ -146,6 +118,50 @@ components:
       - createdAt
       - updatedAt
       - lastChangedBy
+    TemplateFormSectionDto:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Section title
+        description:
+          type: string
+          description: Section description
+        attributes:
+          description: Attributes
+          type: array
+          items:
+            $ref: '#/components/schemas/TemplateAttributeDto'
+      required:
+      - title
+      - description
+      - attributes
+    TemplateDefinitionDto:
+      type: object
+      properties:
+        entityType:
+          type: string
+          enum:
+          - application
+          - system
+          - service
+          - resource
+          - environment
+          - person
+          - api
+          - repository
+          - library
+          - manifest
+          - team
+          - base
+          description: Template definition entityType
+        form:
+          description: Template definition form
+          allOf:
+          - $ref: '#/components/schemas/TemplateFormDto'
+      required:
+      - entityType
+      - form
     TemplateAttributeDto:
       type: object
       properties:
@@ -174,32 +190,16 @@ components:
       - displayName
       - attributeType
       - optional
-    TemplateDefinitionDto:
+    TemplateFormDto:
       type: object
       properties:
-        entityType:
-          type: string
-          enum:
-          - application
-          - system
-          - service
-          - resource
-          - environment
-          - person
-          - api
-          - repository
-          - library
-          - manifest
-          - team
-          - base
-          description: Template definition entityType
-        form:
-          description: Template definition form
-          allOf:
-          - $ref: '#/components/schemas/TemplateFormDto'
+        sections:
+          description: Template form sections
+          type: array
+          items:
+            $ref: '#/components/schemas/TemplateFormSectionDto'
       required:
-      - entityType
-      - form
+      - sections
   securitySchemes:
     api-key:
       type: apiKey

@@ -55,59 +55,6 @@ paths:
       - Module Settings
 components:
   schemas:
-    ModuleSettingAspectDto:
-      type: object
-      properties:
-        name:
-          type: string
-          description: The name of the setting aspect
-        value:
-          type: object
-          description: The value of the setting aspect
-      required:
-      - name
-      - value
-    ModuleSettingLayoutDto:
-      type: object
-      properties:
-        x:
-          type: number
-          description: The x position of the module setting layout
-        y:
-          type: number
-          description: The y position of the module setting layout
-        w:
-          type: number
-          description: The width of the module setting layout
-        h:
-          type: number
-          description: The height of the module setting layout
-        minW:
-          type: number
-          description: The minimum width of the module setting layout
-        maxW:
-          type: number
-          description: The maximum width of the module setting layout
-        minH:
-          type: number
-          description: The minimum height of the module setting layout
-        maxH:
-          type: number
-          description: The maximum height of the module setting layout
-        static:
-          type: boolean
-          description: Whether the module setting layout is static
-        isResizable:
-          type: boolean
-          description: Whether the module setting layout is resizable
-        isBounded:
-          type: boolean
-          description: Whether the module setting layout is bounded
-      required:
-      - x
-      - y
-      - w
-      - h
     CreateModuleSettingsDto:
       type: object
       properties:
@@ -203,6 +150,18 @@ components:
       - providerType
       - configuration
       - status
+    ModuleSettingAspectDto:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the setting aspect
+        value:
+          type: object
+          description: The value of the setting aspect
+      required:
+      - name
+      - value
     ModuleSettingsDto:
       type: object
       properties:
@@ -341,6 +300,47 @@ components:
       required:
       - key
       - value
+    ModuleSettingLayoutDto:
+      type: object
+      properties:
+        x:
+          type: number
+          description: The x position of the module setting layout
+        y:
+          type: number
+          description: The y position of the module setting layout
+        w:
+          type: number
+          description: The width of the module setting layout
+        h:
+          type: number
+          description: The height of the module setting layout
+        minW:
+          type: number
+          description: The minimum width of the module setting layout
+        maxW:
+          type: number
+          description: The maximum width of the module setting layout
+        minH:
+          type: number
+          description: The minimum height of the module setting layout
+        maxH:
+          type: number
+          description: The maximum height of the module setting layout
+        static:
+          type: boolean
+          description: Whether the module setting layout is static
+        isResizable:
+          type: boolean
+          description: Whether the module setting layout is resizable
+        isBounded:
+          type: boolean
+          description: Whether the module setting layout is bounded
+      required:
+      - x
+      - y
+      - w
+      - h
   securitySchemes:
     api-key:
       type: apiKey

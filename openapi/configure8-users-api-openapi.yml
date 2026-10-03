@@ -263,6 +263,35 @@ components:
     User_2:
       type: object
       properties: {}
+    UpdateUserDto:
+      type: object
+      properties:
+        firstName:
+          type: string
+          description: User first name
+        lastName:
+          type: string
+          description: User last name
+        displayName:
+          type: string
+          description: User display name
+        photoUrl:
+          type: string
+          description: User avatar url
+        status:
+          type: string
+          description: User status
+          enum:
+          - INVITED
+          - UNVERIFIED
+          - ACTIVE
+          - DISABLED
+        role:
+          type: string
+          description: User role
+          enum:
+          - USER
+          - ADMIN
     UserDto:
       type: object
       properties:
@@ -321,35 +350,6 @@ components:
       - orgId
       - status
       - role
-    UpdateUserDto:
-      type: object
-      properties:
-        firstName:
-          type: string
-          description: User first name
-        lastName:
-          type: string
-          description: User last name
-        displayName:
-          type: string
-          description: User display name
-        photoUrl:
-          type: string
-          description: User avatar url
-        status:
-          type: string
-          description: User status
-          enum:
-          - INVITED
-          - UNVERIFIED
-          - ACTIVE
-          - DISABLED
-        role:
-          type: string
-          description: User role
-          enum:
-          - USER
-          - ADMIN
   securitySchemes:
     apiKey:
       type: apiKey
