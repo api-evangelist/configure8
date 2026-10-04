@@ -50,21 +50,6 @@ paths:
       - Sync
 components:
   schemas:
-    SyncServicesResultDto:
-      type: object
-      properties:
-        services:
-          $ref: '#/components/schemas/Services'
-        dependencies:
-          $ref: '#/components/schemas/Dependencies'
-        errors:
-          description: A list of errors that happened during the sync
-          type: array
-          items:
-            type: string
-      required:
-      - services
-      - dependencies
     GetServiceDiffDto:
       type: object
       properties:
@@ -79,6 +64,22 @@ components:
       required:
       - services
       - metatagMappingName
+    Services:
+      type: object
+      properties:
+        added:
+          description: A list of services to be added
+          type: array
+          items:
+            type: string
+        mappings:
+          type: object
+          description: Map where the key is a service passed in the request and the value is the name of an existing service in C8
+          additionalProperties:
+            type: string
+      required:
+      - added
+      - mappings
     ApplyServiceDiffDto:
       type: object
       properties:
@@ -97,22 +98,6 @@ components:
       - services
       - dependencies
       - metatagMappingName
-    Services:
-      type: object
-      properties:
-        added:
-          description: A list of services to be added
-          type: array
-          items:
-            type: string
-        mappings:
-          type: object
-          description: Map where the key is a service passed in the request and the value is the name of an existing service in C8
-          additionalProperties:
-            type: string
-      required:
-      - added
-      - mappings
     Dependencies:
       type: object
       properties:
@@ -133,6 +118,21 @@ components:
       required:
       - added
       - removed
+    SyncServicesResultDto:
+      type: object
+      properties:
+        services:
+          $ref: '#/components/schemas/Services'
+        dependencies:
+          $ref: '#/components/schemas/Dependencies'
+        errors:
+          description: A list of errors that happened during the sync
+          type: array
+          items:
+            type: string
+      required:
+      - services
+      - dependencies
     ServiceDefinition:
       type: object
       properties:

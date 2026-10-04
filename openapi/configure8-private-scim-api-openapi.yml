@@ -55,18 +55,6 @@ paths:
       - bearer: []
 components:
   schemas:
-    UpdateScimConfigDto:
-      type: object
-      properties:
-        status:
-          type: string
-          description: Status of SCIM
-          example: ACTIVE
-          enum:
-          - ACTIVE
-          - DISABLED
-      required:
-      - status
     ScimConfigDto:
       type: object
       properties:
@@ -90,6 +78,18 @@ components:
       - orgId
       - status
       - lastChangedBy
+    UpdateScimConfigDto:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Status of SCIM
+          example: ACTIVE
+          enum:
+          - ACTIVE
+          - DISABLED
+      required:
+      - status
   securitySchemes:
     api-key:
       type: apiKey

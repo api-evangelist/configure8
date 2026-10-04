@@ -238,60 +238,9 @@ components:
           type: string
         role:
           type: string
-    UsersPageDto:
-      type: object
-      properties:
-        items:
-          description: List of users
-          type: array
-          items:
-            $ref: '#/components/schemas/User_2'
-        totalFound:
-          type: number
-          description: Total users found by this endpoint call
-        pageSize:
-          type: number
-          description: Maximum users in one paginated response
-        pageNumber:
-          type: number
-          description: Requested page, note that it starts with 0
-      required:
-      - items
-      - totalFound
-      - pageSize
-      - pageNumber
     User_2:
       type: object
       properties: {}
-    UpdateUserDto:
-      type: object
-      properties:
-        firstName:
-          type: string
-          description: User first name
-        lastName:
-          type: string
-          description: User last name
-        displayName:
-          type: string
-          description: User display name
-        photoUrl:
-          type: string
-          description: User avatar url
-        status:
-          type: string
-          description: User status
-          enum:
-          - INVITED
-          - UNVERIFIED
-          - ACTIVE
-          - DISABLED
-        role:
-          type: string
-          description: User role
-          enum:
-          - USER
-          - ADMIN
     UserDto:
       type: object
       properties:
@@ -350,6 +299,57 @@ components:
       - orgId
       - status
       - role
+    UsersPageDto:
+      type: object
+      properties:
+        items:
+          description: List of users
+          type: array
+          items:
+            $ref: '#/components/schemas/User_2'
+        totalFound:
+          type: number
+          description: Total users found by this endpoint call
+        pageSize:
+          type: number
+          description: Maximum users in one paginated response
+        pageNumber:
+          type: number
+          description: Requested page, note that it starts with 0
+      required:
+      - items
+      - totalFound
+      - pageSize
+      - pageNumber
+    UpdateUserDto:
+      type: object
+      properties:
+        firstName:
+          type: string
+          description: User first name
+        lastName:
+          type: string
+          description: User last name
+        displayName:
+          type: string
+          description: User display name
+        photoUrl:
+          type: string
+          description: User avatar url
+        status:
+          type: string
+          description: User status
+          enum:
+          - INVITED
+          - UNVERIFIED
+          - ACTIVE
+          - DISABLED
+        role:
+          type: string
+          description: User role
+          enum:
+          - USER
+          - ADMIN
   securitySchemes:
     apiKey:
       type: apiKey

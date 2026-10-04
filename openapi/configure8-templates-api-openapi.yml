@@ -118,24 +118,16 @@ components:
       - createdAt
       - updatedAt
       - lastChangedBy
-    TemplateFormSectionDto:
+    TemplateFormDto:
       type: object
       properties:
-        title:
-          type: string
-          description: Section title
-        description:
-          type: string
-          description: Section description
-        attributes:
-          description: Attributes
+        sections:
+          description: Template form sections
           type: array
           items:
-            $ref: '#/components/schemas/TemplateAttributeDto'
+            $ref: '#/components/schemas/TemplateFormSectionDto'
       required:
-      - title
-      - description
-      - attributes
+      - sections
     TemplateDefinitionDto:
       type: object
       properties:
@@ -162,6 +154,24 @@ components:
       required:
       - entityType
       - form
+    TemplateFormSectionDto:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Section title
+        description:
+          type: string
+          description: Section description
+        attributes:
+          description: Attributes
+          type: array
+          items:
+            $ref: '#/components/schemas/TemplateAttributeDto'
+      required:
+      - title
+      - description
+      - attributes
     TemplateAttributeDto:
       type: object
       properties:
@@ -190,16 +200,6 @@ components:
       - displayName
       - attributeType
       - optional
-    TemplateFormDto:
-      type: object
-      properties:
-        sections:
-          description: Template form sections
-          type: array
-          items:
-            $ref: '#/components/schemas/TemplateFormSectionDto'
-      required:
-      - sections
   securitySchemes:
     api-key:
       type: apiKey

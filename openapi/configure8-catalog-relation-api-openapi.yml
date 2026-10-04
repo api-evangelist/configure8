@@ -92,39 +92,6 @@ paths:
       - Catalog Relation
 components:
   schemas:
-    CatalogRelationDto:
-      type: object
-      properties:
-        sourceEntityId:
-          type: string
-        targetEntityId:
-          type: string
-        label:
-          type: string
-          description: Entity relation type
-          enum:
-          - belongs_to
-          - depends_on
-          - provides
-          - has_environment
-          - part_of
-          - consumes
-          - uses
-          - contains
-          - has_repository
-          - has_library
-          - has_manifest
-          - has_dependency
-          - child_of
-          - relative_to
-          - ''
-        field:
-          type: string
-          description: Entity relation field
-      required:
-      - sourceEntityId
-      - targetEntityId
-      - label
     DeleteCatalogRelationDto:
       type: object
       properties:
@@ -143,26 +110,6 @@ components:
       required:
       - sourceEntityId
       - targetEntityId
-    CatalogRelationResultDto:
-      type: object
-      properties:
-        totalFound:
-          type: number
-          description: Total elements found
-        pageNumber:
-          type: number
-        pageSize:
-          type: number
-        items:
-          description: Found catalog entities
-          type: array
-          items:
-            $ref: '#/components/schemas/CatalogRelationDto'
-      required:
-      - totalFound
-      - pageNumber
-      - pageSize
-      - items
     CreateCatalogRelationDto:
       type: object
       properties:
@@ -201,6 +148,59 @@ components:
       - sourceEntityId
       - targetEntityId
       - label
+    CatalogRelationDto:
+      type: object
+      properties:
+        sourceEntityId:
+          type: string
+        targetEntityId:
+          type: string
+        label:
+          type: string
+          description: Entity relation type
+          enum:
+          - belongs_to
+          - depends_on
+          - provides
+          - has_environment
+          - part_of
+          - consumes
+          - uses
+          - contains
+          - has_repository
+          - has_library
+          - has_manifest
+          - has_dependency
+          - child_of
+          - relative_to
+          - ''
+        field:
+          type: string
+          description: Entity relation field
+      required:
+      - sourceEntityId
+      - targetEntityId
+      - label
+    CatalogRelationResultDto:
+      type: object
+      properties:
+        totalFound:
+          type: number
+          description: Total elements found
+        pageNumber:
+          type: number
+        pageSize:
+          type: number
+        items:
+          description: Found catalog entities
+          type: array
+          items:
+            $ref: '#/components/schemas/CatalogRelationDto'
+      required:
+      - totalFound
+      - pageNumber
+      - pageSize
+      - items
   securitySchemes:
     api-key:
       type: apiKey

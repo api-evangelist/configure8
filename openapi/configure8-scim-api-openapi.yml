@@ -711,61 +711,6 @@ paths:
       - bearer: []
 components:
   schemas:
-    SCIMUserListDto:
-      type: object
-      properties:
-        schemas:
-          type: array
-          description: SCIM user create schemas
-          items:
-            type: string
-            enum:
-            - urn:ietf:params:scim:schemas:core:2.0:User
-            - urn:ietf:params:scim:schemas:core:2.0:Group
-            - urn:ietf:params:scim:api:messages:2.0:ListResponse
-            - urn:ietf:params:scim:api:messages:2.0:Error
-            - urn:ietf:params:scim:api:messages:2.0:PatchOp
-            - urn:ietf:params:scim:schemas:core:2.0:ServiceProviderConfig
-            - urn:ietf:params:scim:schemas:core:2.0:ResourceType
-        totalResults:
-          type: number
-          description: Total result number
-        startIndex:
-          type: number
-          description: List start index
-        itemsPerPage:
-          type: number
-          description: Items per page
-        Resources:
-          description: SCIM user list
-          allOf:
-          - $ref: '#/components/schemas/SCIMUserDto'
-      required:
-      - schemas
-      - totalResults
-      - startIndex
-      - itemsPerPage
-      - Resources
-    SCIMUserNameDto:
-      type: object
-      properties:
-        familyName:
-          type: string
-          description: SCIM user last name
-        givenName:
-          type: string
-          description: SCIM user first name
-      required:
-      - familyName
-      - givenName
-    SCIMSchemaChangePassword:
-      type: object
-      properties:
-        supported:
-          type: boolean
-          description: Indicates whether or not the operation is supported.
-      required:
-      - supported
     ScimResourceTypeDto:
       type: object
       properties:
@@ -823,51 +768,24 @@ components:
       - schema
       - schemaExtensions
       - meta
-    SCIMGroupMemberDto:
+    SCIMUserNameDto:
       type: object
       properties:
-        value:
+        familyName:
           type: string
-          description: SCIM group member id
-        $ref:
+          description: SCIM user last name
+        givenName:
           type: string
-          description: SCIM group member API URL
-        display:
-          type: string
-          description: SCIM group member name
+          description: SCIM user first name
       required:
-      - value
-      - $ref
-      - display
-    SCIMSchemaAuthenticationSchemaDto:
-      type: object
-      properties:
-        name:
-          type: string
-          description: The common authentication schema name, e.g., HTTP Basic.
-        description:
-          type: string
-          description: The description of the authentication schema.
-        specUri:
-          type: string
-          description: The HTTP-addressable URL pointing to the authentication schema's specification.
-        documentationUri:
-          type: string
-          description: The HTTP-addressable URL pointing to the authentication schema's usage documentation.
-        type:
-          type: string
-          description: The type of authentication schema, e.g., "oauth", "oauth2", "oauthbearertoken", "httpbasic", "httpdigest".
-      required:
-      - name
-      - description
-      - specUri
-      - documentationUri
-      - type
-    SCIMErrorDto:
+      - familyName
+      - givenName
+    ScimSchemaUserDto:
       type: object
       properties:
         schemas:
           type: array
+          description: The list of supported schemas for the resource type. The value must be one of the URIs listed in the Schemas section.
           items:
             type: string
             enum:
@@ -878,36 +796,48 @@ components:
             - urn:ietf:params:scim:api:messages:2.0:PatchOp
             - urn:ietf:params:scim:schemas:core:2.0:ServiceProviderConfig
             - urn:ietf:params:scim:schemas:core:2.0:ResourceType
-        detail:
+        id:
           type: string
-          readOnly: true
-        status:
-          type: number
-          readOnly: true
+          description: The resource type's server unique id. This is a read-only value.
+        userName:
+          type: string
+          description: The resource type name. This is a human-readable name.
+        meta:
+          description: The resource meta
+          allOf:
+          - $ref: '#/components/schemas/SCIMSchemaMetaDto'
+        active:
+          type: boolean
+          description: A Boolean value indicating the User's administrative status.
+        displayName:
+          type: string
+          description: The name of the User, suitable for display to end-users.
+        emails:
+          description: Email addresses for the user. The value SHOULD be canonicalized by the service provider.
+          type: array
+          items:
+            $ref: '#/components/schemas/SCIMUserEmailDto'
+        externalId:
+          type: string
+          description: The URI of the User's photo.
+        groups:
+          description: A list of groups to which the user belongs, either through direct membership, through nested groups, or dynamically calculated.
+          type: array
+          items:
+            $ref: '#/components/schemas/SCIMUserGroupDto'
+        name:
+          description: The components of the user's real name.
+          allOf:
+          - $ref: '#/components/schemas/SCIMUserNameDto'
       required:
       - schemas
-      - detail
-      - status
-    SCIMUserMetaDto:
-      type: object
-      properties:
-        resourceType:
-          type: string
-          description: SCIM user meta type
-          enum:
-          - User
-          - Group
-        created:
-          type: string
-          description: SCIM user created date
-        lastModified:
-          type: string
-          description: SCIM user created date
-        location:
-          type: string
-          description: SCIM user API url
-      required:
-      - resourceType
+      - id
+      - userName
+      - meta
+      - emails
+      - externalId
+      - groups
+      - name
     ScimSchemaServiceProviderConfigDto:
       type: object
       properties:
@@ -971,7 +901,87 @@ components:
       - etag
       - authenticationSchemes
       - meta
-    SCIMGroupUpdateDto:
+    SCIMUserPatchBodyDto:
+      type: object
+      properties:
+        schemas:
+          description: Patch operation schemas
+          type: array
+          items:
+            type: string
+        Operations:
+          description: Patch operation list
+          type: array
+          items:
+            type: string
+      required:
+      - schemas
+      - Operations
+    SCIMGroupPatchBodyDto:
+      type: object
+      properties:
+        schemas:
+          description: Patch operation schemas
+          type: array
+          items:
+            type: string
+        Operations:
+          description: Patch operation list
+          type: array
+          items:
+            type: string
+      required:
+      - schemas
+      - Operations
+    SCIMGroupMetaDto:
+      type: object
+      properties:
+        resourceType:
+          type: string
+          description: SCIM resource type
+          enum:
+          - User
+          - Group
+        location:
+          type: string
+          description: SCIM group API URL
+      required:
+      - resourceType
+      - location
+    SCIMUserMetaDto:
+      type: object
+      properties:
+        resourceType:
+          type: string
+          description: SCIM user meta type
+          enum:
+          - User
+          - Group
+        created:
+          type: string
+          description: SCIM user created date
+        lastModified:
+          type: string
+          description: SCIM user created date
+        location:
+          type: string
+          description: SCIM user API url
+      required:
+      - resourceType
+    SCIMSchemaFilterDto:
+      type: object
+      properties:
+        supported:
+          type: boolean
+          description: Indicates whether or not the operation is supported.
+          default: false
+        maxResults:
+          type: number
+          description: The maximum number of results returned by the server. The maximum value is 100.
+      required:
+      - supported
+      - maxResults
+    SCIMGroupCreateDto:
       type: object
       properties:
         schemas:
@@ -995,20 +1005,16 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/SCIMGroupMemberDto'
-        id:
-          type: string
-          description: SCIM group id
       required:
       - schemas
       - displayName
       - members
-      - id
-    SCIMSchemaSortDto:
+    SCIMSchemaPatchDto:
       type: object
       properties:
         supported:
           type: boolean
-          description: Indicates whether or not the operation is supported.
+          description: Indicates whether or not the operation is required.
       required:
       - supported
     SCIMCreateUserDto:
@@ -1074,89 +1080,38 @@ components:
       required:
       - value
       - display
-    SCIMGroupMetaDto:
-      type: object
-      properties:
-        resourceType:
-          type: string
-          description: SCIM resource type
-          enum:
-          - User
-          - Group
-        location:
-          type: string
-          description: SCIM group API URL
-      required:
-      - resourceType
-      - location
-    SCIMUserPatchBodyDto:
-      type: object
-      properties:
-        schemas:
-          description: Patch operation schemas
-          type: array
-          items:
-            type: string
-        Operations:
-          description: Patch operation list
-          type: array
-          items:
-            type: string
-      required:
-      - schemas
-      - Operations
-    SCIMUserEmailDto:
+    SCIMGroupMemberDto:
       type: object
       properties:
         value:
           type: string
-          description: SCIM user email value
-        type:
+          description: SCIM group member id
+        $ref:
           type: string
-          description: SCIM user email type
-        primary:
-          type: boolean
-          description: SCIM user primary email marker
+          description: SCIM group member API URL
+        display:
+          type: string
+          description: SCIM group member name
       required:
       - value
-      - type
-      - primary
-    SCIMSchemaEtagDto:
+      - $ref
+      - display
+    SCIMSchemaMemberDto:
       type: object
       properties:
-        supported:
-          type: boolean
-          description: Indicates whether or not the operation is supported.
-      required:
-      - supported
-    SCIMGroupCreateDto:
-      type: object
-      properties:
-        schemas:
-          type: array
-          description: SCIM group create schemas
-          items:
-            type: string
-            enum:
-            - urn:ietf:params:scim:schemas:core:2.0:User
-            - urn:ietf:params:scim:schemas:core:2.0:Group
-            - urn:ietf:params:scim:api:messages:2.0:ListResponse
-            - urn:ietf:params:scim:api:messages:2.0:Error
-            - urn:ietf:params:scim:api:messages:2.0:PatchOp
-            - urn:ietf:params:scim:schemas:core:2.0:ServiceProviderConfig
-            - urn:ietf:params:scim:schemas:core:2.0:ResourceType
-        displayName:
+        value:
           type: string
-          description: SCIM group name
-        members:
-          description: SCIM group members
-          type: array
-          items:
-            $ref: '#/components/schemas/SCIMGroupMemberDto'
+          description: The value of an attribute.
+        $ref:
+          type: string
+          description: The URI of a resource.
+        display:
+          type: string
+          description: The displayName of a resource.
       required:
-      - schemas
-      - displayName
-      - members
+      - value
+      - $ref
+      - display
     SCIMSchemaMetaDto:
       type: object
       properties:
@@ -1175,12 +1130,35 @@ components:
         location:
           type: string
           description: The schema's HTTP-addressable URL relative to the Base URL of the service provider, e.g., "/Schemas/urn:ietf:params:scim:schemas:core:2.0:User". This value is REQUIRED.
-    SCIMUserDto:
+    SCIMSchemaAuthenticationSchemaDto:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The common authentication schema name, e.g., HTTP Basic.
+        description:
+          type: string
+          description: The description of the authentication schema.
+        specUri:
+          type: string
+          description: The HTTP-addressable URL pointing to the authentication schema's specification.
+        documentationUri:
+          type: string
+          description: The HTTP-addressable URL pointing to the authentication schema's usage documentation.
+        type:
+          type: string
+          description: The type of authentication schema, e.g., "oauth", "oauth2", "oauthbearertoken", "httpbasic", "httpdigest".
+      required:
+      - name
+      - description
+      - specUri
+      - documentationUri
+      - type
+    SCIMErrorDto:
       type: object
       properties:
         schemas:
           type: array
-          description: SCIM user create schemas
           items:
             type: string
             enum:
@@ -1191,50 +1169,69 @@ components:
             - urn:ietf:params:scim:api:messages:2.0:PatchOp
             - urn:ietf:params:scim:schemas:core:2.0:ServiceProviderConfig
             - urn:ietf:params:scim:schemas:core:2.0:ResourceType
-        externalId:
+        detail:
           type: string
-          description: SCIM external user id
-        userName:
-          type: string
-          description: SCIM username
-        name:
-          description: SCIM user name details
-          allOf:
-          - $ref: '#/components/schemas/SCIMUserNameDto'
-        displayName:
-          type: string
-          description: SCIM user display name
-        active:
-          type: boolean
-          description: SCIM user active status
-        emails:
-          description: SCIM user emails
-          type: array
-          items:
-            $ref: '#/components/schemas/SCIMUserEmailDto'
-        groups:
-          description: SCIM user groups
-          type: array
-          items:
-            $ref: '#/components/schemas/SCIMUserGroupDto'
-        id:
-          type: string
-          description: SCIM user id
-        meta:
-          description: SCIM user meta
-          allOf:
-          - $ref: '#/components/schemas/SCIMUserMetaDto'
+          readOnly: true
+        status:
+          type: number
+          readOnly: true
       required:
       - schemas
-      - externalId
-      - userName
-      - name
-      - displayName
-      - active
-      - emails
-      - groups
+      - detail
+      - status
+    ScimSchemaGroupDto:
+      type: object
+      properties:
+        schemas:
+          type: array
+          description: The list of supported schemas for the resource type. The value must be one of the URIs listed in the Schemas section.
+          items:
+            type: string
+            enum:
+            - urn:ietf:params:scim:schemas:core:2.0:User
+            - urn:ietf:params:scim:schemas:core:2.0:Group
+            - urn:ietf:params:scim:api:messages:2.0:ListResponse
+            - urn:ietf:params:scim:api:messages:2.0:Error
+            - urn:ietf:params:scim:api:messages:2.0:PatchOp
+            - urn:ietf:params:scim:schemas:core:2.0:ServiceProviderConfig
+            - urn:ietf:params:scim:schemas:core:2.0:ResourceType
+        id:
+          type: string
+          description: The resource type's server unique id. This is a read-only value.
+        displayName:
+          type: string
+          description: The resource type name. This is a human-readable name.
+        members:
+          description: The resource type's primary/base schema URI, e.g., "urn:ietf:params:scim:schemas:core:2.0:User".
+          type: array
+          items:
+            $ref: '#/components/schemas/SCIMSchemaMemberDto'
+        meta:
+          description: The resource type's meta information.
+          allOf:
+          - $ref: '#/components/schemas/SCIMSchemaMetaDto'
+      required:
+      - schemas
       - id
+      - displayName
+      - members
       - meta
+    SCIMUserEmailDto:
+      type: object
+      properties:
+        value:
+          type: string
+          description: SCIM user email value
+        type:
+          type: string
+          description: SCIM user email type
+        primary:
+          type: boolean
+          description: SCIM user primary email marker
+      required:
+      - value
+      - type
+      - primary
     SCIMGroupListDto:
       type: object
       properties:
@@ -1307,12 +1304,12 @@ components:
       - members
       - id
       - meta
-    ScimSchemaUserDto:
+    SCIMGroupUpdateDto:
       type: object
       properties:
         schemas:
           type: array
-          description: The list of supported schemas for the resource type. The value must be one of the URIs listed in the Schemas section.
+          description: SCIM group create schemas
           items:
             type: string
             enum:
@@ -1323,125 +1320,125 @@ components:
             - urn:ietf:params:scim:api:messages:2.0:PatchOp
             - urn:ietf:params:scim:schemas:core:2.0:ServiceProviderConfig
             - urn:ietf:params:scim:schemas:core:2.0:ResourceType
-        id:
-          type: string
-          description: The resource type's server unique id. This is a read-only value.
-        userName:
-          type: string
-          description: The resource type name. This is a human-readable name.
-        meta:
-          description: The resource meta
-          allOf:
-          - $ref: '#/components/schemas/SCIMSchemaMetaDto'
-        active:
-          type: boolean
-          description: A Boolean value indicating the User's administrative status.
         displayName:
           type: string
-          description: The name of the User, suitable for display to end-users.
+          description: SCIM group name
+        members:
+          description: SCIM group members
+          type: array
+          items:
+            $ref: '#/components/schemas/SCIMGroupMemberDto'
+        id:
+          type: string
+          description: SCIM group id
+      required:
+      - schemas
+      - displayName
+      - members
+      - id
+    SCIMUserDto:
+      type: object
+      properties:
+        schemas:
+          type: array
+          description: SCIM user create schemas
+          items:
+            type: string
+            enum:
+            - urn:ietf:params:scim:schemas:core:2.0:User
+            - urn:ietf:params:scim:schemas:core:2.0:Group
+            - urn:ietf:params:scim:api:messages:2.0:ListResponse
+            - urn:ietf:params:scim:api:messages:2.0:Error
+            - urn:ietf:params:scim:api:messages:2.0:PatchOp
+            - urn:ietf:params:scim:schemas:core:2.0:ServiceProviderConfig
+            - urn:ietf:params:scim:schemas:core:2.0:ResourceType
+        externalId:
+          type: string
+          description: SCIM external user id
+        userName:
+          type: string
+          description: SCIM username
+        name:
+          description: SCIM user name details
+          allOf:
+          - $ref: '#/components/schemas/SCIMUserNameDto'
+        displayName:
+          type: string
+          description: SCIM user display name
+        active:
+          type: boolean
+          description: SCIM user active status
         emails:
-          description: Email addresses for the user. The value SHOULD be canonicalized by the service provider.
+          description: SCIM user emails
           type: array
           items:
             $ref: '#/components/schemas/SCIMUserEmailDto'
-        externalId:
-          type: string
-          description: The URI of the User's photo.
         groups:
-          description: A list of groups to which the user belongs, either through direct membership, through nested groups, or dynamically calculated.
+          description: SCIM user groups
           type: array
           items:
             $ref: '#/components/schemas/SCIMUserGroupDto'
-        name:
-          description: The components of the user's real name.
+        id:
+          type: string
+          description: SCIM user id
+        meta:
+          description: SCIM user meta
           allOf:
-          - $ref: '#/components/schemas/SCIMUserNameDto'
+          - $ref: '#/components/schemas/SCIMUserMetaDto'
       required:
       - schemas
-      - id
-      - userName
-      - meta
-      - emails
       - externalId
-      - groups
+      - userName
       - name
-    SCIMSchemaPatchDto:
+      - displayName
+      - active
+      - emails
+      - groups
+      - id
+      - meta
+    SCIMUserListDto:
+      type: object
+      properties:
+        schemas:
+          type: array
+          description: SCIM user create schemas
+          items:
+            type: string
+            enum:
+            - urn:ietf:params:scim:schemas:core:2.0:User
+            - urn:ietf:params:scim:schemas:core:2.0:Group
+            - urn:ietf:params:scim:api:messages:2.0:ListResponse
+            - urn:ietf:params:scim:api:messages:2.0:Error
+            - urn:ietf:params:scim:api:messages:2.0:PatchOp
+            - urn:ietf:params:scim:schemas:core:2.0:ServiceProviderConfig
+            - urn:ietf:params:scim:schemas:core:2.0:ResourceType
+        totalResults:
+          type: number
+          description: Total result number
+        startIndex:
+          type: number
+          description: List start index
+        itemsPerPage:
+          type: number
+          description: Items per page
+        Resources:
+          description: SCIM user list
+          allOf:
+          - $ref: '#/components/schemas/SCIMUserDto'
+      required:
+      - schemas
+      - totalResults
+      - startIndex
+      - itemsPerPage
+      - Resources
+    SCIMSchemaChangePassword:
       type: object
       properties:
         supported:
           type: boolean
-          description: Indicates whether or not the operation is required.
+          description: Indicates whether or not the operation is supported.
       required:
       - supported
-    SCIMSchemaMemberDto:
-      type: object
-      properties:
-        value:
-          type: string
-          description: The value of an attribute.
-        $ref:
-          type: string
-          description: The URI of a resource.
-        display:
-          type: string
-          description: The displayName of a resource.
-      required:
-      - value
-      - $ref
-      - display
-    SCIMGroupPatchBodyDto:
-      type: object
-      properties:
-        schemas:
-          description: Patch operation schemas
-          type: array
-          items:
-            type: string
-        Operations:
-          description: Patch operation list
-          type: array
-          items:
-            type: string
-      required:
-      - schemas
-      - Operations
-    ScimSchemaGroupDto:
-      type: object
-      properties:
-        schemas:
-          type: array
-          description: The list of supported schemas for the resource type. The value must be one of the URIs listed in the Schemas section.
-          items:
-            type: string
-            enum:
-            - urn:ietf:params:scim:schemas:core:2.0:User
-            - urn:ietf:params:scim:schemas:core:2.0:Group
-            - urn:ietf:params:scim:api:messages:2.0:ListResponse
-            - urn:ietf:params:scim:api:messages:2.0:Error
-            - urn:ietf:params:scim:api:messages:2.0:PatchOp
-            - urn:ietf:params:scim:schemas:core:2.0:ServiceProviderConfig
-            - urn:ietf:params:scim:schemas:core:2.0:ResourceType
-        id:
-          type: string
-          description: The resource type's server unique id. This is a read-only value.
-        displayName:
-          type: string
-          description: The resource type name. This is a human-readable name.
-        members:
-          description: The resource type's primary/base schema URI, e.g., "urn:ietf:params:scim:schemas:core:2.0:User".
-          type: array
-          items:
-            $ref: '#/components/schemas/SCIMSchemaMemberDto'
-        meta:
-          description: The resource type's meta information.
-          allOf:
-          - $ref: '#/components/schemas/SCIMSchemaMetaDto'
-      required:
-      - schemas
-      - id
-      - displayName
-      - members
-      - meta
     SCIMSchemaBulk:
       type: object
       properties:
@@ -1458,19 +1455,22 @@ components:
       - supported
       - maxOperations
       - maxPayloadSize
-    SCIMSchemaFilterDto:
+    SCIMSchemaSortDto:
       type: object
       properties:
         supported:
           type: boolean
           description: Indicates whether or not the operation is supported.
-          default: false
-        maxResults:
-          type: number
-          description: The maximum number of results returned by the server. The maximum value is 100.
       required:
       - supported
-      - maxResults
+    SCIMSchemaEtagDto:
+      type: object
+      properties:
+        supported:
+          type: boolean
+          description: Indicates whether or not the operation is supported.
+      required:
+      - supported
   securitySchemes:
     api-key:
       type: apiKey

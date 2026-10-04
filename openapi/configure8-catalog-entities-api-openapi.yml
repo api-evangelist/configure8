@@ -195,6 +195,15 @@ components:
         metadata:
           type: object
           additionalProperties: true
+    EntityList:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Entity'
+        total:
+          type: integer
     EntityQuery:
       type: object
       properties:
@@ -209,15 +218,6 @@ components:
         limit:
           type: integer
         offset:
-          type: integer
-    EntityList:
-      type: object
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/Entity'
-        total:
           type: integer
   parameters:
     EntityId:

@@ -55,6 +55,18 @@ paths:
       - Module Settings
 components:
   schemas:
+    ModuleSettingStateDto:
+      type: object
+      properties:
+        key:
+          type: string
+          description: The key of the module setting state
+        value:
+          type: string
+          description: The value of the module setting state
+      required:
+      - key
+      - value
     CreateModuleSettingsDto:
       type: object
       properties:
@@ -150,18 +162,6 @@ components:
       - providerType
       - configuration
       - status
-    ModuleSettingAspectDto:
-      type: object
-      properties:
-        name:
-          type: string
-          description: The name of the setting aspect
-        value:
-          type: object
-          description: The value of the setting aspect
-      required:
-      - name
-      - value
     ModuleSettingsDto:
       type: object
       properties:
@@ -288,17 +288,17 @@ components:
       - createDateTime
       - lastChangedDateTime
       - state
-    ModuleSettingStateDto:
+    ModuleSettingAspectDto:
       type: object
       properties:
-        key:
+        name:
           type: string
-          description: The key of the module setting state
+          description: The name of the setting aspect
         value:
-          type: string
-          description: The value of the module setting state
+          type: object
+          description: The value of the setting aspect
       required:
-      - key
+      - name
       - value
     ModuleSettingLayoutDto:
       type: object
