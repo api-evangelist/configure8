@@ -56,6 +56,7 @@ tags:
   - Self-Service
   - Service Catalog
   - SRE
+  - Developer Portal
 apis:
 - aid: configure8:configure8-catalog-entities-api
   name: Configure8 Catalog Entities API
