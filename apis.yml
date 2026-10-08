@@ -332,6 +332,8 @@ apis:
   - type: Website
     url: https://www.configure8.io/
 common:
+  - type: FinOps
+    url: finops/configure8-finops.yml
   - type: Overlay
     url: overlays/configure8-c8-public-api-overlay.yaml
   - type: AgenticAccess
