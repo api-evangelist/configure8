@@ -633,6 +633,1432 @@ paths:
       - Catalog Entity
 components:
   schemas:
+    UpdateCatalogBaseDto:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Catalog entity name, should be unique, not updatable for discovery created catalog entity
+        description:
+          type: string
+          description: Catalog entity description, not updatable for discovery created catalog entity
+        tags:
+          description: Tags to add to the entity, replaces the existing list
+          type: array
+          items:
+            type: string
+        links:
+          description: List of URLs linked to this entity, replaces the existing list
+          type: array
+          items:
+            $ref: '#/components/schemas/MetadataLinkDto'
+        metaTags:
+          description: List of metadata tags linked to this entity, replaces the existing list
+          type: array
+          items:
+            $ref: '#/components/schemas/MetadataTagDto'
+        permissions:
+          type: object
+          description: "List of permissions linked to this entity. The 'permissions' property is an optional object where the keys can represent either user identifier or team identifier, \n    and the value is array of the permissions associated with each user or team."
+          additionalProperties:
+            type: array
+            items:
+              type: string
+              enum:
+              - read
+              - create
+              - modify
+              - delete
+              - inherit
+              - execute
+        permissionsPatterns:
+          type: array
+          items:
+            type: string
+        generalAccess:
+          type: array
+          description: Entity visibility control. By default it is set to a default access control on organization level
+          items:
+            type: string
+            enum:
+            - read
+            - inherit
+        details:
+          type: object
+          description: Base details in json format
+        parents:
+          description: Catalog resource's parents, replaces the existing parents list
+          type: array
+          items:
+            $ref: '#/components/schemas/EntityParentDto'
+    UpdateCatalogLibraryDto:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Catalog entity name, should be unique, not updatable for discovery created catalog entity
+        description:
+          type: string
+          description: Catalog entity description, not updatable for discovery created catalog entity
+        tags:
+          description: Tags to add to the entity, replaces the existing list
+          type: array
+          items:
+            type: string
+        links:
+          description: List of URLs linked to this entity, replaces the existing list
+          type: array
+          items:
+            $ref: '#/components/schemas/MetadataLinkDto'
+        metaTags:
+          description: List of metadata tags linked to this entity, replaces the existing list
+          type: array
+          items:
+            $ref: '#/components/schemas/MetadataTagDto'
+        permissions:
+          type: object
+          description: "List of permissions linked to this entity. The 'permissions' property is an optional object where the keys can represent either user identifier or team identifier, \n    and the value is array of the permissions associated with each user or team."
+          additionalProperties:
+            type: array
+            items:
+              type: string
+              enum:
+              - read
+              - create
+              - modify
+              - delete
+              - inherit
+              - execute
+        permissionsPatterns:
+          type: array
+          items:
+            type: string
+        generalAccess:
+          type: array
+          description: Entity visibility control. By default it is set to a default access control on organization level
+          items:
+            type: string
+            enum:
+            - read
+            - inherit
+        requirements:
+          type: string
+          description: The version requirements for this library
+          example: '> 2.2'
+        provider:
+          type: string
+          description: The provider of the repository where the library resides
+        providerResourceKey:
+          type: string
+          description: The key/ID of this library in the provider
+        packageManager:
+          type: string
+          description: The package manager of this library
+          example: GO
+          enum:
+          - ACTIONS
+          - NPM
+          - PIP
+          - MAVEN
+          - GRADLE
+          - GO
+        packageLabel:
+          type: string
+          description: The label of this library. Defaults to the name of the entity
+      required:
+      - packageManager
+    MetadataTagDto:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Metadata tag's name
+        value:
+          type: string
+          description: Metadata tag's value
+        type:
+          type: string
+          enum:
+          - JSON
+          - Code
+          - Link
+          - Text
+          - AutoMap
+          - Nickname
+          description: Metadata tag's type
+        createdBy:
+          type:
+          - string
+          - 'null'
+          enum:
+          - MANUAL
+          - SYSTEM
+          description: Metadata tag's createdBy strategy
+      required:
+      - name
+      - value
+      - type
+    CreateCatalogServiceDto:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the entity
+        description:
+          type: string
+          description: Description of the entity
+        tags:
+          description: Tags to add to the entity
+          type: array
+          items:
+            type: string
+        links:
+          description: List of URLs linked to this entity
+          type: array
+          items:
+            $ref: '#/components/schemas/MetadataLinkDto'
+        metaTags:
+          description: List of metadata tags linked to this entity
+          type: array
+          items:
+            $ref: '#/components/schemas/MetadataTagDto'
+        permissions:
+          type: object
+          description: "List of permissions linked to this entity. The 'permissions' property is an optional object where the keys can represent either user identifier or team identifier, \n    and the value is array of the permissions associated with each user or team."
+          additionalProperties:
+            type: array
+            items:
+              type: string
+              enum:
+              - read
+              - create
+              - modify
+              - delete
+              - inherit
+              - execute
+        generalAccess:
+          type: array
+          description: Entity visibility control. By default it is set to a default access control on organization level
+          items:
+            type: string
+            enum:
+            - read
+            - inherit
+        repositoryId:
+          type: string
+          description: The ID of the repository entity to assign to the service
+        repositoryPath:
+          type: string
+          description: The path of the repository
+        languages:
+          description: The languages that this service uses
+          type: array
+          items:
+            type: string
+        lifecycle:
+          type: string
+          description: The lifecycle of the service
+        applications:
+          description: The ID of the application entities linked to this service
+          type: array
+          items:
+            type: string
+        templateId:
+          type: string
+          description: The ID of the template that this entity is based on
+      required:
+      - name
+    CatalogApplicationDto:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        orgId:
+          type: string
+        type:
+          type: string
+          enum:
+          - application
+          - system
+          - service
+          - resource
+          - environment
+          - person
+          - api
+          - repository
+          - library
+          - manifest
+          - team
+          - base
+          description: Catalog entity type
+        description:
+          type: string
+          description: Catalog entity description
+        tags:
+          description: Catalog entity's tags
+          type: array
+          items:
+            type: string
+        metaTags:
+          description: Catalog entity's metadata
+          type: array
+          items:
+            $ref: '#/components/schemas/MetadataTagDto'
+        links:
+          description: Catalog entity's links
+          type: array
+          items:
+            $ref: '#/components/schemas/MetadataLinkDto'
+        parents:
+          description: Catalog entity's parents
+          type: array
+          items:
+            $ref: '#/components/schemas/EntityParentDto'
+        createdBy:
+          type: string
+        lastChangedBy:
+          type: string
+        createDateTime:
+          format: date-time
+          type: string
+        lastChangedDateTime:
+          format: date-time
+          type: string
+        permissions:
+          type: object
+          description: "List of permissions linked to this entity. The 'permissions' property is an optional object where the keys can represent either user identifier or team identifier, \n    and the value is array of the permissions associated with each user or team."
+          additionalProperties:
+            type: array
+            items:
+              type: string
+              enum:
+              - read
+              - create
+              - modify
+              - delete
+              - inherit
+              - execute
+        generalAccess:
+          type: array
+          description: Entity visibility control. By default it is set to a default access control on organization level
+          items:
+            type: string
+            enum:
+            - read
+            - inherit
+      required:
+      - id
+      - name
+      - orgId
+      - type
+    CatalogRepositoryDto:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        orgId:
+          type: string
+        type:
+          type: string
+          enum:
+          - application
+          - system
+          - service
+          - resource
+          - environment
+          - person
+          - api
+          - repository
+          - library
+          - manifest
+          - team
+          - base
+          description: Catalog entity type
+        description:
+          type: string
+          description: Catalog entity description
+        tags:
+          description: Catalog entity's tags
+          type: array
+          items:
+            type: string
+        metaTags:
+          description: Catalog entity's metadata
+          type: array
+          items:
+            $ref: '#/components/schemas/MetadataTagDto'
+        links:
+          description: Catalog entity's links
+          type: array
+          items:
+            $ref: '#/components/schemas/MetadataLinkDto'
+        parents:
+          description: Catalog entity's parents
+          type: array
+          items:
+            $ref: '#/components/schemas/EntityParentDto'
+        createdBy:
+          type: string
+        lastChangedBy:
+          type: string
+        createDateTime:
+          format: date-time
+          type: string
+        lastChangedDateTime:
+          format: date-time
+          type: string
+        permissions:
+          type: object
+          description: "List of permissions linked to this entity. The 'permissions' property is an optional object where the keys can represent either user identifier or team identifier, \n    and the value is array of the permissions associated with each user or team."
+          additionalProperties:
+            type: array
+            items:
+              type: string
+              enum:
+              - read
+              - create
+              - modify
+              - delete
+              - inherit
+              - execute
+        generalAccess:
+          type: array
+          description: Entity visibility control. By default it is set to a default access control on organization level
+          items:
+            type: string
+            enum:
+            - read
+            - inherit
+        url:
+          type: string
+        contributors:
+          type: array
+          items:
+            type: string
+        languages:
+          type: array
+          items:
+            type: string
+        release:
+          $ref: '#/components/schemas/RepositoryReleaseDto'
+        provider:
+          type: string
+        providerType:
+          type: string
+        providerResourceKey:
+          type: string
+        providerResourceType:
+          type: string
+        providerAccountId:
+          type: string
+        location:
+          type: string
+        details:
+          type: object
+      required:
+      - id
+      - name
+      - orgId
+      - type
+      - url
+      - contributors
+      - languages
+      - release
+      - provider
+      - providerType
+      - providerResourceKey
+      - providerResourceType
+      - providerAccountId
+      - location
+    CatalogLibraryDto:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        orgId:
+          type: string
+        type:
+          type: string
+          enum:
+          - application
+          - system
+          - service
+          - resource
+          - environment
+          - person
+          - api
+          - repository
+          - library
+          - manifest
+          - team
+          - base
+          description: Catalog entity type
+        description:
+          type: string
+          description: Catalog entity description
+        tags:
+          description: Catalog entity's tags
+          type: array
+          items:
+            type: string
+        metaTags:
+          description: Catalog entity's metadata
+          type: array
+          items:
+            $ref: '#/components/schemas/MetadataTagDto'
+        links:
+          description: Catalog entity's links
+          type: array
+          items:
+            $ref: '#/components/schemas/MetadataLinkDto'
+        parents:
+          description: Catalog entity's parents
+          type: array
+          items:
+            $ref: '#/components/schemas/EntityParentDto'
+        createdBy:
+          type: string
+        lastChangedBy:
+          type: string
+        createDateTime:
+          format: date-time
+          type: string
+        lastChangedDateTime:
+          format: date-time
+          type: string
+        permissions:
+          type: object
+          description: "List of permissions linked to this entity. The 'permissions' property is an optional object where the keys can represent either user identifier or team identifier, \n    and the value is array of the permissions associated with each user or team."
+          additionalProperties:
+            type: array
+            items:
+              type: string
+              enum:
+              - read
+              - create
+              - modify
+              - delete
+              - inherit
+              - execute
+        generalAccess:
+          type: array
+          description: Entity visibility control. By default it is set to a default access control on organization level
+          items:
+            type: string
+            enum:
+            - read
+            - inherit
+        requirements:
+          type: string
+        provider:
+          type: string
+        providerType:
+          type: string
+        providerResourceKey:
+          type: string
+        providerResourceType:
+          type: string
+        packageName:
+          type: string
+        packageManager:
+          type: string
+        packageLabel:
+          type: string
+      required:
+      - id
+      - name
+      - orgId
+      - type
+      - requirements
+      - provider
+      - providerType
+      - providerResourceKey
+      - providerResourceType
+      - packageName
+      - packageManager
+    MetadataLinkDto:
+      type: object
+      properties:
+        url:
+          type: string
+          description: Link url
+        title:
+          type: string
+          description: Link title
+        icon:
+          type: string
+          description: Link icon
+      required:
+      - url
+      - title
+      - icon
+    CatalogManifestDto:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        orgId:
+          type: string
+        type:
+          type: string
+          enum:
+          - application
+          - system
+          - service
+          - resource
+          - environment
+          - person
+          - api
+          - repository
+          - library
+          - manifest
+          - team
+          - base
+          description: Catalog entity type
+        description:
+          type: string
+          description: Catalog entity description
+        tags:
+          description: Catalog entity's tags
+          type: array
+          items:
+            type: string
+        metaTags:
+          description: Catalog entity's metadata
+          type: array
+          items:
+            $ref: '#/components/schemas/MetadataTagDto'
+        links:
+          description: Catalog entity's links
+          type: array
+          items:
+            $ref: '#/components/schemas/MetadataLinkDto'
+        parents:
+          description: Catalog entity's parents
+          type: array
+          items:
+            $ref: '#/components/schemas/EntityParentDto'
+        createdBy:
+          type: string
+        lastChangedBy:
+          type: string
+        createDateTime:
+          format: date-time
+          type: string
+        lastChangedDateTime:
+          format: date-time
+          type: string
+        permissions:
+          type: object
+          description: "List of permissions linked to this entity. The 'permissions' property is an optional object where the keys can represent either user identifier or team identifier, \n    and the value is array of the permissions associated with each user or team."
+          additionalProperties:
+            type: array
+            items:
+              type: string
+              enum:
+              - read
+              - create
+              - modify
+              - delete
+              - inherit
+              - execute
+        generalAccess:
+          type: array
+          description: Entity visibility control. By default it is set to a default access control on organization level
+          items:
+            type: string
+            enum:
+            - read
+            - inherit
+        repoPath:
+          type: string
+        totalDependencies:
+          type: number
+        provider:
+          type: string
+        providerType:
+          type: string
+        providerResourceKey:
+          type: string
+        providerResourceType:
+          type: string
+        providerAccountId:
+          type: string
+      required:
+      - id
+      - name
+      - orgId
+      - type
+      - repoPath
+      - totalDependencies
+      - provider
+      - providerType
+      - providerResourceKey
+      - providerResourceType
+      - providerAccountId
+    CatalogSystemDto:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        orgId:
+          type: string
+        type:
+          type: string
+          enum:
+          - application
+          - system
+          - service
+          - resource
+          - environment
+          - person
+          - api
+          - repository
+          - library
+          - manifest
+          - team
+          - base
+          description: Catalog entity type
+        description:
+          type: string
+          description: Catalog entity description
+        tags:
+          description: Catalog entity's tags
+          type: array
+          items:
+            type: string
+        metaTags:
+          description: Catalog entity's metadata
+          type: array
+          items:
+            $ref: '#/components/schemas/MetadataTagDto'
+        links:
+          description: Catalog entity's links
+          type: array
+          items:
+            $ref: '#/components/schemas/MetadataLinkDto'
+        parents:
+          description: Catalog entity's parents
+          type: array
+          items:
+            $ref: '#/components/schemas/EntityParentDto'
+        createdBy:
+          type: string
+        lastChangedBy:
+          type: string
+        createDateTime:
+          format: date-time
+          type: string
+        lastChangedDateTime:
+          format: date-time
+          type: string
+        permissions:
+          type: object
+          description: "List of permissions linked to this entity. The 'permissions' property is an optional object where the keys can represent either user identifier or team identifier, \n    and the value is array of the permissions associated with each user or team."
+          additionalProperties:
+            type: array
+            items:
+              type: string
+              enum:
+              - read
+              - create
+              - modify
+              - delete
+              - inherit
+              - execute
+        generalAccess:
+          type: array
+          description: Entity visibility control. By default it is set to a default access control on organization level
+          items:
+            type: string
+            enum:
+            - read
+            - inherit
+      required:
+      - id
+      - name
+      - orgId
+      - type
+    UpdateCatalogPersonDto:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Catalog entity name, should be unique, not updatable for discovery created catalog entity
+        description:
+          type: string
+          description: Catalog entity description, not updatable for discovery created catalog entity
+        tags:
+          description: Tags to add to the entity, replaces the existing list
+          type: array
+          items:
+            type: string
+        links:
+          description: List of URLs linked to this entity, replaces the existing list
+          type: array
+          items:
+            $ref: '#/components/schemas/MetadataLinkDto'
+        metaTags:
+          description: List of metadata tags linked to this entity, replaces the existing list
+          type: array
+          items:
+            $ref: '#/components/schemas/MetadataTagDto'
+        permissions:
+          type: object
+          description: "List of permissions linked to this entity. The 'permissions' property is an optional object where the keys can represent either user identifier or team identifier, \n    and the value is array of the permissions associated with each user or team."
+          additionalProperties:
+            type: array
+            items:
+              type: string
+              enum:
+              - read
+              - create
+              - modify
+              - delete
+              - inherit
+              - execute
+        permissionsPatterns:
+          type: array
+          items:
+            type: string
+        generalAccess:
+          type: array
+          description: Entity visibility control. By default it is set to a default access control on organization level
+          items:
+            type: string
+            enum:
+            - read
+            - inherit
+        photoUrl:
+          type: string
+          description: Person photo url
+        familyName:
+          type: string
+          description: Person family name
+        givenName:
+          type: string
+          description: Person givenName name
+    CatalogEntitiesSearchResultDto:
+      type: object
+      properties:
+        totalFound:
+          type: number
+          description: Total elements found
+        pageNumber:
+          type: number
+        pageSize:
+          type: number
+        items:
+          description: Found catalog entities
+          type: array
+          items:
+            $ref: '#/components/schemas/CatalogEntityDto'
+      required:
+      - totalFound
+      - pageNumber
+      - pageSize
+      - items
+    CreateCatalogManifestDto:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the entity
+        description:
+          type: string
+          description: Description of the entity
+        tags:
+          description: Tags to add to the entity
+          type: array
+          items:
+            type: string
+        links:
+          description: List of URLs linked to this entity
+          type: array
+          items:
+            $ref: '#/components/schemas/MetadataLinkDto'
+        metaTags:
+          description: List of metadata tags linked to this entity
+          type: array
+          items:
+            $ref: '#/components/schemas/MetadataTagDto'
+        permissions:
+          type: object
+          description: "List of permissions linked to this entity. The 'permissions' property is an optional object where the keys can represent either user identifier or team identifier, \n    and the value is array of the permissions associated with each user or team."
+          additionalProperties:
+            type: array
+            items:
+              type: string
+              enum:
+              - read
+              - create
+              - modify
+              - delete
+              - inherit
+              - execute
+        generalAccess:
+          type: array
+          description: Entity visibility control. By default it is set to a default access control on organization level
+          items:
+            type: string
+            enum:
+            - read
+            - inherit
+        repoPath:
+          type: string
+          description: The path of this manifest in the repository
+        totalDependencies:
+          type: number
+          description: The total amount of dependencies that this manifest has
+        provider:
+          type: string
+          description: The provider of the repository where the manifest resides
+          enum:
+          - GitHub
+          - Bitbucket
+          - GitLab
+          - Azure DevOps
+        providerResourceKey:
+          type: string
+          description: The key/ID of this manifest. Typically the path of the file containing dependencies
+          example: some/path/package.json
+        providerAccountId:
+          type: string
+          description: The key/ID of the account that owns this manifest
+      required:
+      - name
+      - repoPath
+      - provider
+      - providerResourceKey
+      - providerAccountId
+    CatalogBaseDto:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        orgId:
+          type: string
+        type:
+          type: string
+          enum:
+          - application
+          - system
+          - service
+          - resource
+          - environment
+          - person
+          - api
+          - repository
+          - library
+          - manifest
+          - team
+          - base
+          description: Catalog entity type
+        description:
+          type: string
+          description: Catalog entity description
+        tags:
+          description: Catalog entity's tags
+          type: array
+          items:
+            type: string
+        metaTags:
+          description: Catalog entity's metadata
+          type: array
+          items:
+            $ref: '#/components/schemas/MetadataTagDto'
+        links:
+          description: Catalog entity's links
+          type: array
+          items:
+            $ref: '#/components/schemas/MetadataLinkDto'
+        parents:
+          description: Catalog entity's parents
+          type: array
+          items:
+            $ref: '#/components/schemas/EntityParentDto'
+        createdBy:
+          type: string
+        lastChangedBy:
+          type: string
+        createDateTime:
+          format: date-time
+          type: string
+        lastChangedDateTime:
+          format: date-time
+          type: string
+        permissions:
+          type: object
+          description: "List of permissions linked to this entity. The 'permissions' property is an optional object where the keys can represent either user identifier or team identifier, \n    and the value is array of the permissions associated with each user or team."
+          additionalProperties:
+            type: array
+            items:
+              type: string
+              enum:
+              - read
+              - create
+              - modify
+              - delete
+              - inherit
+              - execute
+        generalAccess:
+          type: array
+          description: Entity visibility control. By default it is set to a default access control on organization level
+          items:
+            type: string
+            enum:
+            - read
+            - inherit
+        providerResourceType:
+          type: string
+        details:
+          type: object
+      required:
+      - id
+      - name
+      - orgId
+      - type
+      - providerResourceType
+    CreateCatalogSystemDto:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the entity
+        description:
+          type: string
+          description: Description of the entity
+        tags:
+          description: Tags to add to the entity
+          type: array
+          items:
+            type: string
+        links:
+          description: List of URLs linked to this entity
+          type: array
+          items:
+            $ref: '#/components/schemas/MetadataLinkDto'
+        metaTags:
+          description: List of metadata tags linked to this entity
+          type: array
+          items:
+            $ref: '#/components/schemas/MetadataTagDto'
+        permissions:
+          type: object
+          description: "List of permissions linked to this entity. The 'permissions' property is an optional object where the keys can represent either user identifier or team identifier, \n    and the value is array of the permissions associated with each user or team."
+          additionalProperties:
+            type: array
+            items:
+              type: string
+              enum:
+              - read
+              - create
+              - modify
+              - delete
+              - inherit
+              - execute
+        generalAccess:
+          type: array
+          description: Entity visibility control. By default it is set to a default access control on organization level
+          items:
+            type: string
+            enum:
+            - read
+            - inherit
+      required:
+      - name
+    CatalogEntityQueryDto:
+      type: object
+      properties:
+        propertyFilters:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/CatalogSimplePropertyFilter'
+            - $ref: '#/components/schemas/CatalogCompoundPropertyFilter'
+          description: "Filters for matching properties' values:\n    Can be SIMPLE and COMPOUND.\n    SIMPLE is a key-value pair.\n    COMPOUND is a set of key-value pairs combined with OR or AND operator"
+        searchTerms:
+          type: string
+          description: Term to search by
+        searchOnlyByName:
+          type: boolean
+          default: false
+          description: Perform search only by entity name. By default search will be performed considering all text properties
+        types:
+          type: array
+          description: Catalog entity types to filter by
+          items:
+            type: string
+            enum:
+            - application
+            - system
+            - service
+            - resource
+            - environment
+            - person
+            - api
+            - repository
+            - library
+            - manifest
+            - team
+            - base
+        includeProperties:
+          description: "Entity properties that will be returned in result. \n  By default all entity properties are included in response. \n  If includeProperties is passed, regardless of which properties are specified, 'id' and 'type' fields will be always included"
+          type: array
+          items:
+            type: string
+        pageNumber:
+          type: number
+          default: 0
+        pageSize:
+          type: number
+          default: 20
+        sort:
+          description: Sort entities by property in ASC or DESC order
+          allOf:
+          - $ref: '#/components/schemas/CatalogEntitySort'
+    CreateCatalogApplicationDto:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the entity
+        description:
+          type: string
+          description: Description of the entity
+        tags:
+          description: Tags to add to the entity
+          type: array
+          items:
+            type: string
+        links:
+          description: List of URLs linked to this entity
+          type: array
+          items:
+            $ref: '#/components/schemas/MetadataLinkDto'
+        metaTags:
+          description: List of metadata tags linked to this entity
+          type: array
+          items:
+            $ref: '#/components/schemas/MetadataTagDto'
+        permissions:
+          type: object
+          description: "List of permissions linked to this entity. The 'permissions' property is an optional object where the keys can represent either user identifier or team identifier, \n    and the value is array of the permissions associated with each user or team."
+          additionalProperties:
+            type: array
+            items:
+              type: string
+              enum:
+              - read
+              - create
+              - modify
+              - delete
+              - inherit
+              - execute
+        generalAccess:
+          type: array
+          description: Entity visibility control. By default it is set to a default access control on organization level
+          items:
+            type: string
+            enum:
+            - read
+            - inherit
+      required:
+      - name
+    CreateCatalogLibraryDto:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the entity
+        description:
+          type: string
+          description: Description of the entity
+        tags:
+          description: Tags to add to the entity
+          type: array
+          items:
+            type: string
+        links:
+          description: List of URLs linked to this entity
+          type: array
+          items:
+            $ref: '#/components/schemas/MetadataLinkDto'
+        metaTags:
+          description: List of metadata tags linked to this entity
+          type: array
+          items:
+            $ref: '#/components/schemas/MetadataTagDto'
+        permissions:
+          type: object
+          description: "List of permissions linked to this entity. The 'permissions' property is an optional object where the keys can represent either user identifier or team identifier, \n    and the value is array of the permissions associated with each user or team."
+          additionalProperties:
+            type: array
+            items:
+              type: string
+              enum:
+              - read
+              - create
+              - modify
+              - delete
+              - inherit
+              - execute
+        generalAccess:
+          type: array
+          description: Entity visibility control. By default it is set to a default access control on organization level
+          items:
+            type: string
+            enum:
+            - read
+            - inherit
+        requirements:
+          type: string
+          description: The version requirements for this library
+          example: = 1.1
+        provider:
+          type: string
+          description: The provider of the repository where the library resides
+        providerResourceKey:
+          type: string
+          description: The key/ID of this library in the provider
+        packageManager:
+          type: string
+          description: The package manager of this library
+          example: ACTIONS
+          enum:
+          - ACTIONS
+          - NPM
+          - PIP
+          - MAVEN
+          - GRADLE
+          - GO
+        packageLabel:
+          type: string
+          description: The label of this library. Defaults to the name of the entity
+      required:
+      - name
+      - provider
+      - packageManager
+    CreateCatalogRepositoryDto:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the entity
+        description:
+          type: string
+          description: Description of the entity
+        tags:
+          description: Tags to add to the entity
+          type: array
+          items:
+            type: string
+        links:
+          description: List of URLs linked to this entity
+          type: array
+          items:
+            $ref: '#/components/schemas/MetadataLinkDto'
+        metaTags:
+          description: List of metadata tags linked to this entity
+          type: array
+          items:
+            $ref: '#/components/schemas/MetadataTagDto'
+        permissions:
+          type: object
+          description: "List of permissions linked to this entity. The 'permissions' property is an optional object where the keys can represent either user identifier or team identifier, \n    and the value is array of the permissions associated with each user or team."
+          additionalProperties:
+            type: array
+            items:
+              type: string
+              enum:
+              - read
+              - create
+              - modify
+              - delete
+              - inherit
+              - execute
+        generalAccess:
+          type: array
+          description: Entity visibility control. By default it is set to a default access control on organization level
+          items:
+            type: string
+            enum:
+            - read
+            - inherit
+        url:
+          type: string
+          description: The URL of the repository
+        contributors:
+          description: The list of constributors for this repository
+          type: array
+          items:
+            $ref: '#/components/schemas/RepositoryContributorDto'
+        languages:
+          description: The languages that this repository uses
+          type: array
+          items:
+            $ref: '#/components/schemas/RepositoryLanguageDto'
+        release:
+          description: The latest release of this repository
+          allOf:
+          - $ref: '#/components/schemas/RepositoryReleaseDto'
+        provider:
+          type: string
+          description: The provider of this repository
+          enum:
+          - GitHub
+          - Bitbucket
+          - GitLab
+          - Azure DevOps
+        providerResourceKey:
+          type: string
+          description: The key/ID of this repository in the provider
+        providerAccountId:
+          type: string
+          description: The key/ID of the account that owns this repository
+        location:
+          type: string
+          description: The full path of the repository
+      required:
+      - name
+      - url
+      - provider
+      - providerResourceKey
+      - providerAccountId
+      - location
+    RepositoryContributorDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The ID of the contributor
+        login:
+          type: string
+          description: The display name of the contributor
+        contributions:
+          type: number
+          description: The number of lines this contributor added
+      required:
+      - id
+      - login
+    CatalogPropertyPublicFilter:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Property to filter by
+          enum:
+          - id
+          - name
+          - description
+          - type
+          - provider
+          - providerResourceKey
+          - providerResourceType
+          - providerAccountId
+        value:
+          type: string
+          description: Property value
+      required:
+      - name
+      - value
+    CatalogEntityDto:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        orgId:
+          type: string
+        type:
+          type: string
+          enum:
+          - application
+          - system
+          - service
+          - resource
+          - environment
+          - person
+          - api
+          - repository
+          - library
+          - manifest
+          - team
+          - base
+          description: Catalog entity type
+        description:
+          type: string
+          description: Catalog entity description
+        tags:
+          description: Catalog entity's tags
+          type: array
+          items:
+            type: string
+        metaTags:
+          description: Catalog entity's metadata
+          type: array
+          items:
+            $ref: '#/components/schemas/MetadataTagDto'
+        links:
+          description: Catalog entity's links
+          type: array
+          items:
+            $ref: '#/components/schemas/MetadataLinkDto'
+        parents:
+          description: Catalog entity's parents
+          type: array
+          items:
+            $ref: '#/components/schemas/EntityParentDto'
+        createdBy:
+          type: string
+        lastChangedBy:
+          type: string
+        createDateTime:
+          format: date-time
+          type: string
+        lastChangedDateTime:
+          format: date-time
+          type: string
+        permissions:
+          type: object
+          description: "List of permissions linked to this entity. The 'permissions' property is an optional object where the keys can represent either user identifier or team identifier, \n    and the value is array of the permissions associated with each user or team."
+          additionalProperties:
+            type: array
+            items:
+              type: string
+              enum:
+              - read
+              - create
+              - modify
+              - delete
+              - inherit
+              - execute
+        generalAccess:
+          type: array
+          description: Entity visibility control. By default it is set to a default access control on organization level
+          items:
+            type: string
+            enum:
+            - read
+            - inherit
+      required:
+      - id
+      - name
+      - orgId
+      - type
     UpdateCatalogResourceDto:
       type: object
       properties:
@@ -704,6 +2130,66 @@ components:
         deepLinkUrl:
           type: string
           description: Deep link to the resource
+    CreateCatalogBaseDto:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the entity
+        description:
+          type: string
+          description: Description of the entity
+        tags:
+          description: Tags to add to the entity
+          type: array
+          items:
+            type: string
+        links:
+          description: List of URLs linked to this entity
+          type: array
+          items:
+            $ref: '#/components/schemas/MetadataLinkDto'
+        metaTags:
+          description: List of metadata tags linked to this entity
+          type: array
+          items:
+            $ref: '#/components/schemas/MetadataTagDto'
+        permissions:
+          type: object
+          description: "List of permissions linked to this entity. The 'permissions' property is an optional object where the keys can represent either user identifier or team identifier, \n    and the value is array of the permissions associated with each user or team."
+          additionalProperties:
+            type: array
+            items:
+              type: string
+              enum:
+              - read
+              - create
+              - modify
+              - delete
+              - inherit
+              - execute
+        generalAccess:
+          type: array
+          description: Entity visibility control. By default it is set to a default access control on organization level
+          items:
+            type: string
+            enum:
+            - read
+            - inherit
+        providerResourceType:
+          type: string
+          description: Provider resource type
+        details:
+          type: object
+          description: Resource details in json format
+        parents:
+          description: Catalog resource's parents
+          type: array
+          items:
+            $ref: '#/components/schemas/EntityParentDto'
+      required:
+      - name
+      - providerResourceType
     CatalogResourceDto:
       type: object
       properties:
@@ -811,7 +2297,344 @@ components:
       - providerResourceType
       - providerAccountId
       - location
-    CatalogEntityDto:
+    EntityParentDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Parent entity id
+        secondaryId:
+          type: string
+          description: Service id, used only in Environment-Resource relation (label 'contains')
+        label:
+          type: string
+          enum:
+          - belongs_to
+          - depends_on
+          - provides
+          - has_environment
+          - part_of
+          - consumes
+          - uses
+          - contains
+          - has_repository
+          - has_library
+          - has_manifest
+          - has_dependency
+          - child_of
+          - relative_to
+          - ''
+          description: Entity relation type
+        field:
+          type: string
+          description: Entity relation field
+      required:
+      - id
+      - secondaryId
+      - label
+      - field
+    CatalogCompoundPropertyFilter:
+      type: object
+      properties:
+        filterType:
+          type: string
+          description: Filter type
+          enum:
+          - COMPOUND
+        operand:
+          type: string
+          description: Operand
+          enum:
+          - AND
+          - OR
+        propertyFilters:
+          description: Property filters
+          type: array
+          items:
+            $ref: '#/components/schemas/CatalogPropertyPublicFilter'
+      required:
+      - filterType
+      - operand
+      - propertyFilters
+    CatalogPersonDto:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        orgId:
+          type: string
+        type:
+          type: string
+          enum:
+          - application
+          - system
+          - service
+          - resource
+          - environment
+          - person
+          - api
+          - repository
+          - library
+          - manifest
+          - team
+          - base
+          description: Catalog entity type
+        description:
+          type: string
+          description: Catalog entity description
+        tags:
+          description: Catalog entity's tags
+          type: array
+          items:
+            type: string
+        metaTags:
+          description: Catalog entity's metadata
+          type: array
+          items:
+            $ref: '#/components/schemas/MetadataTagDto'
+        links:
+          description: Catalog entity's links
+          type: array
+          items:
+            $ref: '#/components/schemas/MetadataLinkDto'
+        parents:
+          description: Catalog entity's parents
+          type: array
+          items:
+            $ref: '#/components/schemas/EntityParentDto'
+        createdBy:
+          type: string
+        lastChangedBy:
+          type: string
+        createDateTime:
+          format: date-time
+          type: string
+        lastChangedDateTime:
+          format: date-time
+          type: string
+        permissions:
+          type: object
+          description: "List of permissions linked to this entity. The 'permissions' property is an optional object where the keys can represent either user identifier or team identifier, \n    and the value is array of the permissions associated with each user or team."
+          additionalProperties:
+            type: array
+            items:
+              type: string
+              enum:
+              - read
+              - create
+              - modify
+              - delete
+              - inherit
+              - execute
+        generalAccess:
+          type: array
+          description: Entity visibility control. By default it is set to a default access control on organization level
+          items:
+            type: string
+            enum:
+            - read
+            - inherit
+        email:
+          type: string
+        isActive:
+          type: boolean
+        userId:
+          type: string
+        externalId:
+          type: string
+        familyName:
+          type: string
+        givenName:
+          type: string
+        photoUrl:
+          type: string
+        provisioned:
+          type: boolean
+      required:
+      - id
+      - name
+      - orgId
+      - type
+      - email
+      - isActive
+    UpdateCatalogApplicationDto:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Catalog entity name, should be unique, not updatable for discovery created catalog entity
+        description:
+          type: string
+          description: Catalog entity description, not updatable for discovery created catalog entity
+        tags:
+          description: Tags to add to the entity, replaces the existing list
+          type: array
+          items:
+            type: string
+        links:
+          description: List of URLs linked to this entity, replaces the existing list
+          type: array
+          items:
+            $ref: '#/components/schemas/MetadataLinkDto'
+        metaTags:
+          description: List of metadata tags linked to this entity, replaces the existing list
+          type: array
+          items:
+            $ref: '#/components/schemas/MetadataTagDto'
+        permissions:
+          type: object
+          description: "List of permissions linked to this entity. The 'permissions' property is an optional object where the keys can represent either user identifier or team identifier, \n    and the value is array of the permissions associated with each user or team."
+          additionalProperties:
+            type: array
+            items:
+              type: string
+              enum:
+              - read
+              - create
+              - modify
+              - delete
+              - inherit
+              - execute
+        permissionsPatterns:
+          type: array
+          items:
+            type: string
+        generalAccess:
+          type: array
+          description: Entity visibility control. By default it is set to a default access control on organization level
+          items:
+            type: string
+            enum:
+            - read
+            - inherit
+    CatalogSimplePropertyFilter:
+      type: object
+      properties:
+        filterType:
+          type: string
+          description: Filter type
+          enum:
+          - SIMPLE
+        name:
+          type: string
+          description: Property to filter by
+          enum:
+          - id
+          - name
+          - description
+          - type
+          - provider
+          - providerResourceKey
+          - providerResourceType
+          - providerAccountId
+        value:
+          type: string
+          description: Property value
+      required:
+      - filterType
+      - name
+      - value
+    CreateCatalogResourceDto:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the entity
+        description:
+          type: string
+          description: Description of the entity
+        tags:
+          description: Tags to add to the entity
+          type: array
+          items:
+            type: string
+        links:
+          description: List of URLs linked to this entity
+          type: array
+          items:
+            $ref: '#/components/schemas/MetadataLinkDto'
+        metaTags:
+          description: List of metadata tags linked to this entity
+          type: array
+          items:
+            $ref: '#/components/schemas/MetadataTagDto'
+        permissions:
+          type: object
+          description: "List of permissions linked to this entity. The 'permissions' property is an optional object where the keys can represent either user identifier or team identifier, \n    and the value is array of the permissions associated with each user or team."
+          additionalProperties:
+            type: array
+            items:
+              type: string
+              enum:
+              - read
+              - create
+              - modify
+              - delete
+              - inherit
+              - execute
+        generalAccess:
+          type: array
+          description: Entity visibility control. By default it is set to a default access control on organization level
+          items:
+            type: string
+            enum:
+            - read
+            - inherit
+        providerResourceKey:
+          type: string
+          description: The key/ID of the resource in the provider
+          example: '123456789012'
+        provider:
+          type: string
+          description: Provider name
+        providerResourceType:
+          type: string
+          description: Provider resource type
+        providerAccountId:
+          type: string
+          description: The key/ID of the account that owns this resource
+        location:
+          type: string
+          description: Resource location
+        details:
+          type: object
+          description: Resource details in json format
+        parents:
+          description: Catalog resource's parents
+          type: array
+          items:
+            $ref: '#/components/schemas/EntityParentDto'
+        deepLinkUrl:
+          type: string
+          description: Deep link to the resource
+      required:
+      - name
+      - providerResourceKey
+      - provider
+      - providerResourceType
+    RepositoryReleaseDto:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of this release
+        date:
+          type: string
+          description: The date this release was made as an ISO 8601 string
+        tag:
+          type: string
+          description: The tag associated with this release
+        latest:
+          type: boolean
+          description: True if this is the latest release, false otherwise
+      required:
+      - name
+      - date
+      - tag
+      - latest
+    CatalogEnvironmentDto:
       type: object
       properties:
         id:
@@ -960,63 +2783,27 @@ components:
         templateId:
           type: string
           description: The ID of the template that this service is based on
-    EntityParentDto:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Parent entity id
-        secondaryId:
-          type: string
-          description: Service id, used only in Environment-Resource relation (label 'contains')
-        label:
-          type: string
-          enum:
-          - belongs_to
-          - depends_on
-          - provides
-          - has_environment
-          - part_of
-          - consumes
-          - uses
-          - contains
-          - has_repository
-          - has_library
-          - has_manifest
-          - has_dependency
-          - child_of
-          - relative_to
-          - ''
-          description: Entity relation type
-        field:
-          type: string
-          description: Entity relation field
-      required:
-      - id
-      - secondaryId
-      - label
-      - field
-    CreateCatalogLibraryDto:
+    UpdateCatalogEnvironmentDto:
       type: object
       properties:
         name:
           type: string
-          description: Name of the entity
+          description: Catalog entity name, should be unique, not updatable for discovery created catalog entity
         description:
           type: string
-          description: Description of the entity
+          description: Catalog entity description, not updatable for discovery created catalog entity
         tags:
-          description: Tags to add to the entity
+          description: Tags to add to the entity, replaces the existing list
           type: array
           items:
             type: string
         links:
-          description: List of URLs linked to this entity
+          description: List of URLs linked to this entity, replaces the existing list
           type: array
           items:
             $ref: '#/components/schemas/MetadataLinkDto'
         metaTags:
-          description: List of metadata tags linked to this entity
+          description: List of metadata tags linked to this entity, replaces the existing list
           type: array
           items:
             $ref: '#/components/schemas/MetadataTagDto'
@@ -1034,6 +2821,10 @@ components:
               - delete
               - inherit
               - execute
+        permissionsPatterns:
+          type: array
+          items:
+            type: string
         generalAccess:
           type: array
           description: Entity visibility control. By default it is set to a default access control on organization level
@@ -1042,105 +2833,27 @@ components:
             enum:
             - read
             - inherit
-        requirements:
-          type: string
-          description: The version requirements for this library
-          example: = 1.1
-        provider:
-          type: string
-          description: The provider of the repository where the library resides
-        providerResourceKey:
-          type: string
-          description: The key/ID of this library in the provider
-        packageManager:
-          type: string
-          description: The package manager of this library
-          example: ACTIONS
-          enum:
-          - ACTIONS
-          - NPM
-          - PIP
-          - MAVEN
-          - GRADLE
-          - GO
-        packageLabel:
-          type: string
-          description: The label of this library. Defaults to the name of the entity
-      required:
-      - name
-      - provider
-      - packageManager
-    CatalogEntityQueryDto:
-      type: object
-      properties:
-        propertyFilters:
-          type: array
-          items:
-            oneOf:
-            - $ref: '#/components/schemas/CatalogSimplePropertyFilter'
-            - $ref: '#/components/schemas/CatalogCompoundPropertyFilter'
-          description: "Filters for matching properties' values:\n    Can be SIMPLE and COMPOUND.\n    SIMPLE is a key-value pair.\n    COMPOUND is a set of key-value pairs combined with OR or AND operator"
-        searchTerms:
-          type: string
-          description: Term to search by
-        searchOnlyByName:
-          type: boolean
-          default: false
-          description: Perform search only by entity name. By default search will be performed considering all text properties
-        types:
-          type: array
-          description: Catalog entity types to filter by
-          items:
-            type: string
-            enum:
-            - application
-            - system
-            - service
-            - resource
-            - environment
-            - person
-            - api
-            - repository
-            - library
-            - manifest
-            - team
-            - base
-        includeProperties:
-          description: "Entity properties that will be returned in result. \n  By default all entity properties are included in response. \n  If includeProperties is passed, regardless of which properties are specified, 'id' and 'type' fields will be always included"
-          type: array
-          items:
-            type: string
-        pageNumber:
-          type: number
-          default: 0
-        pageSize:
-          type: number
-          default: 20
-        sort:
-          description: Sort entities by property in ASC or DESC order
-          allOf:
-          - $ref: '#/components/schemas/CatalogEntitySort'
-    CreateCatalogRepositoryDto:
+    UpdateCatalogSystemDto:
       type: object
       properties:
         name:
           type: string
-          description: Name of the entity
+          description: Catalog entity name, should be unique, not updatable for discovery created catalog entity
         description:
           type: string
-          description: Description of the entity
+          description: Catalog entity description, not updatable for discovery created catalog entity
         tags:
-          description: Tags to add to the entity
+          description: Tags to add to the entity, replaces the existing list
           type: array
           items:
             type: string
         links:
-          description: List of URLs linked to this entity
+          description: List of URLs linked to this entity, replaces the existing list
           type: array
           items:
             $ref: '#/components/schemas/MetadataLinkDto'
         metaTags:
-          description: List of metadata tags linked to this entity
+          description: List of metadata tags linked to this entity, replaces the existing list
           type: array
           items:
             $ref: '#/components/schemas/MetadataTagDto'
@@ -1158,6 +2871,60 @@ components:
               - delete
               - inherit
               - execute
+        permissionsPatterns:
+          type: array
+          items:
+            type: string
+        generalAccess:
+          type: array
+          description: Entity visibility control. By default it is set to a default access control on organization level
+          items:
+            type: string
+            enum:
+            - read
+            - inherit
+    UpdateCatalogRepositoryDto:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Catalog entity name, should be unique, not updatable for discovery created catalog entity
+        description:
+          type: string
+          description: Catalog entity description, not updatable for discovery created catalog entity
+        tags:
+          description: Tags to add to the entity, replaces the existing list
+          type: array
+          items:
+            type: string
+        links:
+          description: List of URLs linked to this entity, replaces the existing list
+          type: array
+          items:
+            $ref: '#/components/schemas/MetadataLinkDto'
+        metaTags:
+          description: List of metadata tags linked to this entity, replaces the existing list
+          type: array
+          items:
+            $ref: '#/components/schemas/MetadataTagDto'
+        permissions:
+          type: object
+          description: "List of permissions linked to this entity. The 'permissions' property is an optional object where the keys can represent either user identifier or team identifier, \n    and the value is array of the permissions associated with each user or team."
+          additionalProperties:
+            type: array
+            items:
+              type: string
+              enum:
+              - read
+              - create
+              - modify
+              - delete
+              - inherit
+              - execute
+        permissionsPatterns:
+          type: array
+          items:
+            type: string
         generalAccess:
           type: array
           description: Entity visibility control. By default it is set to a default access control on organization level
@@ -1170,7 +2937,7 @@ components:
           type: string
           description: The URL of the repository
         contributors:
-          description: The list of constributors for this repository
+          description: The list of contributors for this repository
           type: array
           items:
             $ref: '#/components/schemas/RepositoryContributorDto'
@@ -1201,28 +2968,7 @@ components:
           type: string
           description: The full path of the repository
       required:
-      - name
-      - url
       - provider
-      - providerResourceKey
-      - providerAccountId
-      - location
-    MetadataLinkDto:
-      type: object
-      properties:
-        url:
-          type: string
-          description: Link url
-        title:
-          type: string
-          description: Link title
-        icon:
-          type: string
-          description: Link icon
-      required:
-      - url
-      - title
-      - icon
     CreateCatalogPersonDto:
       type: object
       properties:
@@ -1338,355 +3084,21 @@ components:
             - inherit
       required:
       - name
-    CreateCatalogBaseDto:
+    CatalogEntitySort:
       type: object
       properties:
-        name:
+        property:
           type: string
-          description: Name of the entity
-        description:
+          description: Property to sort by
+        order:
           type: string
-          description: Description of the entity
-        tags:
-          description: Tags to add to the entity
-          type: array
-          items:
-            type: string
-        links:
-          description: List of URLs linked to this entity
-          type: array
-          items:
-            $ref: '#/components/schemas/MetadataLinkDto'
-        metaTags:
-          description: List of metadata tags linked to this entity
-          type: array
-          items:
-            $ref: '#/components/schemas/MetadataTagDto'
-        permissions:
-          type: object
-          description: "List of permissions linked to this entity. The 'permissions' property is an optional object where the keys can represent either user identifier or team identifier, \n    and the value is array of the permissions associated with each user or team."
-          additionalProperties:
-            type: array
-            items:
-              type: string
-              enum:
-              - read
-              - create
-              - modify
-              - delete
-              - inherit
-              - execute
-        generalAccess:
-          type: array
-          description: Entity visibility control. By default it is set to a default access control on organization level
-          items:
-            type: string
-            enum:
-            - read
-            - inherit
-        providerResourceType:
-          type: string
-          description: Provider resource type
-        details:
-          type: object
-          description: Resource details in json format
-        parents:
-          description: Catalog resource's parents
-          type: array
-          items:
-            $ref: '#/components/schemas/EntityParentDto'
+          description: Sort order
+          enum:
+          - ASC
+          - DESC
       required:
-      - name
-      - providerResourceType
-    MetadataTagDto:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Metadata tag's name
-        value:
-          type: string
-          description: Metadata tag's value
-        type:
-          type: string
-          enum:
-          - JSON
-          - Code
-          - Link
-          - Text
-          - AutoMap
-          - Nickname
-          description: Metadata tag's type
-        createdBy:
-          type:
-          - string
-          - 'null'
-          enum:
-          - MANUAL
-          - SYSTEM
-          description: Metadata tag's createdBy strategy
-      required:
-      - name
-      - value
-      - type
-    CatalogEnvironmentDto:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        orgId:
-          type: string
-        type:
-          type: string
-          enum:
-          - application
-          - system
-          - service
-          - resource
-          - environment
-          - person
-          - api
-          - repository
-          - library
-          - manifest
-          - team
-          - base
-          description: Catalog entity type
-        description:
-          type: string
-          description: Catalog entity description
-        tags:
-          description: Catalog entity's tags
-          type: array
-          items:
-            type: string
-        metaTags:
-          description: Catalog entity's metadata
-          type: array
-          items:
-            $ref: '#/components/schemas/MetadataTagDto'
-        links:
-          description: Catalog entity's links
-          type: array
-          items:
-            $ref: '#/components/schemas/MetadataLinkDto'
-        parents:
-          description: Catalog entity's parents
-          type: array
-          items:
-            $ref: '#/components/schemas/EntityParentDto'
-        createdBy:
-          type: string
-        lastChangedBy:
-          type: string
-        createDateTime:
-          format: date-time
-          type: string
-        lastChangedDateTime:
-          format: date-time
-          type: string
-        permissions:
-          type: object
-          description: "List of permissions linked to this entity. The 'permissions' property is an optional object where the keys can represent either user identifier or team identifier, \n    and the value is array of the permissions associated with each user or team."
-          additionalProperties:
-            type: array
-            items:
-              type: string
-              enum:
-              - read
-              - create
-              - modify
-              - delete
-              - inherit
-              - execute
-        generalAccess:
-          type: array
-          description: Entity visibility control. By default it is set to a default access control on organization level
-          items:
-            type: string
-            enum:
-            - read
-            - inherit
-      required:
-      - id
-      - name
-      - orgId
-      - type
-    CreateCatalogManifestDto:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Name of the entity
-        description:
-          type: string
-          description: Description of the entity
-        tags:
-          description: Tags to add to the entity
-          type: array
-          items:
-            type: string
-        links:
-          description: List of URLs linked to this entity
-          type: array
-          items:
-            $ref: '#/components/schemas/MetadataLinkDto'
-        metaTags:
-          description: List of metadata tags linked to this entity
-          type: array
-          items:
-            $ref: '#/components/schemas/MetadataTagDto'
-        permissions:
-          type: object
-          description: "List of permissions linked to this entity. The 'permissions' property is an optional object where the keys can represent either user identifier or team identifier, \n    and the value is array of the permissions associated with each user or team."
-          additionalProperties:
-            type: array
-            items:
-              type: string
-              enum:
-              - read
-              - create
-              - modify
-              - delete
-              - inherit
-              - execute
-        generalAccess:
-          type: array
-          description: Entity visibility control. By default it is set to a default access control on organization level
-          items:
-            type: string
-            enum:
-            - read
-            - inherit
-        repoPath:
-          type: string
-          description: The path of this manifest in the repository
-        totalDependencies:
-          type: number
-          description: The total amount of dependencies that this manifest has
-        provider:
-          type: string
-          description: The provider of the repository where the manifest resides
-          enum:
-          - GitHub
-          - Bitbucket
-          - GitLab
-          - Azure DevOps
-        providerResourceKey:
-          type: string
-          description: The key/ID of this manifest. Typically the path of the file containing dependencies
-          example: some/path/package.json
-        providerAccountId:
-          type: string
-          description: The key/ID of the account that owns this manifest
-      required:
-      - name
-      - repoPath
-      - provider
-      - providerResourceKey
-      - providerAccountId
-    UpdateCatalogSystemDto:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Catalog entity name, should be unique, not updatable for discovery created catalog entity
-        description:
-          type: string
-          description: Catalog entity description, not updatable for discovery created catalog entity
-        tags:
-          description: Tags to add to the entity, replaces the existing list
-          type: array
-          items:
-            type: string
-        links:
-          description: List of URLs linked to this entity, replaces the existing list
-          type: array
-          items:
-            $ref: '#/components/schemas/MetadataLinkDto'
-        metaTags:
-          description: List of metadata tags linked to this entity, replaces the existing list
-          type: array
-          items:
-            $ref: '#/components/schemas/MetadataTagDto'
-        permissions:
-          type: object
-          description: "List of permissions linked to this entity. The 'permissions' property is an optional object where the keys can represent either user identifier or team identifier, \n    and the value is array of the permissions associated with each user or team."
-          additionalProperties:
-            type: array
-            items:
-              type: string
-              enum:
-              - read
-              - create
-              - modify
-              - delete
-              - inherit
-              - execute
-        permissionsPatterns:
-          type: array
-          items:
-            type: string
-        generalAccess:
-          type: array
-          description: Entity visibility control. By default it is set to a default access control on organization level
-          items:
-            type: string
-            enum:
-            - read
-            - inherit
-    CatalogCompoundPropertyFilter:
-      type: object
-      properties:
-        filterType:
-          type: string
-          description: Filter type
-          enum:
-          - COMPOUND
-        operand:
-          type: string
-          description: Operand
-          enum:
-          - AND
-          - OR
-        propertyFilters:
-          description: Property filters
-          type: array
-          items:
-            $ref: '#/components/schemas/CatalogPropertyPublicFilter'
-      required:
-      - filterType
-      - operand
-      - propertyFilters
-    CatalogSimplePropertyFilter:
-      type: object
-      properties:
-        filterType:
-          type: string
-          description: Filter type
-          enum:
-          - SIMPLE
-        name:
-          type: string
-          description: Property to filter by
-          enum:
-          - id
-          - name
-          - description
-          - type
-          - provider
-          - providerResourceKey
-          - providerResourceType
-          - providerAccountId
-        value:
-          type: string
-          description: Property value
-      required:
-      - filterType
-      - name
-      - value
+      - property
+      - order
     RepositoryLanguageDto:
       type: object
       properties:
@@ -1703,399 +3115,6 @@ components:
       - name
       - lines
       - percent
-    RepositoryContributorDto:
-      type: object
-      properties:
-        id:
-          type: string
-          description: The ID of the contributor
-        login:
-          type: string
-          description: The display name of the contributor
-        contributions:
-          type: number
-          description: The number of lines this contributor added
-      required:
-      - id
-      - login
-    CatalogPropertyPublicFilter:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Property to filter by
-          enum:
-          - id
-          - name
-          - description
-          - type
-          - provider
-          - providerResourceKey
-          - providerResourceType
-          - providerAccountId
-        value:
-          type: string
-          description: Property value
-      required:
-      - name
-      - value
-    UpdateCatalogPersonDto:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Catalog entity name, should be unique, not updatable for discovery created catalog entity
-        description:
-          type: string
-          description: Catalog entity description, not updatable for discovery created catalog entity
-        tags:
-          description: Tags to add to the entity, replaces the existing list
-          type: array
-          items:
-            type: string
-        links:
-          description: List of URLs linked to this entity, replaces the existing list
-          type: array
-          items:
-            $ref: '#/components/schemas/MetadataLinkDto'
-        metaTags:
-          description: List of metadata tags linked to this entity, replaces the existing list
-          type: array
-          items:
-            $ref: '#/components/schemas/MetadataTagDto'
-        permissions:
-          type: object
-          description: "List of permissions linked to this entity. The 'permissions' property is an optional object where the keys can represent either user identifier or team identifier, \n    and the value is array of the permissions associated with each user or team."
-          additionalProperties:
-            type: array
-            items:
-              type: string
-              enum:
-              - read
-              - create
-              - modify
-              - delete
-              - inherit
-              - execute
-        permissionsPatterns:
-          type: array
-          items:
-            type: string
-        generalAccess:
-          type: array
-          description: Entity visibility control. By default it is set to a default access control on organization level
-          items:
-            type: string
-            enum:
-            - read
-            - inherit
-        photoUrl:
-          type: string
-          description: Person photo url
-        familyName:
-          type: string
-          description: Person family name
-        givenName:
-          type: string
-          description: Person givenName name
-    CatalogEntitiesSearchResultDto:
-      type: object
-      properties:
-        totalFound:
-          type: number
-          description: Total elements found
-        pageNumber:
-          type: number
-        pageSize:
-          type: number
-        items:
-          description: Found catalog entities
-          type: array
-          items:
-            $ref: '#/components/schemas/CatalogEntityDto'
-      required:
-      - totalFound
-      - pageNumber
-      - pageSize
-      - items
-    CatalogSystemDto:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        orgId:
-          type: string
-        type:
-          type: string
-          enum:
-          - application
-          - system
-          - service
-          - resource
-          - environment
-          - person
-          - api
-          - repository
-          - library
-          - manifest
-          - team
-          - base
-          description: Catalog entity type
-        description:
-          type: string
-          description: Catalog entity description
-        tags:
-          description: Catalog entity's tags
-          type: array
-          items:
-            type: string
-        metaTags:
-          description: Catalog entity's metadata
-          type: array
-          items:
-            $ref: '#/components/schemas/MetadataTagDto'
-        links:
-          description: Catalog entity's links
-          type: array
-          items:
-            $ref: '#/components/schemas/MetadataLinkDto'
-        parents:
-          description: Catalog entity's parents
-          type: array
-          items:
-            $ref: '#/components/schemas/EntityParentDto'
-        createdBy:
-          type: string
-        lastChangedBy:
-          type: string
-        createDateTime:
-          format: date-time
-          type: string
-        lastChangedDateTime:
-          format: date-time
-          type: string
-        permissions:
-          type: object
-          description: "List of permissions linked to this entity. The 'permissions' property is an optional object where the keys can represent either user identifier or team identifier, \n    and the value is array of the permissions associated with each user or team."
-          additionalProperties:
-            type: array
-            items:
-              type: string
-              enum:
-              - read
-              - create
-              - modify
-              - delete
-              - inherit
-              - execute
-        generalAccess:
-          type: array
-          description: Entity visibility control. By default it is set to a default access control on organization level
-          items:
-            type: string
-            enum:
-            - read
-            - inherit
-      required:
-      - id
-      - name
-      - orgId
-      - type
-    CatalogApplicationDto:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        orgId:
-          type: string
-        type:
-          type: string
-          enum:
-          - application
-          - system
-          - service
-          - resource
-          - environment
-          - person
-          - api
-          - repository
-          - library
-          - manifest
-          - team
-          - base
-          description: Catalog entity type
-        description:
-          type: string
-          description: Catalog entity description
-        tags:
-          description: Catalog entity's tags
-          type: array
-          items:
-            type: string
-        metaTags:
-          description: Catalog entity's metadata
-          type: array
-          items:
-            $ref: '#/components/schemas/MetadataTagDto'
-        links:
-          description: Catalog entity's links
-          type: array
-          items:
-            $ref: '#/components/schemas/MetadataLinkDto'
-        parents:
-          description: Catalog entity's parents
-          type: array
-          items:
-            $ref: '#/components/schemas/EntityParentDto'
-        createdBy:
-          type: string
-        lastChangedBy:
-          type: string
-        createDateTime:
-          format: date-time
-          type: string
-        lastChangedDateTime:
-          format: date-time
-          type: string
-        permissions:
-          type: object
-          description: "List of permissions linked to this entity. The 'permissions' property is an optional object where the keys can represent either user identifier or team identifier, \n    and the value is array of the permissions associated with each user or team."
-          additionalProperties:
-            type: array
-            items:
-              type: string
-              enum:
-              - read
-              - create
-              - modify
-              - delete
-              - inherit
-              - execute
-        generalAccess:
-          type: array
-          description: Entity visibility control. By default it is set to a default access control on organization level
-          items:
-            type: string
-            enum:
-            - read
-            - inherit
-      required:
-      - id
-      - name
-      - orgId
-      - type
-    CatalogLibraryDto:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        orgId:
-          type: string
-        type:
-          type: string
-          enum:
-          - application
-          - system
-          - service
-          - resource
-          - environment
-          - person
-          - api
-          - repository
-          - library
-          - manifest
-          - team
-          - base
-          description: Catalog entity type
-        description:
-          type: string
-          description: Catalog entity description
-        tags:
-          description: Catalog entity's tags
-          type: array
-          items:
-            type: string
-        metaTags:
-          description: Catalog entity's metadata
-          type: array
-          items:
-            $ref: '#/components/schemas/MetadataTagDto'
-        links:
-          description: Catalog entity's links
-          type: array
-          items:
-            $ref: '#/components/schemas/MetadataLinkDto'
-        parents:
-          description: Catalog entity's parents
-          type: array
-          items:
-            $ref: '#/components/schemas/EntityParentDto'
-        createdBy:
-          type: string
-        lastChangedBy:
-          type: string
-        createDateTime:
-          format: date-time
-          type: string
-        lastChangedDateTime:
-          format: date-time
-          type: string
-        permissions:
-          type: object
-          description: "List of permissions linked to this entity. The 'permissions' property is an optional object where the keys can represent either user identifier or team identifier, \n    and the value is array of the permissions associated with each user or team."
-          additionalProperties:
-            type: array
-            items:
-              type: string
-              enum:
-              - read
-              - create
-              - modify
-              - delete
-              - inherit
-              - execute
-        generalAccess:
-          type: array
-          description: Entity visibility control. By default it is set to a default access control on organization level
-          items:
-            type: string
-            enum:
-            - read
-            - inherit
-        requirements:
-          type: string
-        provider:
-          type: string
-        providerType:
-          type: string
-        providerResourceKey:
-          type: string
-        providerResourceType:
-          type: string
-        packageName:
-          type: string
-        packageManager:
-          type: string
-        packageLabel:
-          type: string
-      required:
-      - id
-      - name
-      - orgId
-      - type
-      - requirements
-      - provider
-      - providerType
-      - providerResourceKey
-      - providerResourceType
-      - packageName
-      - packageManager
     UpdateCatalogManifestDto:
       type: object
       properties:
@@ -2167,773 +3186,6 @@ components:
         providerAccountId:
           type: string
           description: The key/ID of the account that owns this manifest
-    UpdateCatalogEnvironmentDto:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Catalog entity name, should be unique, not updatable for discovery created catalog entity
-        description:
-          type: string
-          description: Catalog entity description, not updatable for discovery created catalog entity
-        tags:
-          description: Tags to add to the entity, replaces the existing list
-          type: array
-          items:
-            type: string
-        links:
-          description: List of URLs linked to this entity, replaces the existing list
-          type: array
-          items:
-            $ref: '#/components/schemas/MetadataLinkDto'
-        metaTags:
-          description: List of metadata tags linked to this entity, replaces the existing list
-          type: array
-          items:
-            $ref: '#/components/schemas/MetadataTagDto'
-        permissions:
-          type: object
-          description: "List of permissions linked to this entity. The 'permissions' property is an optional object where the keys can represent either user identifier or team identifier, \n    and the value is array of the permissions associated with each user or team."
-          additionalProperties:
-            type: array
-            items:
-              type: string
-              enum:
-              - read
-              - create
-              - modify
-              - delete
-              - inherit
-              - execute
-        permissionsPatterns:
-          type: array
-          items:
-            type: string
-        generalAccess:
-          type: array
-          description: Entity visibility control. By default it is set to a default access control on organization level
-          items:
-            type: string
-            enum:
-            - read
-            - inherit
-    CreateCatalogApplicationDto:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Name of the entity
-        description:
-          type: string
-          description: Description of the entity
-        tags:
-          description: Tags to add to the entity
-          type: array
-          items:
-            type: string
-        links:
-          description: List of URLs linked to this entity
-          type: array
-          items:
-            $ref: '#/components/schemas/MetadataLinkDto'
-        metaTags:
-          description: List of metadata tags linked to this entity
-          type: array
-          items:
-            $ref: '#/components/schemas/MetadataTagDto'
-        permissions:
-          type: object
-          description: "List of permissions linked to this entity. The 'permissions' property is an optional object where the keys can represent either user identifier or team identifier, \n    and the value is array of the permissions associated with each user or team."
-          additionalProperties:
-            type: array
-            items:
-              type: string
-              enum:
-              - read
-              - create
-              - modify
-              - delete
-              - inherit
-              - execute
-        generalAccess:
-          type: array
-          description: Entity visibility control. By default it is set to a default access control on organization level
-          items:
-            type: string
-            enum:
-            - read
-            - inherit
-      required:
-      - name
-    UpdateCatalogRepositoryDto:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Catalog entity name, should be unique, not updatable for discovery created catalog entity
-        description:
-          type: string
-          description: Catalog entity description, not updatable for discovery created catalog entity
-        tags:
-          description: Tags to add to the entity, replaces the existing list
-          type: array
-          items:
-            type: string
-        links:
-          description: List of URLs linked to this entity, replaces the existing list
-          type: array
-          items:
-            $ref: '#/components/schemas/MetadataLinkDto'
-        metaTags:
-          description: List of metadata tags linked to this entity, replaces the existing list
-          type: array
-          items:
-            $ref: '#/components/schemas/MetadataTagDto'
-        permissions:
-          type: object
-          description: "List of permissions linked to this entity. The 'permissions' property is an optional object where the keys can represent either user identifier or team identifier, \n    and the value is array of the permissions associated with each user or team."
-          additionalProperties:
-            type: array
-            items:
-              type: string
-              enum:
-              - read
-              - create
-              - modify
-              - delete
-              - inherit
-              - execute
-        permissionsPatterns:
-          type: array
-          items:
-            type: string
-        generalAccess:
-          type: array
-          description: Entity visibility control. By default it is set to a default access control on organization level
-          items:
-            type: string
-            enum:
-            - read
-            - inherit
-        url:
-          type: string
-          description: The URL of the repository
-        contributors:
-          description: The list of contributors for this repository
-          type: array
-          items:
-            $ref: '#/components/schemas/RepositoryContributorDto'
-        languages:
-          description: The languages that this repository uses
-          type: array
-          items:
-            $ref: '#/components/schemas/RepositoryLanguageDto'
-        release:
-          description: The latest release of this repository
-          allOf:
-          - $ref: '#/components/schemas/RepositoryReleaseDto'
-        provider:
-          type: string
-          description: The provider of this repository
-          enum:
-          - GitHub
-          - Bitbucket
-          - GitLab
-          - Azure DevOps
-        providerResourceKey:
-          type: string
-          description: The key/ID of this repository in the provider
-        providerAccountId:
-          type: string
-          description: The key/ID of the account that owns this repository
-        location:
-          type: string
-          description: The full path of the repository
-      required:
-      - provider
-    CatalogManifestDto:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        orgId:
-          type: string
-        type:
-          type: string
-          enum:
-          - application
-          - system
-          - service
-          - resource
-          - environment
-          - person
-          - api
-          - repository
-          - library
-          - manifest
-          - team
-          - base
-          description: Catalog entity type
-        description:
-          type: string
-          description: Catalog entity description
-        tags:
-          description: Catalog entity's tags
-          type: array
-          items:
-            type: string
-        metaTags:
-          description: Catalog entity's metadata
-          type: array
-          items:
-            $ref: '#/components/schemas/MetadataTagDto'
-        links:
-          description: Catalog entity's links
-          type: array
-          items:
-            $ref: '#/components/schemas/MetadataLinkDto'
-        parents:
-          description: Catalog entity's parents
-          type: array
-          items:
-            $ref: '#/components/schemas/EntityParentDto'
-        createdBy:
-          type: string
-        lastChangedBy:
-          type: string
-        createDateTime:
-          format: date-time
-          type: string
-        lastChangedDateTime:
-          format: date-time
-          type: string
-        permissions:
-          type: object
-          description: "List of permissions linked to this entity. The 'permissions' property is an optional object where the keys can represent either user identifier or team identifier, \n    and the value is array of the permissions associated with each user or team."
-          additionalProperties:
-            type: array
-            items:
-              type: string
-              enum:
-              - read
-              - create
-              - modify
-              - delete
-              - inherit
-              - execute
-        generalAccess:
-          type: array
-          description: Entity visibility control. By default it is set to a default access control on organization level
-          items:
-            type: string
-            enum:
-            - read
-            - inherit
-        repoPath:
-          type: string
-        totalDependencies:
-          type: number
-        provider:
-          type: string
-        providerType:
-          type: string
-        providerResourceKey:
-          type: string
-        providerResourceType:
-          type: string
-        providerAccountId:
-          type: string
-      required:
-      - id
-      - name
-      - orgId
-      - type
-      - repoPath
-      - totalDependencies
-      - provider
-      - providerType
-      - providerResourceKey
-      - providerResourceType
-      - providerAccountId
-    CreateCatalogResourceDto:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Name of the entity
-        description:
-          type: string
-          description: Description of the entity
-        tags:
-          description: Tags to add to the entity
-          type: array
-          items:
-            type: string
-        links:
-          description: List of URLs linked to this entity
-          type: array
-          items:
-            $ref: '#/components/schemas/MetadataLinkDto'
-        metaTags:
-          description: List of metadata tags linked to this entity
-          type: array
-          items:
-            $ref: '#/components/schemas/MetadataTagDto'
-        permissions:
-          type: object
-          description: "List of permissions linked to this entity. The 'permissions' property is an optional object where the keys can represent either user identifier or team identifier, \n    and the value is array of the permissions associated with each user or team."
-          additionalProperties:
-            type: array
-            items:
-              type: string
-              enum:
-              - read
-              - create
-              - modify
-              - delete
-              - inherit
-              - execute
-        generalAccess:
-          type: array
-          description: Entity visibility control. By default it is set to a default access control on organization level
-          items:
-            type: string
-            enum:
-            - read
-            - inherit
-        providerResourceKey:
-          type: string
-          description: The key/ID of the resource in the provider
-          example: '123456789012'
-        provider:
-          type: string
-          description: Provider name
-        providerResourceType:
-          type: string
-          description: Provider resource type
-        providerAccountId:
-          type: string
-          description: The key/ID of the account that owns this resource
-        location:
-          type: string
-          description: Resource location
-        details:
-          type: object
-          description: Resource details in json format
-        parents:
-          description: Catalog resource's parents
-          type: array
-          items:
-            $ref: '#/components/schemas/EntityParentDto'
-        deepLinkUrl:
-          type: string
-          description: Deep link to the resource
-      required:
-      - name
-      - providerResourceKey
-      - provider
-      - providerResourceType
-    CatalogBaseDto:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        orgId:
-          type: string
-        type:
-          type: string
-          enum:
-          - application
-          - system
-          - service
-          - resource
-          - environment
-          - person
-          - api
-          - repository
-          - library
-          - manifest
-          - team
-          - base
-          description: Catalog entity type
-        description:
-          type: string
-          description: Catalog entity description
-        tags:
-          description: Catalog entity's tags
-          type: array
-          items:
-            type: string
-        metaTags:
-          description: Catalog entity's metadata
-          type: array
-          items:
-            $ref: '#/components/schemas/MetadataTagDto'
-        links:
-          description: Catalog entity's links
-          type: array
-          items:
-            $ref: '#/components/schemas/MetadataLinkDto'
-        parents:
-          description: Catalog entity's parents
-          type: array
-          items:
-            $ref: '#/components/schemas/EntityParentDto'
-        createdBy:
-          type: string
-        lastChangedBy:
-          type: string
-        createDateTime:
-          format: date-time
-          type: string
-        lastChangedDateTime:
-          format: date-time
-          type: string
-        permissions:
-          type: object
-          description: "List of permissions linked to this entity. The 'permissions' property is an optional object where the keys can represent either user identifier or team identifier, \n    and the value is array of the permissions associated with each user or team."
-          additionalProperties:
-            type: array
-            items:
-              type: string
-              enum:
-              - read
-              - create
-              - modify
-              - delete
-              - inherit
-              - execute
-        generalAccess:
-          type: array
-          description: Entity visibility control. By default it is set to a default access control on organization level
-          items:
-            type: string
-            enum:
-            - read
-            - inherit
-        providerResourceType:
-          type: string
-        details:
-          type: object
-      required:
-      - id
-      - name
-      - orgId
-      - type
-      - providerResourceType
-    CatalogEntitySort:
-      type: object
-      properties:
-        property:
-          type: string
-          description: Property to sort by
-        order:
-          type: string
-          description: Sort order
-          enum:
-          - ASC
-          - DESC
-      required:
-      - property
-      - order
-    RepositoryReleaseDto:
-      type: object
-      properties:
-        name:
-          type: string
-          description: The name of this release
-        date:
-          type: string
-          description: The date this release was made as an ISO 8601 string
-        tag:
-          type: string
-          description: The tag associated with this release
-        latest:
-          type: boolean
-          description: True if this is the latest release, false otherwise
-      required:
-      - name
-      - date
-      - tag
-      - latest
-    CatalogPersonDto:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        orgId:
-          type: string
-        type:
-          type: string
-          enum:
-          - application
-          - system
-          - service
-          - resource
-          - environment
-          - person
-          - api
-          - repository
-          - library
-          - manifest
-          - team
-          - base
-          description: Catalog entity type
-        description:
-          type: string
-          description: Catalog entity description
-        tags:
-          description: Catalog entity's tags
-          type: array
-          items:
-            type: string
-        metaTags:
-          description: Catalog entity's metadata
-          type: array
-          items:
-            $ref: '#/components/schemas/MetadataTagDto'
-        links:
-          description: Catalog entity's links
-          type: array
-          items:
-            $ref: '#/components/schemas/MetadataLinkDto'
-        parents:
-          description: Catalog entity's parents
-          type: array
-          items:
-            $ref: '#/components/schemas/EntityParentDto'
-        createdBy:
-          type: string
-        lastChangedBy:
-          type: string
-        createDateTime:
-          format: date-time
-          type: string
-        lastChangedDateTime:
-          format: date-time
-          type: string
-        permissions:
-          type: object
-          description: "List of permissions linked to this entity. The 'permissions' property is an optional object where the keys can represent either user identifier or team identifier, \n    and the value is array of the permissions associated with each user or team."
-          additionalProperties:
-            type: array
-            items:
-              type: string
-              enum:
-              - read
-              - create
-              - modify
-              - delete
-              - inherit
-              - execute
-        generalAccess:
-          type: array
-          description: Entity visibility control. By default it is set to a default access control on organization level
-          items:
-            type: string
-            enum:
-            - read
-            - inherit
-        email:
-          type: string
-        isActive:
-          type: boolean
-        userId:
-          type: string
-        externalId:
-          type: string
-        familyName:
-          type: string
-        givenName:
-          type: string
-        photoUrl:
-          type: string
-        provisioned:
-          type: boolean
-      required:
-      - id
-      - name
-      - orgId
-      - type
-      - email
-      - isActive
-    CatalogRepositoryDto:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        orgId:
-          type: string
-        type:
-          type: string
-          enum:
-          - application
-          - system
-          - service
-          - resource
-          - environment
-          - person
-          - api
-          - repository
-          - library
-          - manifest
-          - team
-          - base
-          description: Catalog entity type
-        description:
-          type: string
-          description: Catalog entity description
-        tags:
-          description: Catalog entity's tags
-          type: array
-          items:
-            type: string
-        metaTags:
-          description: Catalog entity's metadata
-          type: array
-          items:
-            $ref: '#/components/schemas/MetadataTagDto'
-        links:
-          description: Catalog entity's links
-          type: array
-          items:
-            $ref: '#/components/schemas/MetadataLinkDto'
-        parents:
-          description: Catalog entity's parents
-          type: array
-          items:
-            $ref: '#/components/schemas/EntityParentDto'
-        createdBy:
-          type: string
-        lastChangedBy:
-          type: string
-        createDateTime:
-          format: date-time
-          type: string
-        lastChangedDateTime:
-          format: date-time
-          type: string
-        permissions:
-          type: object
-          description: "List of permissions linked to this entity. The 'permissions' property is an optional object where the keys can represent either user identifier or team identifier, \n    and the value is array of the permissions associated with each user or team."
-          additionalProperties:
-            type: array
-            items:
-              type: string
-              enum:
-              - read
-              - create
-              - modify
-              - delete
-              - inherit
-              - execute
-        generalAccess:
-          type: array
-          description: Entity visibility control. By default it is set to a default access control on organization level
-          items:
-            type: string
-            enum:
-            - read
-            - inherit
-        url:
-          type: string
-        contributors:
-          type: array
-          items:
-            type: string
-        languages:
-          type: array
-          items:
-            type: string
-        release:
-          $ref: '#/components/schemas/RepositoryReleaseDto'
-        provider:
-          type: string
-        providerType:
-          type: string
-        providerResourceKey:
-          type: string
-        providerResourceType:
-          type: string
-        providerAccountId:
-          type: string
-        location:
-          type: string
-        details:
-          type: object
-      required:
-      - id
-      - name
-      - orgId
-      - type
-      - url
-      - contributors
-      - languages
-      - release
-      - provider
-      - providerType
-      - providerResourceKey
-      - providerResourceType
-      - providerAccountId
-      - location
-    UpdateCatalogApplicationDto:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Catalog entity name, should be unique, not updatable for discovery created catalog entity
-        description:
-          type: string
-          description: Catalog entity description, not updatable for discovery created catalog entity
-        tags:
-          description: Tags to add to the entity, replaces the existing list
-          type: array
-          items:
-            type: string
-        links:
-          description: List of URLs linked to this entity, replaces the existing list
-          type: array
-          items:
-            $ref: '#/components/schemas/MetadataLinkDto'
-        metaTags:
-          description: List of metadata tags linked to this entity, replaces the existing list
-          type: array
-          items:
-            $ref: '#/components/schemas/MetadataTagDto'
-        permissions:
-          type: object
-          description: "List of permissions linked to this entity. The 'permissions' property is an optional object where the keys can represent either user identifier or team identifier, \n    and the value is array of the permissions associated with each user or team."
-          additionalProperties:
-            type: array
-            items:
-              type: string
-              enum:
-              - read
-              - create
-              - modify
-              - delete
-              - inherit
-              - execute
-        permissionsPatterns:
-          type: array
-          items:
-            type: string
-        generalAccess:
-          type: array
-          description: Entity visibility control. By default it is set to a default access control on organization level
-          items:
-            type: string
-            enum:
-            - read
-            - inherit
     CatalogServiceDto:
       type: object
       properties:
@@ -3027,258 +3279,6 @@ components:
       - name
       - orgId
       - type
-    UpdateCatalogBaseDto:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Catalog entity name, should be unique, not updatable for discovery created catalog entity
-        description:
-          type: string
-          description: Catalog entity description, not updatable for discovery created catalog entity
-        tags:
-          description: Tags to add to the entity, replaces the existing list
-          type: array
-          items:
-            type: string
-        links:
-          description: List of URLs linked to this entity, replaces the existing list
-          type: array
-          items:
-            $ref: '#/components/schemas/MetadataLinkDto'
-        metaTags:
-          description: List of metadata tags linked to this entity, replaces the existing list
-          type: array
-          items:
-            $ref: '#/components/schemas/MetadataTagDto'
-        permissions:
-          type: object
-          description: "List of permissions linked to this entity. The 'permissions' property is an optional object where the keys can represent either user identifier or team identifier, \n    and the value is array of the permissions associated with each user or team."
-          additionalProperties:
-            type: array
-            items:
-              type: string
-              enum:
-              - read
-              - create
-              - modify
-              - delete
-              - inherit
-              - execute
-        permissionsPatterns:
-          type: array
-          items:
-            type: string
-        generalAccess:
-          type: array
-          description: Entity visibility control. By default it is set to a default access control on organization level
-          items:
-            type: string
-            enum:
-            - read
-            - inherit
-        details:
-          type: object
-          description: Base details in json format
-        parents:
-          description: Catalog resource's parents, replaces the existing parents list
-          type: array
-          items:
-            $ref: '#/components/schemas/EntityParentDto'
-    CreateCatalogServiceDto:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Name of the entity
-        description:
-          type: string
-          description: Description of the entity
-        tags:
-          description: Tags to add to the entity
-          type: array
-          items:
-            type: string
-        links:
-          description: List of URLs linked to this entity
-          type: array
-          items:
-            $ref: '#/components/schemas/MetadataLinkDto'
-        metaTags:
-          description: List of metadata tags linked to this entity
-          type: array
-          items:
-            $ref: '#/components/schemas/MetadataTagDto'
-        permissions:
-          type: object
-          description: "List of permissions linked to this entity. The 'permissions' property is an optional object where the keys can represent either user identifier or team identifier, \n    and the value is array of the permissions associated with each user or team."
-          additionalProperties:
-            type: array
-            items:
-              type: string
-              enum:
-              - read
-              - create
-              - modify
-              - delete
-              - inherit
-              - execute
-        generalAccess:
-          type: array
-          description: Entity visibility control. By default it is set to a default access control on organization level
-          items:
-            type: string
-            enum:
-            - read
-            - inherit
-        repositoryId:
-          type: string
-          description: The ID of the repository entity to assign to the service
-        repositoryPath:
-          type: string
-          description: The path of the repository
-        languages:
-          description: The languages that this service uses
-          type: array
-          items:
-            type: string
-        lifecycle:
-          type: string
-          description: The lifecycle of the service
-        applications:
-          description: The ID of the application entities linked to this service
-          type: array
-          items:
-            type: string
-        templateId:
-          type: string
-          description: The ID of the template that this entity is based on
-      required:
-      - name
-    UpdateCatalogLibraryDto:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Catalog entity name, should be unique, not updatable for discovery created catalog entity
-        description:
-          type: string
-          description: Catalog entity description, not updatable for discovery created catalog entity
-        tags:
-          description: Tags to add to the entity, replaces the existing list
-          type: array
-          items:
-            type: string
-        links:
-          description: List of URLs linked to this entity, replaces the existing list
-          type: array
-          items:
-            $ref: '#/components/schemas/MetadataLinkDto'
-        metaTags:
-          description: List of metadata tags linked to this entity, replaces the existing list
-          type: array
-          items:
-            $ref: '#/components/schemas/MetadataTagDto'
-        permissions:
-          type: object
-          description: "List of permissions linked to this entity. The 'permissions' property is an optional object where the keys can represent either user identifier or team identifier, \n    and the value is array of the permissions associated with each user or team."
-          additionalProperties:
-            type: array
-            items:
-              type: string
-              enum:
-              - read
-              - create
-              - modify
-              - delete
-              - inherit
-              - execute
-        permissionsPatterns:
-          type: array
-          items:
-            type: string
-        generalAccess:
-          type: array
-          description: Entity visibility control. By default it is set to a default access control on organization level
-          items:
-            type: string
-            enum:
-            - read
-            - inherit
-        requirements:
-          type: string
-          description: The version requirements for this library
-          example: '> 2.2'
-        provider:
-          type: string
-          description: The provider of the repository where the library resides
-        providerResourceKey:
-          type: string
-          description: The key/ID of this library in the provider
-        packageManager:
-          type: string
-          description: The package manager of this library
-          example: GO
-          enum:
-          - ACTIONS
-          - NPM
-          - PIP
-          - MAVEN
-          - GRADLE
-          - GO
-        packageLabel:
-          type: string
-          description: The label of this library. Defaults to the name of the entity
-      required:
-      - packageManager
-    CreateCatalogSystemDto:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Name of the entity
-        description:
-          type: string
-          description: Description of the entity
-        tags:
-          description: Tags to add to the entity
-          type: array
-          items:
-            type: string
-        links:
-          description: List of URLs linked to this entity
-          type: array
-          items:
-            $ref: '#/components/schemas/MetadataLinkDto'
-        metaTags:
-          description: List of metadata tags linked to this entity
-          type: array
-          items:
-            $ref: '#/components/schemas/MetadataTagDto'
-        permissions:
-          type: object
-          description: "List of permissions linked to this entity. The 'permissions' property is an optional object where the keys can represent either user identifier or team identifier, \n    and the value is array of the permissions associated with each user or team."
-          additionalProperties:
-            type: array
-            items:
-              type: string
-              enum:
-              - read
-              - create
-              - modify
-              - delete
-              - inherit
-              - execute
-        generalAccess:
-          type: array
-          description: Entity visibility control. By default it is set to a default access control on organization level
-          items:
-            type: string
-            enum:
-            - read
-            - inherit
-      required:
-      - name
   securitySchemes:
     api-key:
       type: apiKey

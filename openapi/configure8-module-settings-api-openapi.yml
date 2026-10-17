@@ -55,113 +55,6 @@ paths:
       - Module Settings
 components:
   schemas:
-    ModuleSettingStateDto:
-      type: object
-      properties:
-        key:
-          type: string
-          description: The key of the module setting state
-        value:
-          type: string
-          description: The value of the module setting state
-      required:
-      - key
-      - value
-    CreateModuleSettingsDto:
-      type: object
-      properties:
-        serviceId:
-          type: string
-          description: Existing Service identifier
-        credentialId:
-          type: string
-          description: Existing Credential identifier
-        providerName:
-          type: string
-          enum:
-          - GitHub
-          - GitLab
-          - Azure DevOps
-          - Bitbucket
-          - CircleCI
-          - Datadog
-          - EmbeddedView
-          - Jenkins
-          - Jira
-          - NewRelic
-          - OpsGenie
-          - PagerDuty
-          - Scorecards
-          - SonarCloud
-          - Splunk
-          description: Provider name
-        providerType:
-          type: string
-          enum:
-          - REPOS
-          - CICD
-          - OTHER
-          - ISSUE_TRACKING
-          - OMS
-          - CODE_INSPECTION
-          description: Provider type
-        title:
-          type: string
-          description: Module title
-        uiPluginName:
-          type: string
-          enum:
-          - github_actions
-          - github_activity
-          - gitlab_pipelines
-          - gitlab_activity
-          - azure_devops_activity
-          - azure_devops_pipelines
-          - bitbucket_pipelines
-          - bitbucket_activity
-          - circle_ci
-          - datadog_embedded_dashboard
-          - datadog_embedded_graph
-          - datadog_monitor
-          - datadog_slo
-          - embedded_view
-          - jenkins
-          - jira_activity
-          - new_relic_chart
-          - opsgenie_oncall
-          - pagerduty_oncall
-          - scorecards
-          - sonarcloud_repo_profile
-          - aws_security_hub
-          - splunk_oncall
-          description: Plugin name
-        configuration:
-          description: Array of configuration aspects
-          type: array
-          items:
-            $ref: '#/components/schemas/ModuleSettingAspectDto'
-        layout:
-          description: The layout of the module setting
-          allOf:
-          - $ref: '#/components/schemas/ModuleSettingLayoutDto'
-        state:
-          description: Array of state information
-          type: array
-          items:
-            $ref: '#/components/schemas/ModuleSettingStateDto'
-        status:
-          type: string
-          enum:
-          - ACTIVE
-          - CREDENTIAL_DISABLED
-          - CREDENTIAL_BROKEN
-          description: Status of the module setting
-      required:
-      - serviceId
-      - providerName
-      - providerType
-      - configuration
-      - status
     ModuleSettingsDto:
       type: object
       properties:
@@ -288,17 +181,17 @@ components:
       - createDateTime
       - lastChangedDateTime
       - state
-    ModuleSettingAspectDto:
+    ModuleSettingStateDto:
       type: object
       properties:
-        name:
+        key:
           type: string
-          description: The name of the setting aspect
+          description: The key of the module setting state
         value:
-          type: object
-          description: The value of the setting aspect
+          type: string
+          description: The value of the module setting state
       required:
-      - name
+      - key
       - value
     ModuleSettingLayoutDto:
       type: object
@@ -341,6 +234,113 @@ components:
       - y
       - w
       - h
+    CreateModuleSettingsDto:
+      type: object
+      properties:
+        serviceId:
+          type: string
+          description: Existing Service identifier
+        credentialId:
+          type: string
+          description: Existing Credential identifier
+        providerName:
+          type: string
+          enum:
+          - GitHub
+          - GitLab
+          - Azure DevOps
+          - Bitbucket
+          - CircleCI
+          - Datadog
+          - EmbeddedView
+          - Jenkins
+          - Jira
+          - NewRelic
+          - OpsGenie
+          - PagerDuty
+          - Scorecards
+          - SonarCloud
+          - Splunk
+          description: Provider name
+        providerType:
+          type: string
+          enum:
+          - REPOS
+          - CICD
+          - OTHER
+          - ISSUE_TRACKING
+          - OMS
+          - CODE_INSPECTION
+          description: Provider type
+        title:
+          type: string
+          description: Module title
+        uiPluginName:
+          type: string
+          enum:
+          - github_actions
+          - github_activity
+          - gitlab_pipelines
+          - gitlab_activity
+          - azure_devops_activity
+          - azure_devops_pipelines
+          - bitbucket_pipelines
+          - bitbucket_activity
+          - circle_ci
+          - datadog_embedded_dashboard
+          - datadog_embedded_graph
+          - datadog_monitor
+          - datadog_slo
+          - embedded_view
+          - jenkins
+          - jira_activity
+          - new_relic_chart
+          - opsgenie_oncall
+          - pagerduty_oncall
+          - scorecards
+          - sonarcloud_repo_profile
+          - aws_security_hub
+          - splunk_oncall
+          description: Plugin name
+        configuration:
+          description: Array of configuration aspects
+          type: array
+          items:
+            $ref: '#/components/schemas/ModuleSettingAspectDto'
+        layout:
+          description: The layout of the module setting
+          allOf:
+          - $ref: '#/components/schemas/ModuleSettingLayoutDto'
+        state:
+          description: Array of state information
+          type: array
+          items:
+            $ref: '#/components/schemas/ModuleSettingStateDto'
+        status:
+          type: string
+          enum:
+          - ACTIVE
+          - CREDENTIAL_DISABLED
+          - CREDENTIAL_BROKEN
+          description: Status of the module setting
+      required:
+      - serviceId
+      - providerName
+      - providerType
+      - configuration
+      - status
+    ModuleSettingAspectDto:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the setting aspect
+        value:
+          type: object
+          description: The value of the setting aspect
+      required:
+      - name
+      - value
   securitySchemes:
     api-key:
       type: apiKey

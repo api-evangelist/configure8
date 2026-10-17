@@ -304,64 +304,32 @@ components:
       - totalFound
       - pageNumber
       - pageSize
-    ScorecardMetricResultDto:
+    ScorecardMetricPageDto:
       type: object
       properties:
-        orgId:
-          type: string
-          description: The organization ID
-        metricId:
-          type: string
-          description: The metric ID
-        serviceId:
-          type: string
-          description: The service ID
-        scorecardId:
-          type: string
-          description: The scorecard ID
-        comparisonOperator:
-          type: string
-          description: The comparison operator
-          enum:
-          - equal
-          - less than
-          - less than or equal
-          - greater than
-          - greater than or equal
-          - contains text
-          - text begins with
-          - text ends with
-          - text matches regexp
-        comparisonType:
-          type: string
-          description: The comparison type
-          enum:
-          - number
-          - version
-          - text
-        threshold:
-          type: object
-          description: The threshold
-        rawResult:
-          type: object
-          description: The raw result
-        pass:
-          type: boolean
-          description: Is metric passed or not
-        updatedAt:
-          format: date-time
-          type: string
+        items:
+          description: List of scorecard metrics
+          type: array
+          items:
+            $ref: '#/components/schemas/ScorecardMetricDto'
+        totalFound:
+          type: number
+          description: Total scorecard metrics found by this endpoint call
+        pageNumber:
+          type: number
+          description: Requested page, note that it starts with 0
+          default: 0
+        pageSize:
+          type: number
+          description: Maximum scorecard metrics in one paginated response
+          default: 20
+          maximum: 100
+          minimum: 0
       required:
-      - orgId
-      - metricId
-      - serviceId
-      - scorecardId
-      - comparisonOperator
-      - comparisonType
-      - threshold
-      - rawResult
-      - pass
-      - updatedAt
+      - items
+      - totalFound
+      - pageNumber
+      - pageSize
     UpdateScorecardDefinitionDto:
       type: object
       properties:
@@ -483,6 +451,64 @@ components:
       - createdBy
       - createdDateTime
       - lastChangedDateTime
+    ScorecardMetricResultDto:
+      type: object
+      properties:
+        orgId:
+          type: string
+          description: The organization ID
+        metricId:
+          type: string
+          description: The metric ID
+        serviceId:
+          type: string
+          description: The service ID
+        scorecardId:
+          type: string
+          description: The scorecard ID
+        comparisonOperator:
+          type: string
+          description: The comparison operator
+          enum:
+          - equal
+          - less than
+          - less than or equal
+          - greater than
+          - greater than or equal
+          - contains text
+          - text begins with
+          - text ends with
+          - text matches regexp
+        comparisonType:
+          type: string
+          description: The comparison type
+          enum:
+          - number
+          - version
+          - text
+        threshold:
+          type: object
+          description: The threshold
+        rawResult:
+          type: object
+          description: The raw result
+        pass:
+          type: boolean
+          description: Is metric passed or not
+        updatedAt:
+          format: date-time
+          type: string
+      required:
+      - orgId
+      - metricId
+      - serviceId
+      - scorecardId
+      - comparisonOperator
+      - comparisonType
+      - threshold
+      - rawResult
+      - pass
+      - updatedAt
     ScorecardMetricDto:
       type: object
       properties:
@@ -601,32 +627,6 @@ components:
       - lastChangedBy
       - createdAt
       - updatedAt
-    ScorecardMetricPageDto:
-      type: object
-      properties:
-        items:
-          description: List of scorecard metrics
-          type: array
-          items:
-            $ref: '#/components/schemas/ScorecardMetricDto'
-        totalFound:
-          type: number
-          description: Total scorecard metrics found by this endpoint call
-        pageNumber:
-          type: number
-          description: Requested page, note that it starts with 0
-          default: 0
-        pageSize:
-          type: number
-          description: Maximum scorecard metrics in one paginated response
-          default: 20
-          maximum: 100
-          minimum: 0
-      required:
-      - items
-      - totalFound
-      - pageNumber
-      - pageSize
     ScorecardDto:
       type: object
       properties:

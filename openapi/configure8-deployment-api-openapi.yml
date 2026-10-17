@@ -188,6 +188,55 @@ paths:
       - Deployment
 components:
   schemas:
+    UpdateDeploymentDto:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of deployment
+        description:
+          type: string
+          description: The description of deployment
+        status:
+          type: string
+          enum:
+          - PENDING
+          - IN_PROGRESS
+          - FAILED
+          - SUCCESS
+          - CANCELLED
+          - OTHER
+          - UNKNOWN
+          - INACTIVE
+          - ABANDONED
+          - NOT_DEPLOYED
+          - QUEUED
+          description: The status of deployment
+        sha:
+          type: string
+          description: The commit SHA hash of deployment
+        url:
+          type: string
+          description: The url on the web page with deployment details
+        version:
+          type: string
+          description: The version of deployment
+        login:
+          type: string
+          description: The login of deployment owner
+        ownerEmail:
+          type: string
+          description: The email of deployment owner
+        startedAt:
+          format: date-time
+          type: string
+          example: '2024-03-20T00:00:00.000Z'
+          description: The start date of deployment
+        finishedAt:
+          format: date-time
+          type: string
+          example: '2024-03-20T00:00:00.000Z'
+          description: The finished date of deployment
     DeploymentDto:
       type: object
       properties:
@@ -266,75 +315,6 @@ components:
       - lastChangedBy
       - createdAt
       - startedAt
-    UpdateDeploymentDto:
-      type: object
-      properties:
-        name:
-          type: string
-          description: The name of deployment
-        description:
-          type: string
-          description: The description of deployment
-        status:
-          type: string
-          enum:
-          - PENDING
-          - IN_PROGRESS
-          - FAILED
-          - SUCCESS
-          - CANCELLED
-          - OTHER
-          - UNKNOWN
-          - INACTIVE
-          - ABANDONED
-          - NOT_DEPLOYED
-          - QUEUED
-          description: The status of deployment
-        sha:
-          type: string
-          description: The commit SHA hash of deployment
-        url:
-          type: string
-          description: The url on the web page with deployment details
-        version:
-          type: string
-          description: The version of deployment
-        login:
-          type: string
-          description: The login of deployment owner
-        ownerEmail:
-          type: string
-          description: The email of deployment owner
-        startedAt:
-          format: date-time
-          type: string
-          example: '2024-03-20T00:00:00.000Z'
-          description: The start date of deployment
-        finishedAt:
-          format: date-time
-          type: string
-          example: '2024-03-20T00:00:00.000Z'
-          description: The finished date of deployment
-    PaginatedResponseDto:
-      type: object
-      properties:
-        items:
-          type: array
-          items:
-            type: array
-        totalFound:
-          type: number
-        pageNumber:
-          type: number
-        pageSize:
-          type: number
-        aggregation:
-          type: object
-      required:
-      - items
-      - totalFound
-      - pageNumber
-      - pageSize
     CreateDeploymentDto:
       type: object
       properties:
@@ -402,6 +382,26 @@ components:
       - ref
       - url
       - startedAt
+    PaginatedResponseDto:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            type: array
+        totalFound:
+          type: number
+        pageNumber:
+          type: number
+        pageSize:
+          type: number
+        aggregation:
+          type: object
+      required:
+      - items
+      - totalFound
+      - pageNumber
+      - pageSize
   securitySchemes:
     api-key:
       type: apiKey

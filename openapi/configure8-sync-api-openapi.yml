@@ -50,6 +50,69 @@ paths:
       - Sync
 components:
   schemas:
+    ApplyServiceDiffDto:
+      type: object
+      properties:
+        services:
+          description: The list of service definitions, where the key is the name of the service
+          allOf:
+          - $ref: '#/components/schemas/Services'
+        dependencies:
+          description: The list of service dependencies to be added/removed
+          allOf:
+          - $ref: '#/components/schemas/Dependencies'
+        metatagMappingName:
+          type: string
+          description: The metatag that will be used to map given services to existing ones with different names
+      required:
+      - services
+      - dependencies
+      - metatagMappingName
+    SyncServicesResultDto:
+      type: object
+      properties:
+        services:
+          $ref: '#/components/schemas/Services'
+        dependencies:
+          $ref: '#/components/schemas/Dependencies'
+        errors:
+          description: A list of errors that happened during the sync
+          type: array
+          items:
+            type: string
+      required:
+      - services
+      - dependencies
+    Dependencies:
+      type: object
+      properties:
+        added:
+          type: object
+          description: A map of dependencies to be added, where the key is a service from the request
+          additionalProperties:
+            type: array
+            items:
+              type: string
+        removed:
+          type: object
+          description: A map of dependencies to be removed, where the key is a service from the request
+          additionalProperties:
+            type: array
+            items:
+              type: string
+      required:
+      - added
+      - removed
+    ServiceDefinition:
+      type: object
+      properties:
+        calls:
+          description: The list of service definitions, where the key is the name of the service
+          type: array
+          items:
+            type: string
+      required:
+      - calls
     GetServiceDiffDto:
       type: object
       properties:
@@ -80,69 +143,6 @@ components:
       required:
       - added
       - mappings
-    ApplyServiceDiffDto:
-      type: object
-      properties:
-        services:
-          description: The list of service definitions, where the key is the name of the service
-          allOf:
-          - $ref: '#/components/schemas/Services'
-        dependencies:
-          description: The list of service dependencies to be added/removed
-          allOf:
-          - $ref: '#/components/schemas/Dependencies'
-        metatagMappingName:
-          type: string
-          description: The metatag that will be used to map given services to existing ones with different names
-      required:
-      - services
-      - dependencies
-      - metatagMappingName
-    Dependencies:
-      type: object
-      properties:
-        added:
-          type: object
-          description: A map of dependencies to be added, where the key is a service from the request
-          additionalProperties:
-            type: array
-            items:
-              type: string
-        removed:
-          type: object
-          description: A map of dependencies to be removed, where the key is a service from the request
-          additionalProperties:
-            type: array
-            items:
-              type: string
-      required:
-      - added
-      - removed
-    SyncServicesResultDto:
-      type: object
-      properties:
-        services:
-          $ref: '#/components/schemas/Services'
-        dependencies:
-          $ref: '#/components/schemas/Dependencies'
-        errors:
-          description: A list of errors that happened during the sync
-          type: array
-          items:
-            type: string
-      required:
-      - services
-      - dependencies
-    ServiceDefinition:
-      type: object
-      properties:
-        calls:
-          description: The list of service definitions, where the key is the name of the service
-          type: array
-          items:
-            type: string
-      required:
-      - calls
   securitySchemes:
     api-key:
       type: apiKey
