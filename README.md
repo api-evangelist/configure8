@@ -1,4 +1,4 @@
-# Configure8 (configure8)
+# Configure8
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,68 +66,166 @@
 
 Configure8 is a commercial Internal Developer Portal (IDP) that gives engineering organizations a unified catalog of services, environments, and resources, with dependency mapping across cloud and on-premises infrastructure. It pairs that catalog with scorecards for software health and golden-path compliance, no-code self-service actions for developers, and FinOps-style cloud cost visibility. Configure8 supports SaaS and self-hosted deployments and ships with enterprise features such as RBAC, SCIM, SSO, audit logging, and a public REST API.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/configure8/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/configure8/refs/heads/main/apis.yml)
+**Areas:** Catalog · Cloud Cost · Developer Experience · DevOps · Internal Developer Portal · Platform Engineering · Scorecards · Self-Service · Service Catalog · SRE · Developer Portal
 
-## Scope
+## Configure8 on APIs.io
 
-- **Type:** Index
-- **Position:** Consumer
-- **Access:** 3rd-Party
+Everything profiled for Configure8 is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/configure8/](https://apis.io/providers/configure8/)** — or go straight to one of the APIs or properties below.
 
-## Tags
+### APIs (17)
 
-- Catalog
-- Cloud Cost
-- Developer Experience
-- DevOps
-- Internal Developer Portal
-- Platform Engineering
-- Scorecards
-- Self-Service
-- Service Catalog
-- SRE
+- [Configure8 Catalog Entities API](https://apis.io/apis/configure8/configure8-catalog-entities-api/) — The Catalog Entities API from Configure8 — 7 operation(s) for catalog entities.
+- [Configure8 Catalog Relations API](https://apis.io/apis/configure8/configure8-catalog-relations-api/) — The Catalog Relations API from Configure8 — 2 operation(s) for catalog relations.
+- [Configure8 Deployments API](https://apis.io/apis/configure8/configure8-deployments-api/) — The Deployments API from Configure8 — 1 operation(s) for deployments.
+- [Configure8 Scorecards API](https://apis.io/apis/configure8/configure8-scorecards-api/) — The Scorecards API from Configure8 — 2 operation(s) for scorecards.
+- [Configure8 Users API](https://apis.io/apis/configure8/configure8-users-api/) — The Users API from Configure8 — 2 operation(s) for users.
+- [Configure8 Catalog Entity API](https://apis.io/apis/configure8/configure8-catalog-entity-api/) — The Catalog Entity API from Configure8 — 22 operation(s) for catalog entity.
+- [Configure8 Catalog Entity Batch API](https://apis.io/apis/configure8/configure8-catalog-entity-batch-api/) — The Catalog Entity Batch API from Configure8 — 2 operation(s) for catalog entity batch.
+- [Configure8 Catalog Entity Metadata API](https://apis.io/apis/configure8/configure8-catalog-entity-metadata-api/) — The Catalog Entity Metadata API from Configure8 — 1 operation(s) for catalog entity metadata.
+- [Configure8 Catalog Relation API](https://apis.io/apis/configure8/configure8-catalog-relation-api/) — The Catalog Relation API from Configure8 — 1 operation(s) for catalog relation.
+- [Configure8 Credential API](https://apis.io/apis/configure8/configure8-credential-api/) — The Credential API from Configure8 — 2 operation(s) for credential.
+- [Configure8 Deployment API](https://apis.io/apis/configure8/configure8-deployment-api/) — The Deployment API from Configure8 — 2 operation(s) for deployment.
+- [Configure8 Module Settings API](https://apis.io/apis/configure8/configure8-module-settings-api/) — The Module Settings API from Configure8 — 2 operation(s) for module settings.
+- [Configure8 Private SCIM API](https://apis.io/apis/configure8/configure8-private-scim-api/) — The Private SCIM API from Configure8 — 1 operation(s) for private scim.
+- [Configure8 SCIM API](https://apis.io/apis/configure8/configure8-scim-api/) — The SCIM API from Configure8 — 8 operation(s) for scim.
+- [Configure8 Scorecard API](https://apis.io/apis/configure8/configure8-scorecard-api/) — The Scorecard API from Configure8 — 5 operation(s) for scorecard.
+- [Configure8 Sync API](https://apis.io/apis/configure8/configure8-sync-api/) — The Sync API from Configure8 — 2 operation(s) for sync.
+- [Configure8 Templates API](https://apis.io/apis/configure8/configure8-templates-api/) — The Templates API from Configure8 — 1 operation(s) for templates.
 
-## Timestamps
+### Published properties
 
-- **Created:** 2026-03-16
-- **Modified:** 2026-04-28
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-## APIs
+#### AsyncAPI (1)
 
-### Configure8 REST API
+Event-driven and webhook contracts.
 
-The Configure8 REST API gives platform teams programmatic access to the service catalog, scorecards, self-service actions, environments, and cost data. It is used to ingest services and resources from external systems, drive scorecards in CI, trigger self-service actions, and synchronize the portal with source-of-truth systems. The API is part of the Configure8 enterprise feature set alongside RBAC, SSO/SCIM, and audit logging.
+- [Configure8 Self Service Actions Webhooks](https://apis.io/asyncapis/configure8/configure8-self-service-actions-webhooks/)
 
-- **Human URL:** [https://www.configure8.io/](https://www.configure8.io/)
-- **Base URL:** `https://app.configure8.io/api`
+#### MCP servers (1)
 
-#### Tags
+Model Context Protocol servers that expose the API to agents.
 
-- Catalog
-- REST
-- Scorecards
-- Self-Service
+- [configure8 documentation MCP server](https://apis.io/servers/configure8/configure8-documentation-mcp-server/)
 
-#### Properties
+#### Agentic access (1)
 
-- [Documentation](https://docs.configure8.io/)
+Which operations an agent can call, which act, and which need a human in the loop.
+
+- [Configure8 Agentic Access](https://apis.io/agentic-access/configure8/configure8-agentic-access/)
+
+#### Collections (6)
+
+Postman and Open Collection request collections.
+
+- [Configure8 Public REST API](https://apis.io/collections/configure8/open-configure8/)
+- [Configure8 Public REST Catalog Entities API](https://apis.io/collections/configure8/open-configure8-catalog-entities-api/)
+- [Configure8 Public REST Catalog Entities Catalog Relations API](https://apis.io/collections/configure8/open-configure8-catalog-relations-api/)
+- [Configure8 Public REST Catalog Entities Deployments API](https://apis.io/collections/configure8/open-configure8-deployments-api/)
+- [Configure8 Public REST Catalog Entities Scorecards API](https://apis.io/collections/configure8/open-configure8-scorecards-api/)
+- [Configure8 Public REST Catalog Entities Users API](https://apis.io/collections/configure8/open-configure8-users-api/)
+
+#### Overlays (1)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [Configure8 C8 Public Api Overlay](https://apis.io/overlays/configure8/configure8-c8-public-api-overlay/)
+
+#### Security (4)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Configure8 Authentication](https://apis.io/security/configure8/configure8-authentication/)
+- [Configure8 Domain Security](https://apis.io/security/configure8/configure8-domain-security/)
+- [Configure8 Trust Center](https://apis.io/security/configure8/configure8-trust-center/)
+- [Configure8 Vulnerability Disclosure](https://apis.io/security/configure8/configure8-vulnerability-disclosure/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Configure8 Plans Pricing](https://apis.io/plans/configure8/configure8-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Configure8 Rate Limits](https://apis.io/rate-limits/configure8/configure8-rate-limits/)
+
+#### FinOps (1)
+
+What the API costs to run, by operation.
+
+- [Configure8 Finops](https://apis.io/finops/configure8/configure8-finops/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
 - [Website](https://www.configure8.io/)
-- [Postman Collection](collections/configure8.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/configure8.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-## Common Properties
-
-- [GitHub Organization](https://github.com/Configure8inc)
-- [LinkedIn](https://www.linkedin.com/company/configure8)
-- [Website](https://www.configure8.io/)
-- [Documentation](https://docs.configure8.io/)
-- [Blog](https://www.configure8.io/blog)
+- [Documentation](https://configure8.io/docs-sub/configure8-product-docs)
+- [Getting started](https://configure8.io/docs-sub/configure8-product-docs/quickstart)
+- [API reference](https://configure8.readme.io/reference)
 - [Pricing](https://www.configure8.io/pricing)
-- [Demo](https://www.configure8.io/demo)
-- [Login](https://app.configure8.io/)
-- [Platform  Engineering](https://platformengineering.org/tools/configur8)
+- [Sign up](https://configure8.io/try-now)
+- [Support](https://configure8.io/contact)
+- [Changelog](https://configure8.io/docs-sub/configure8-product-docs/extras/release-notes)
+- [Blog](https://www.configure8.io/blog)
+- [Terms of service](https://configure8.io/tos.pdf)
+- [Privacy policy](https://configure8.io/privacy/policy)
+- [GitHub](https://github.com/Configure8inc)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
-**Email:** info@apievangelist.com
+**Kin Score 56.2** — strong · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 75.0 |
+| Contract quality | 41.7 |
+| Contract governance | 18.2 |
+| Operational transparency | 36.8 |
+| Developer ergonomics | 49.4 |
+| Access clarity | 81.6 |
+
+**Agent readiness 38.8** — agent-ready (gated down from agent-native)
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | documented (partial credit) |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | verified |
+| OpenAPI Examples | — |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | yes |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | yes |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | partial |
+| Operation Distinctiveness | distinct |
+
+**Regulatory alignment 35.3** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/configure8/](https://apis.io/providers/configure8/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Configure8: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/configure8/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
