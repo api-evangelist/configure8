@@ -1,0 +1,110 @@
+# Pricing transcribed from the provider's own page — see provenance. Numbers are quoted, not derived.
+generated: '2026-10-28'
+method: searched
+source: https://configure8.io/pricing
+sources:
+- https://configure8.io/pricing
+- https://www.configure8.io/pricing
+provenance:
+  tool: engine/economics/harvest_pricing.py
+  run: 20261028T141238
+  grounding: every price_text was found verbatim in the fetched page text
+audience: business-product
+pricing_basis: per-seat
+delivery:
+  delivery: managed+licensed
+  method: page
+  read: '2026-10-28'
+  evidence: Need to self-host configure8? Contact sales for pricing.
+  managed_tier: Enterprise
+published: true
+note: Volume discounts for >300 users and self-hosting pricing require contacting sales; on-premise sold
+  with additional fees.
+plan_count: 5
+currency: USD
+plans:
+- name: Free (monthly)
+  price_text: $0 / month per user
+  price: 0
+  currency: USD
+  period: month
+  unit: per user
+  included_quota: Unlimited catalog users/items (up to data cap), Scorecards up to 10 users, Self-Serve
+    Actions up to 10 users, Monthly Tracked Costs up to $7,500, SaaS hosting, Community support
+- name: Enterprise (monthly)
+  price_text: $22.89 / month per user
+  price: 22.89
+  currency: USD
+  period: month
+  unit: per user
+  included_quota: Unlimited everything, API access, RBAC, Audit Log, SSO, SaaS or On-Premise, White Glove
+    Support
+- name: Free (annual)
+  price_text: $0 / year per user
+  price: 0
+  currency: USD
+  period: year
+  unit: per user
+  included_quota: Same as free monthly
+- name: Enterprise (annual)
+  price_text: $228 / year per user
+  price: 228
+  currency: USD
+  period: year
+  unit: per user
+  included_quota: Equivalent to $19 / month per user (17% discount)
+- name: Small team entry
+  price_text: configure8 starts at just $1,000 per month
+  price: 1000
+  currency: USD
+  period: month
+  included_quota: Have fewer than ~50 engineers
+x-canonical:
+  generated: '2026-11-01'
+  vocabulary: engine/economics/plans-canonical.yml
+  models:
+  - free
+  - seat
+  - subscription
+  units:
+  - seat
+  plans:
+  - name: Free (monthly)
+    access: other
+    model: free
+    model_how: derived
+    units:
+    - seat
+    periods:
+    - month
+  - name: Enterprise (monthly)
+    access: other
+    model: seat
+    model_how: derived
+    units:
+    - seat
+    periods:
+    - month
+  - name: Free (annual)
+    access: other
+    model: free
+    model_how: derived
+    units:
+    - seat
+    periods:
+    - year
+  - name: Enterprise (annual)
+    access: other
+    model: seat
+    model_how: derived
+    units:
+    - seat
+    periods:
+    - year
+  - name: Small team entry
+    access: other
+    model: subscription
+    model_how: derived
+    units: []
+    periods:
+    - month
