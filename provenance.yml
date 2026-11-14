@@ -5,12 +5,21 @@ artifacts:
   agentic-access/configure8-agentic-access.yml:
     method: generated
     evidence: declared in the artifact
+  ai-preferences/configure8-ai-preferences.yml:
+    method: harvested
+    evidence: declared in the artifact
   asyncapi/configure8-self-service-actions-webhooks.yml:
     method: searched
     evidence: declared in the artifact
   authentication/configure8-authentication.yml:
     method: searched
     evidence: declared in the artifact
+  certification/observations-2026-11-11.jsonl:
+    method: unknown
+    evidence: no authorship recorded
+  certification/status.yml:
+    method: unknown
+    evidence: no authorship recorded
   changelog/configure8-changelog.yml:
     method: searched
     evidence: declared in the artifact
@@ -59,6 +68,9 @@ artifacts:
   data-model/configure8-data-model.yml:
     method: derived
     evidence: declared in the artifact
+  eligibility/configure8-eligibility.yml:
+    method: harvested
+    evidence: declared in the artifact
   errors/configure8-problem-types.yml:
     method: searched
     evidence: declared in the artifact
@@ -74,10 +86,13 @@ artifacts:
   heartbeat/2026-11-06.yml:
     method: unknown
     evidence: no authorship recorded
+  heartbeat/2026-11-13.yml:
+    method: unknown
+    evidence: no authorship recorded
   kin/checks-2026-10-23T222754.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
-  kin/checks-2026-11-02T082323.yml:
+  kin/checks-2026-11-06T143934.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
   kin/score-2026-09-23T000603.yml:
@@ -141,6 +156,9 @@ artifacts:
     method: generated
     evidence: Kin Score snapshot written by score.rb
   kin/score-2026-11-02T082323.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-11-06T143934.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
   lifecycle/configure8-lifecycle.yml:
@@ -225,6 +243,9 @@ artifacts:
   plans/configure8-price-estimates.yml:
     method: unknown
     evidence: no authorship recorded
+  privacy/configure8-privacy-policy.yml:
+    method: harvested
+    evidence: declared in the artifact
   rate-limits/configure8-rate-limits.yml:
     method: searched
     evidence: declared in the artifact
@@ -257,6 +278,9 @@ artifacts:
     evidence: declared in the artifact
   sla/configure8-sla.yml:
     method: generated
+    evidence: declared in the artifact
+  terms/configure8-terms-of-service.yml:
+    method: harvested
     evidence: declared in the artifact
   well-known/configure8-api-catalog.json:
     method: unknown
